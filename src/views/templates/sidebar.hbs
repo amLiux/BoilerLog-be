@@ -1,0 +1,28 @@
+<aside class="p-1 contenedor-proyectos">
+    <div class="panel crear-proyecto">
+        <a href="#" role="button" class="btn btn-outline-dark">Nuevo Proyecto <i class="fas fa-plus"></i> </a>
+    </div>
+    {{#each errors}}
+    <div style="width:200px;" class="mx-auto p-4 alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{text}}</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{/each}}
+
+    <div class="panel lista-proyectos">
+        <h2>Proyectos</h2>
+        <ul id="proyectos">
+            {{#each proyects}}
+                <li><a href="/{{_id}}"style="color:white; font-weight:500;" class="btn btn-block btn-dark">{{nombre_proyect}}</a></li>
+            {{/each}}
+            <li>
+                <form id="enviarNuevoProyect" action="/new-proyect" method="POST">
+                    <input type="hidden" name="_id" id="_id" value="{{_id}}">
+                </form>
+            </li>
+        </ul>
+        
+    </div>
+</aside>

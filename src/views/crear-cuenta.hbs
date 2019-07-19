@@ -1,0 +1,25 @@
+{{>header}}
+{{>barra2}}
+
+    <div class="contenedor-formulario">
+        <h1 class="headerTuanis mb-4">NodeTask <span>Crear Cuenta</span></h1>
+        <form  id="formulario" method="POST" action="/crear-cuenta" class="caja-login">
+            {{#if bMessage}}
+                <span style="font-size: 14px;" class="badge badge-pill badge-danger p-3 mb-4 text-dark">{{bMessage}}</span>
+            {{/if}}
+            <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="username" class="form-control" placeholder="Usuario...">
+            </div>
+            <div class="form-group">
+                <label for="user_password">Contraseña:</label>
+                <input type="password" name="user_password" class="form-control" id="user_password" placeholder="Contraseña...">
+            </div>
+            <div class="mt-4 campo enviar">
+                <input type="hidden" id="tipo" value="crear">
+                <input type="submit" class="btn btn-dark" value="Crear cuenta">
+            </div>
+        </form> 
+    </div>
+{{>reloj}}
+{{>footer}}

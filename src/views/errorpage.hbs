@@ -1,0 +1,25 @@
+{{>header}}
+{{>barra}} 
+<div class="contenedor" style="height: 100vh;">
+    <div class="jumbotron" style="margin: 100px auto; height: 600px;">
+        <h1 class="display-4">Hola, {{user}}!</h1>
+        <p class="lead">Ha sucedido un error agregando tu tarea o proyecto!</p>
+        <hr class="my-4">
+        <p>Te dejo una lista de errores que se dispararon en el app:</p>
+        <p class="lead">
+            {{#each errors}}
+            <div class="alert alert-danger" role="alert">
+                {{text}}
+            </div>
+            {{/each}}
+            {{#if id_proyecto}}
+                <a class="btn btn-danger btn-lg" href="/{{id_proyecto}}" role="button">Intentalo otra vez</a>
+            {{else}}
+                <a class="btn btn-danger btn-lg" href="/" role="button">Intentalo otra vez</a>
+            {{/if}}
+            
+        </p>
+    </div>
+</div>
+
+{{footer2}}
