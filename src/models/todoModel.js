@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-let Schema = mongoose.Schema;
+import {model, Schema} from 'mongoose'
 
 const todoSchema = new Schema({
     nombre_tarea: {type: String, required: true},
@@ -11,4 +9,4 @@ const todoSchema = new Schema({
     id_proyect: {type: String, required:false}
 });
 
-module.exports = mongoose.model('colleciontodo', todoSchema);
+export default model('colleciontodo', todoSchema);

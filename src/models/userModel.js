@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import {model, Schema} from 'mongoose'
+import bcrypt from 'bcrypt'
 
-let Schema = mongoose.Schema;
 
-let usuarioSchema = new Schema({
+const User = new Schema({
     user:{
         type: String,
         index: {unique: true},
@@ -25,21 +24,19 @@ let usuarioSchema = new Schema({
         type: String,
         required: false,
     }
-});
+})
 
-usuarioSchema.methods.encriptarPassword = (password) =>{
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-}
+User.methods.encriptarPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 
-usuarioSchema.methods.toJSON = function(){
+User.methods.toJSON = function(){
     let user = this;
     let userObject = user.toObject();
     delete userObject.pass;
     return userObject;
 }
 
-usuarioSchema.methods.compararPassword = function(password){
-    return bcrypt.compareSync(password, this.pass);
+User.methods.compararPassword = function(password){
+    return bcrypt.compareSync(password, this.pass)
 } 
 
-module.exports = mongoose.model('users', usuarioSchema);
+export default model('users', User)

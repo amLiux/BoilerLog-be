@@ -40,16 +40,16 @@ a{
 #reloj{
     position: fixed;
     top:9%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: rgba(51, 51, 51, 0.8);
     color:#fff;
     width: 126px;
     height: 28px;
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0;
 }
 
-#reloj div{
-    margin: 3px 0px 0px 10px;
-}
 /** Login **/
 .login,
 .crear-cuenta {

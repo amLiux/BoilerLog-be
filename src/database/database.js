@@ -1,11 +1,16 @@
-const mongoose = require('mongoose');
-require('../config/config');
+import mongoose from 'mongoose'
+import config from '../config/config'
 
-//conexion a la base de datos
-mongoose.connect(process.env.uriDB,{
-        useNewUrlParser: true,
-        useCreateIndex: true,
-    }
-)
-    .then(db=>console.log(`DB is UP`))
-    .catch(e=>console.log(`There was an error: ${e}`));
+(async ()=> {
+    const db = await mongoose.connect(
+        config.mongodbUrl, 
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology:true,
+            useCreateIndex: true,
+            useFindAndModify: false
+        }
+    )
+    console.log(`Node is connected to ${db.connection.name} database...`)
+}
+)()

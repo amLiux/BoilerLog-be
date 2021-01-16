@@ -1,16 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const Todo = require('../models/todoModel');
-const bodyParser = require('body-parser');
-const moment = require('moment');
+import {Router} from 'express'
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
+import Todo from '../models/todoModel'
+
+import moment from 'moment'
+
+const router = Router()
 
 router.post('/:_id/new-todo/', isAuthenticated, async (req,res)=>{
-    const {todo, todoDescription, id_proyecto, date_todo} = req.body;
-    const {user} = req.user;
-    const errors = [];
+    const {todo, todoDescription, id_proyecto, date_todo} = req.body
+    const {user} = req.user
+    const errors = []
 
     if(!todo || todo.trim() === ""){
         errors.push({text: 'La tarea no puede tener un nombre en blanco!'});
@@ -58,6 +57,7 @@ router.delete('/delete-todo', async(req,res)=>{
     }
 });
 
+//TODO create this update
 router.put('/uptading-todo', async(req, res) =>{
     res.status(200);
 });
@@ -69,4 +69,4 @@ function isAuthenticated (req, res, next){
     res.redirect('/login');
 }
 
-module.exports = router;
+export default router

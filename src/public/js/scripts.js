@@ -112,5 +112,3 @@ const eventListeners = () => {
 
 
 eventListeners();
-
-//Probando calendario

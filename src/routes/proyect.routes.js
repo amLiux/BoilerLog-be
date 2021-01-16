@@ -1,15 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const Proyect = require('../models/proyectModel');
-const bodyParser = require('body-parser');
+import {Router} from 'express'
+import Proyect from '../models/proyectModel'
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
+const router = Router()
 
 router.post('/new-proyect', isAuthenticated, async (req,res)=>{
-    const {newProyect, _id} = req.body;
-    const {user} = req.user;
-    const errors = [];
+    const {newProyect, _id} = req.body
+    const {user} = req.user
+    const errors = []
 
     if(!newProyect || newProyect.trim() === ""){
         errors.push({text: 'Por favor escriba el nombre del proyecto!'});
@@ -37,4 +34,4 @@ function isAuthenticated (req, res, next){
     res.redirect('/login');
 }
 
-module.exports = router;
+export default router

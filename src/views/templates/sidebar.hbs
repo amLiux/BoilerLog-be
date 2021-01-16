@@ -15,11 +15,11 @@
         <h2>Proyectos</h2>
         <ul id="proyectos">
             {{#each proyects}}
-                <li><a href="/{{_id}}"style="color:white; font-weight:500;" class="btn btn-block btn-dark">{{nombre_proyect}}</a></li>
+                <li><a href="/{{this._id}}"style="color:white; font-weight:500;" class="btn btn-block btn-dark">{{this.nombre_proyect}}</a></li>
             {{/each}}
             <li>
                 <form id="enviarNuevoProyect" action="/new-proyect" method="POST">
-                    <input type="hidden" name="_id" id="_id" value="{{_id}}">
+                    <input type="hidden" name="_id" id="_id" value="{{this._id}}">
                 </form>
             </li>
         </ul>

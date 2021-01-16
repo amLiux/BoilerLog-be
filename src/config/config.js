@@ -1,3 +1,6 @@
+import {config} from 'dotenv'
+config()
+
 //====================================
 //Configuración del puerto
 //====================================
@@ -11,16 +14,17 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 //====================================
 let urlDB;
 if(process.env.NODE_ENV === 'dev'){
-    urlDB = 'mongodb://localhost:27017/nodeuptask';
+    urlDB = 'mongodb://10.42.0.153:27017/nodeuptask';
     
 }else{
+    // TODO check how to do this
     urlDB = 'mongodb://chelito:admin1@ds127015.mlab.com:27015/nodeuptask';
 }
 
-process.env.uriDB = urlDB;
+export default {
+    mongodbUrl: process.env.MONGODB_URI,
+    tokenLife: process.env.TOKEN_LIFE,
+    secret: process.env.API_SEED
+}
 
 //====================================
-//Google Client ID && Google Secret
-//====================================
-process.env.googleClient = process.env.googleClient || '506119842795-eetu718mi6j0aumkqr0mjpm5a9qhfq2g.apps.googleusercontent.com'; 
-process.env.googleSecret = process.env.googleSecret || 'AS9_sloeyoUhbaJrpnhB0BsQ'; 

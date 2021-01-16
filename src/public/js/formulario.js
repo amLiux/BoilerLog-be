@@ -8,18 +8,4 @@ const eventListeners = e =>{
 
 };
 
-const envioID = id => 
-    axios.post('/google-signin', {
-        idGoogle: `${id}`,
-    })
-    .then((response)=> console.log(response))
-    .catch((error)=> console.log(error.status)); 
-
-
-async function onSignIn(googleUser){
-    var id_token = googleUser.getAuthResponse().id_token;
-    await envioID(id_token);
-}   
-
-
 eventListeners();
