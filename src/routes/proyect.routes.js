@@ -6,6 +6,9 @@ const router = Router()
 router.post('/new-proyect', isAuthenticated, async (req,res)=>{
     const {newProyect, _id} = req.body
     const {user} = req.user
+
+    //TODO checkErrors controller
+
     const errors = []
 
     if(!newProyect || newProyect.trim() === ""){

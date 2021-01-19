@@ -9,11 +9,16 @@
             {{/if}}
             <div class="form-group">
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="username" class="form-control" placeholder="Usuario...">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input id="usuario" name="username" type="text" class="form-control" placeholder="Usuario..." aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                {{!-- <input type="text" id="usuario" name="username" class="form-control" placeholder="Usuario..."> --}}
             </div>
             <div class="form-group">
                 <label for="user_password">Contraseña:</label>
                 <input type="password" name="user_password" class="form-control" id="user_password" placeholder="Contraseña...">
+                <span  class="form-text"><i>Al menos de 8-20 caracteres.</i></span>
             </div>
             <div class="mt-4 campo enviar">
                 <input type="hidden" id="tipo" value="crear">

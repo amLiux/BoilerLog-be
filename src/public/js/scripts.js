@@ -95,16 +95,9 @@ const eventListeners = () => {
                 }
             }); //Guardar proyectos en la DB.
         }
-    
-    // document.querySelector("#calendar #calendar_content").addEventListener('click', e =>{
-    //     if(e.target.classList.contains("day_click") && !e.target.classList.contains("blank")){
-    //         swal({
-    //             title: "Actividades de hoy!",
-    //             text: "Get pussy",
-    //           });
-    //     }
-    // });
 
+       
+    // TODO create onCLick listener for admin
 
 }
 

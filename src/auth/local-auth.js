@@ -43,6 +43,6 @@ passport.use('authLoggeo', new LocalStrategy({
     if(!user.compararPassword(user_password))
         return done(null, false, req.flash('bMessage', `Contraseña incorrecta`));
 
-    //ver como mandar id entre urls, porque asi no sirve
+    //TODO ver como mandar id entre urls, porque asi no sirve
     done(null, user, req.flash('_id', `${user._id}`));
 }));

@@ -1,31 +1,15 @@
 import {Router} from 'express'
 
 import Todo from '../models/todoModel'
-
 import moment from 'moment'
+import { checkErrorsInRequest } from '../controllers/todo.controller'
 
 const router = Router()
 
 router.post('/:_id/new-todo/', isAuthenticated, async (req,res)=>{
     const {todo, todoDescription, id_proyecto, date_todo} = req.body
     const {user} = req.user
-    const errors = []
-
-    if(!todo || todo.trim() === ""){
-        errors.push({text: 'La tarea no puede tener un nombre en blanco!'});
-    }
-
-    if(!todoDescription || todoDescription.trim() === ""){
-        errors.push({text: 'Debes describir la tarea!'});
-    }
-
-    if(!id_proyecto || id_proyecto.trim() === ""){
-        errors.push({text: 'Debes estar dentro de un proyecto para agregar una tarea!'});
-    }
-
-    if(!date_todo || date_todo.trim() === ""){
-        errors.push({text: 'La tarea debe de tener una fecha de entrega!'});
-    }
+    const errors = checkErrorsInRequest(req.body)
 
     if(errors.length > 0){
         res.render('errorpage',{
@@ -34,7 +18,7 @@ router.post('/:_id/new-todo/', isAuthenticated, async (req,res)=>{
             todo,
             user,
             id_proyecto
-        });
+        })
     }else{
         const todoBeforeInsertion = new Todo({
             nombre_tarea : todo,

@@ -9,10 +9,11 @@ import flash from 'connect-flash'
 import {allowInsecurePrototypeAccess} from '@handlebars/allow-prototype-access'
 import Handlebars from 'handlebars'
 
+
 import MainMap from './routes/mainMap.routes'
 
 //Inicializaciones
-const app = express();
+const app = express()
 
 //Seteando el path de los views al servidor
 app.set('views', path.join(__dirname, 'views'))
@@ -46,17 +47,10 @@ app.use(session({
     saveUninitialized: false
 }))
 
-//inicializa passport
-app.use(passport.initialize())
-
-//abre sesiones
-app.use(passport.session())
-require('./auth/local-auth');
-
-//inicializa flash
+//TODO que es flash y como funciona
 app.use(flash())
 
-//TODO comment
+//TODO que son esos gm, bm, err1
 app.use((req,res,next)=>{
     app.locals.gMessage = req.flash('gMessage')
     app.locals.bMessage = req.flash('bMessage')
@@ -64,13 +58,22 @@ app.use((req,res,next)=>{
     next()
 })
 
+//inicializa passport
+app.use(passport.initialize())
+
+//abre sesiones
+app.use(passport.session())
+require('./auth/local-auth')
+require('./auth/google-auth')
+
+
+
 //revisa y printea en consola los diferentes peticiones que ejecuta el server
 app.use(morgan('dev'))
 
 /*Fin Middlewares*/ 
 
 //Rutas 
-//TODO revisar esta ruta
 app.use(MainMap);
 
 //Directorio de archivos css, js

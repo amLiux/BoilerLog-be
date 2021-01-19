@@ -1,6 +1,10 @@
 import {model, Schema} from 'mongoose'
 import bcrypt from 'bcrypt'
 
+const rolesValidos = {
+    values: ['DRIVER_ROLE', 'USER_ROLE', 'ADMIN_ROLE'],
+    message: '{VALUE} no es un rol valido'
+}
 
 const User = new Schema({
     user:{
@@ -20,10 +24,19 @@ const User = new Schema({
         type: Boolean,
         default: false,
     },
+    googleId:{
+        type: String,
+        default: false
+    },
     img:{
         type: String,
         required: false,
-    }
+    },
+    rol:{
+        type: String,
+        default: 'USER_ROLE',
+        enum: rolesValidos
+    },
 })
 
 User.methods.encriptarPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))

@@ -7,8 +7,11 @@ const router = Router()
 
 //main page, brings projects for the sidebar
 router.get('/', isAuthenticated, async(req,res)=>{
-    const {_id, user} = req.user;
-    const proyects = await Proyect.find({"id_user" : _id})
+    const {_id, user, rol} = req.user
+    const proyects = await Proyect.find({id_user : _id})
+
+    if(rol === "ADMIN_ROLE") return res.redirect('/admin')
+
 
     res.render('index', {
         'class': 'index',

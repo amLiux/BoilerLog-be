@@ -95,6 +95,15 @@ a{
    font-weight: bold;
 }
 
+.googleButton{
+    margin-top: 1rem;
+    padding: 0.3rem 0;
+}
+
+.googleButton i{
+    margin-right: 0.2rem;
+}
+
 /** Barra **/
 body.index {
     height: 100vh;
@@ -168,6 +177,7 @@ body.index {
     display:flex;
     justify-content: space-between;
 }
+
 
 /** Contenido Principal */
 .contenedor {

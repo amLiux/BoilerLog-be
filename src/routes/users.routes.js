@@ -9,11 +9,35 @@ router.get('/crear-cuenta', (req,res)=>
     })
 )
 
+//TODO update a user ? deactivate account/change password
+//TODO nodemailert forgor password request?
+
 router.post('/crear-cuenta', passport.authenticate('authCuentaNueva', {
     successRedirect: '/login',
     failureRedirect: '/crear-cuenta',
     passReqToCallback: true
 }))
+
+router.get('/google-signIn', 
+    passport.authenticate(
+        'google', 
+        {
+            scope: ['profile', 'email']
+        }
+    )
+    
+)
+
+router.get('/google-signIn/redirect', 
+    passport.authenticate(
+        'google', 
+        {
+            failureRedirect: '/login',
+            successRedirect: '/'
+        }
+    ), (req, res) => res.redirect('/')
+)
+
 
 router.get('/login', (req,res)=> 
     res.render('login', {
@@ -25,7 +49,7 @@ router.post('/login', passport.authenticate('authLoggeo', {
     successRedirect: '/',
     failureRedirect: '/login',
     passReqToCallback: true
-}));
+}))
 
 
 router.get('/logout', (req,res)=>{
