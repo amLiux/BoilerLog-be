@@ -15,7 +15,6 @@ passport.use(
             const {email, given_name, family_name, picture} = profile._json,
                 {id} = profile
 
-
             User.findOne({googleId: id})
                 .then(async (currentUser)=>{
 

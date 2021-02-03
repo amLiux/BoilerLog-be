@@ -44,5 +44,5 @@ passport.use('authLoggeo', new LocalStrategy({
         return done(null, false, req.flash('bMessage', `Contraseña incorrecta`));
 
     //TODO ver como mandar id entre urls, porque asi no sirve
-    done(null, user, req.flash('_id', `${user._id}`));
+    done(null, user);
 }));

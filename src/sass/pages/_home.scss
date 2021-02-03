@@ -1,0 +1,45 @@
+.section-about{
+    background-color: $color-grey-light-1;
+    padding: 25rem 0;
+    margin-top: -24rem;
+}
+
+.section-features{
+    background-image: linear-gradient(
+        to right bottom,rgba($color-primary-light, 0.7), rgba($color-primary-dark, 0.7)),  
+        url('../../img/pic4.jpg'); 
+    background-size: cover;
+    background-position: center;
+    padding: 20rem 0;
+    transform: skewY(7deg);
+
+    margin-top: -11.1rem;
+
+    & > * {
+        transform: skewY(-7deg);
+    }
+}
+
+.section-agenda{
+    padding: 15rem 0;
+}
+
+.agenda{
+    background-image: 
+        linear-gradient(
+            105deg,
+            $color-white 46%, 
+            rgba($color-primary-dark, 0.3) 70%
+        );
+
+    background-size: cover;
+    border-radius: 1rem;
+    height: 50rem;
+    box-shadow: 0 1rem 3.5rem rgba($color-black, 0.3);
+
+    &__form{
+        width: 50%;
+        padding: 6rem;
+    }
+
+}

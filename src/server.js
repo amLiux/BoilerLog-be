@@ -8,6 +8,7 @@ import passport from 'passport'
 import flash from 'connect-flash'
 import {allowInsecurePrototypeAccess} from '@handlebars/allow-prototype-access'
 import Handlebars from 'handlebars'
+import sass from 'node-sass-middleware'
 
 
 import MainMap from './routes/mainMap.routes'
@@ -74,7 +75,15 @@ app.use(morgan('dev'))
 /*Fin Middlewares*/ 
 
 //Rutas 
-app.use(MainMap);
+app.use(MainMap)
+
+app.use(sass({
+    /* Options */
+    src: `${__dirname}/sass/`,
+    dest: path.join(__dirname, 'public/'),
+    debug: true,
+    outputStyle: 'expanded',
+}))
 
 //Directorio de archivos css, js
 app.use(express.static(path.join(__dirname, './public')))

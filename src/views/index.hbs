@@ -3,15 +3,13 @@
 <div class="contenedor">
     {{#if idProyect}}
     <main class="contenido-principal">
-        <h1 class="headerTuanis mb-4 mt-4">Proyecto Actual: {{nombre_proyect}}</h1>
+        <h1 class="headerTuanis mb-4 mt-4">{{nombre_proyect}}</h1>
         <form action="/{{idProyect}}/new-todo/" method="POST" class="agregar-tarea" autocomplete="off"
             style="border-radius: 15px">
             <div class="form-group">
                 <label for="todo">Tarea:</label>
                 <input type="text" id="nombre-tarea" name="todo" class="form-control" id="todo"
-                    aria-describedby="emailHelp" placeholder="Nombre de la tarea.">
-                <small id="emailHelp" class="form-text text-light">Puedes eliminar la tarea luego o marcarla como
-                    completada, no te preocupes!</small>
+                    placeholder="Nombre de la tarea.">
             </div>
             <div class="form-group">
                 <label for="date_todo">Fecha de entrega:</label>
@@ -25,65 +23,48 @@
                     un correo 5 días antes de la fecha establecida!</small>
             </div>
             <div class="form-group">
-                <label for="todoDescription">Descripcion:</label>
+                <label for="todoDescription">Descripción:</label>
                 <div class="input-group">
                     <textarea class="form-control" maxlength="100" name="todoDescription"
                         placeholder="Trabajo de investigación, métodos de limpieza de la superficie marina."></textarea>
                 </div>
-                <small id="emailHelp" class="form-text text-light">Ayúdate un poco recordando de que trata esta tarea,
-                    fuentes donde buscar información, etcetera!</small>
             </div>
-
-
             <div class=" mt-4 campo enviar">
                 <input type="hidden" name="id_proyecto" id="id_proyecto" value="{{idProyect}}">
                 <input type="submit" id="nueva-tarea" class="btn btn-dark" value="Agregar">
             </div>
         </form>
         {{#if todos}}
-        {{>avance}}
-        <div class="listado-pendientes">
-            <ul class="row p-2 d-flex justify-content-around align-items-center">
-                {{#each todos}}
-                <div class="col-md-5 card m-2" style="width: 18rem;">
-                    <div class="card-body clickeable">
-                        <h5 class="card-title d-flex justify-content-between align-items-center">
-                            <p>{{nombre_tarea}}</p>
-                            <a href="/todo-edit" class="card-link btn text-primary">
-                                <i class="far fa-edit"></i>
-                            </a>
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{fecha_limite}}</h6>
-                        <p class="card-text">{{descripcion_tarea}}</p>
-                        <a href="#" class="card-link btn btn-lg btn-success"><i class="far fa-check-circle"></i></a>
-                        <a href="#" class="card-link btn btn-lg btn-danger"><i class="far fa-trash-alt"></i></a>
-                    </div>
-                </div>
-                {{/each}}
-            </ul>
-        </div>
+        {{!-- TODO crear barra de filtrado --}}
+            <div class="listado-pendientes">
+                <ul class="row p-2 d-flex justify-content-around align-items-center">
+                    {{#each todos}}
+                        {{>todo}}
+                    {{/each}}
+                </ul>
+            </div>
         {{else}}
-        <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
-            <h1 class="display-4">Hola, {{user}}!</h1>
-            <p class="lead">Para tu dicha, no tienes ninguna tarea registrada hasta el momento, pero si eso tuviera que
-                cambiar arriba tienes el cuadro donde puedes registrarla.</p>
-            <hr class="my-4">
-            <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que tengas
-                pendiente, suerte!</p>
-        </div>
-        {{/if}}
-        {{else}}
-        <main class="contenido-principal">
             <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
                 <h1 class="display-4">Hola, {{user}}!</h1>
-                <p class="lead">Escoge o crea un proyecto a tu derecha, solo presiona el boton de Nuevo Proyecto, ponle
-                    nombre a tu proyecto y empieza a trabajar, suerte!</p>
+                <p class="lead">Para tu dicha, no tienes ninguna tarea registrada hasta el momento, pero si eso tuviera que
+                    cambiar arriba tienes el cuadro donde puedes registrarla.</p>
                 <hr class="my-4">
-                <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que
-                    tengas pendiente, suerte!</p>
+                <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que tengas
+                    pendiente, suerte!</p>
             </div>
-            {{/if}}
-        </main>
+        {{/if}}
+        {{else}}
+            <main class="contenido-principal">
+                <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
+                    <h1 class="display-4">Hola, {{user}}!</h1>
+                    <p class="lead">Escoge o crea un proyecto a tu derecha, solo presiona el boton de Nuevo Proyecto, ponle
+                        nombre a tu proyecto y empieza a trabajar, suerte!</p>
+                    <hr class="my-4">
+                    <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que
+                        tengas pendiente, suerte!</p>
+                </div>
+                {{/if}}
+            </main>
         {{>sidebar}}
 </div>
 <!--.contenedor-->

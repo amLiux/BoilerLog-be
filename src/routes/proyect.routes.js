@@ -8,27 +8,28 @@ router.post('/new-proyect', isAuthenticated, async (req,res)=>{
     const {user} = req.user
 
     //TODO checkErrors controller
+    //TODO delete project
 
     const errors = []
 
-    if(!newProyect || newProyect.trim() === ""){
-        errors.push({text: 'Por favor escriba el nombre del proyecto!'});
-    }
+    if(!newProyect || newProyect.trim() === "")
+        errors.push({text: 'Por favor escriba el nombre del proyecto!'})
+    
 
     if(errors.length > 0){
         res.render('errorpage',{
             errors,
             user,
-        });
+        })
     }else{
         const proyectBeforeInsertion = new Proyect({
             nombre_proyect : newProyect,
             id_user : _id
-        });
-        let answer = await proyectBeforeInsertion.save();
-        res.redirect(`/${answer._id}`);
+        })
+        let answer = await proyectBeforeInsertion.save()
+        res.redirect(`/${answer._id}`)
     }
-});
+})
 
 function isAuthenticated (req, res, next){
     if(req.isAuthenticated())

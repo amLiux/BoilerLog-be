@@ -234,24 +234,9 @@ body.index {
     padding: 0;
     list-style: none;
 }
-.listado-pendientes ul li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.4rem;
-    border-bottom: 1px solid #d1d1d1;
-}
-.listado-pendientes ul li:last-of-type {
-    border-bottom: none;
-}
-.listado-pendientes ul li i {
-    cursor: pointer;
-}
-.acciones i:last-child{
-    margin-left: 3rem;
-}
+
 .completo {
-    color: #00B762;
+    text-decoration: line-through;
 }
 .alerta {
     background-color: red;
@@ -261,105 +246,25 @@ body.index {
     font-size: 1.2rem;
 }
 
-/*Barra avance*/
 
-.barra-avance{
-    height: 30px;
-    /*border: 1px solid #999;*/
-    width: 90%;
-    margin: 0 auto;
-    max-width: 800px;
-    border-radius: 15px;
-    background-color: #f2f2f2;
-}
-
-.porcentaje{
-    width: 0%;
-    height: 100%;
-    background-color: #00B762;
-    border-radius: 15px;
-    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-    background-size: 1rem 1rem;
-    transition: width .5s ease-in-out;
-}
-
-.completo{
-    color: #E2E2E2;
-    background: #DCE35B;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #45B649, #DCE35B);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #45B649, #DCE35B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.7;
-}
-
-/*calendario*/
-#calendar{
-    width: 320px;
-    float: right;
-    margin-right: 70px;
-}
-
-#calendar_weekdays div{
-    display:inline-block;
-    vertical-align:top;
-}
-
-#calendar_content, #calendar_weekdays, #calendar_header{
-    width: 320px;
-    overflow: hidden;
-    z-index: 10;
-}
-
-#calendar_weekdays div, #calendar_content div{
-    width:40px;
-    height: 40px;
-    overflow: hidden;
+/* New CSS Model */
+.primary-header{
+    color: #FFF;
     text-align: center;
-    background-color: #FFFFFF;
-    color: #787878;
-  }
-
-#calendar_content div{
-    float: left;
-}
-  
-#calendar_content div:hover{
-    background-color: rgb(182, 182, 182);
-}
- 
-#calendar_content div.blank{
-    background-color: #E8E8E8;
+    text-transform: uppercase;
+    backface-visibility: hidden;
+    margin-bottom: 60px;
 }
 
-#calendar_header, #calendar_content div.today{
-    zoom: 1;
+.primary-header-main{
+    display: block;
+    font-size: 2rem;
+    font-weight: 400;
 }
 
-#calendar_content div.today{
-    color: #FFFFFF;
+.primary-header-sub{
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
-#calendar_content{
-    border-radius: 0 0 15px 15px;
-}
-
-#calendar_header{
-    width: 100%;
-    height: 25px;
-    background-color: #455A64!important;
-    padding: 20px 0;
-    border-radius: 15px 15px 0 0;
-}
-
-#calendar_header h1{
-    font-size: 1.9em;
-    color: #FFFFFF;
-}
-
-i[class^=icon-chevron]{
-    color: #FFFFFF;
-    float: left;
-    width:15%;
-    border-radius: 50%;
-}

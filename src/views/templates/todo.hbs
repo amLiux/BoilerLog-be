@@ -1,0 +1,30 @@
+<div class="card mb-2" style="width: 18rem;">
+    <div class="row">
+        <div id="{{_id}}" class="col-md-4 d-flex flex-column align-items-center border-right">
+            <div class="p-2 flex-fill border-bottom">
+                <button id="btnUpdateTodo" class="btn btn-success clickeable" style="width: 2.6rem;">
+                    <i class="far fa-check-circle"></i>
+                </button>
+            </div>
+            <div class="p-2 flex-fill border-bottom">
+                <button class="btn btn-primary clickeable" style="width: 2.6rem;">
+                    <i class="far fa-edit"></i>
+                </button>
+            </div>
+            <div class="p-2 flex-fill">
+                <button class="btn btn-danger clickeable" style="width: 2.6rem;">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{nombre_tarea}}</h5>
+                <p class="card-text">{{descripcion_tarea}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        2 days ago
+    </div>
+</div>

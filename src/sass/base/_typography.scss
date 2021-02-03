@@ -1,0 +1,42 @@
+.primary-header{
+    color: $color-white;
+    text-transform: uppercase;
+    backface-visibility: hidden;
+    margin-bottom: 6rem;
+
+    &-main{
+        display: block;
+        font-size: 8rem;
+        font-weight: 400;
+        animation: fadeInAndMoveFromTop 1.3s ease-in-out;
+    }
+    
+    &-sub{
+        display: block;
+        font-size: 2.5rem;
+        font-weight: 700;
+        font-style: italic;
+        margin-top: -2rem;
+        animation: fadeInAndMoveFromTop 1.3s ease-in-out;
+    }
+}
+
+.heading-secondary{
+    font-size: 5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    // font-style: italic;
+    display: inline-block;
+    color: $color-primary-dark;
+}
+
+.heading-tertiary{
+    font-style: 2.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.paragraph{
+    font-style: 2rem;
+    &:not(:last-child){margin-bottom: 3rem;}
+}

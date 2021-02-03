@@ -10,7 +10,7 @@ router.get('/crear-cuenta', (req,res)=>
 )
 
 //TODO update a user ? deactivate account/change password
-//TODO nodemailert forgor password request?
+//TODO nodemailert forgor password  ?
 
 router.post('/crear-cuenta', passport.authenticate('authCuentaNueva', {
     successRedirect: '/login',

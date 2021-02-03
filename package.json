@@ -20,9 +20,11 @@
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.11.10",
+    "nodemailer": "^6.4.17",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "randomstring": "^1.1.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
@@ -31,6 +33,7 @@
     "@babel/preset-env": "^7.12.11",
     "eslint": "^5.13.0",
     "morgan": "^1.9.1",
+    "node-sass-middleware": "^0.11.0",
     "nodemon": "^2.0.7"
   }
 }

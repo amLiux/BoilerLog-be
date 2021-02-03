@@ -2,8 +2,23 @@ import {Router} from 'express'
 import Proyect from '../models/proyectModel'
 import Todo from '../models/todoModel'
 import moment from 'moment'
+import {notificarPeticiónCita} from '../controllers/index.controller'
 
 const router = Router()
+
+router.get('/home',(req, res) => res.render('home'))
+
+router.post('/home',async (req, res) => {
+    const {nombre, apellido, email, teléfono} = req.body
+
+    // TODO ejecutar funcionalidad de notificar al cliente y al personal administrativo 
+    const envioCorreo = await notificarPeticiónCita(email, nombre, apellido, teléfono);
+
+    //TODO guardar solicitud de cita en db para mostrarla en el front-end
+
+    console.log(envioCorreo)
+    res.render('home')
+})
 
 //main page, brings projects for the sidebar
 router.get('/', isAuthenticated, async(req,res)=>{
@@ -27,13 +42,12 @@ router.get('/:_id', isAuthenticated, async(req,res)=>{
         {_id, user} = req.user
 
     const proyects = await Proyect.find({"id_user" : _id }),
-          todos = await Todo.find({"id_proyect" : `${idProyect}`}).lean()
+          todos = await Todo.find({id_proyect : `${idProyect}`, estado_tarea: false}).lean()
           
     const currentProyect = proyects.filter(a=> a._id == idProyect)[0],
         {nombre_proyect} = currentProyect || ""
 
     todos.map(item=> item.fecha_limite = moment(item.fecha_limite).format("DD/MMM/YYYY"))
-
     res.render('index', {
         'class': 'index',
         proyects,
