@@ -522,3 +522,17 @@ body {
   width: 50%;
   padding: 6rem;
 }
+
+.login,
+.crear-cuenta {
+  background-color: rgba(153, 153, 153, 0.5);
+}
+
+.caja-login {
+  background-color: #F2F2F2;
+  border-radius: 1rem;
+  width: 40%;
+  margin: 0 auto;
+  box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.56);
+  padding: 3rem;
+}

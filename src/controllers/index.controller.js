@@ -6,6 +6,8 @@ import nodemailer from 'nodemailer'
 import randomstring from 'randomstring'
 import config from '../config/config'
 import { template } from 'handlebars'
+import Cita from '../models/CitasModel'
+
 
 
 //actualizar contraseña si tiene contraseña vieja
@@ -121,9 +123,9 @@ export const notificarPeticiónCita = (email, nombre, apellido, teléfono, mensa
     });
 
     const mailOptions = {
-        from: `"Citas Doctores Maroto" <mjbacr97@gmail.com>`,
+        from: `"Citas Doctores Maroto" <citasmaroto@gmail.com>`,
         to: email,
-        bcc: [],
+        bcc: ["mjbacr97@gmail.com", "stiven13alfa@outlook.com"],
         headers:{
 
         },
@@ -163,4 +165,34 @@ export const notificarPeticiónCita = (email, nombre, apellido, teléfono, mensa
 
     return transporter.sendMail(mailOptions)
 
+}
+
+
+/* crearPeticionDeCitaYGuardar() recibe los siguientes parámetros 
+    @nombre:String, 
+    @apellido:String, 
+    @email:String,
+    @telefono: String,  
+
+    crea un objeto Cita y lo guarda en nuestra base de datos
+
+*/
+export const crearPeticionDeCitaYGuardar = async({nombre, apellido, email, teléfono}) =>{
+    try{
+        const citaNueva = new Cita({
+            nombre,
+            apellido,
+            email,
+            numeroTelefonico: teléfono
+        })
+
+        await citaNueva.save()
+        .then((data) => {
+            console.log(data)
+            return true
+        })
+        .catch(err => console.log(err))
+    }catch(err){
+        console.error(err)
     }
+}

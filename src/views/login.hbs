@@ -1,35 +1,35 @@
 {{>header}}
-{{>barra2}}
-
     {{!-- TODO migrate to responsive, create toast with keyframes --}}
-    <div class="contenedor-formulario">
-        <div class="primary-header text-dark">
-            <span class="primary-header-main">Dental Task</span>
-            <span class="primary-header-sub">Drs. Maroto</span>        
-        </div>
-        <form id="formulario" method="POST" action="/login" class="caja-login" autocomplete="off">
-        <h2 class="text-dark" style="margin-bottom: 2rem; text-align: center">Bienvenido</h2>
-        {{#if gMessage}}
-            <span style="font-size: 14px;" class="badge badge-pill badge-success p-3 mb-4 text-dark">{{gMessage}}</span>
-        {{/if}}
-        {{#if bMessage}}
-            <span style="font-size: 14px;" class="badge badge-pill badge-danger p-3 mb-4 text-dark">{{bMessage}}</span>
-        {{/if}}
-            <div class="form-group">
-                <input type="text" id="usuario" name="username" class="form-control" placeholder="Usuario...">
+    <main>
+        <div class="contenedor-formulario">
+            <div class="primary-header text-dark">
+                <span class="primary-header-main">Dental Task</span>
+                <span class="primary-header-sub">Drs. Maroto</span>        
             </div>
-            <div class="form-group">
-                <input type="password" name="user_password" class="form-control" id="user_password" placeholder="Contraseña...">                
+            <form id="formulario" method="POST" action="/login" class="caja-login form" autocomplete="off">
+                <h2 class="heading-tertiary u-margin-bottom-medium u-center-text">Bienvenido</h2>
+                {{#if gMessage}}
+                    <span style="font-size: 14px;" class="badge badge-pill badge-success p-3 mb-4 text-dark">{{gMessage}}</span>
+                {{/if}}
+                {{#if bMessage}}
+                    <span style="font-size: 14px;" class="badge badge-pill badge-danger p-3 mb-4 text-dark">{{bMessage}}</span>
+                {{/if}}
 
-            <div class="flex">
-                <div class="mt-4 campo enviar">
-                    <input type="hidden" id="tipo" value="login">
-                    <input type="submit" class="btn btn-dark" value="Iniciar Sesión">
+                <div class="form__group">
+                    <input type="text" id="usuario" name="username" class="form__input" placeholder="Usuario">
+                    <label class="form__label" for="nombre">Usuario</label>
                 </div>
-                {{>googleLogin}}
-            </div>
+                <div class="form__group">
+                    <input type="password" name="user_password" class="form__input" id="user_password" placeholder="Contraseña">
+                    <label class="form__label" for="nombre">Contraseña</label>
+                </div>
+                <div>
+                    <input type="hidden" id="tipo" value="login">
+                    <input type="submit" class="btn btn-blue" value="Iniciar Sesión">
+                </div>
 
-        </form> 
-    </div>
+            </form> 
+        </div>
+    </main>
 {{>reloj}}
 {{>footer}}

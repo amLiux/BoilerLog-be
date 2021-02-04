@@ -1,0 +1,13 @@
+.login,
+.crear-cuenta {
+    background-color: rgba($color-grey-dark-2, 0.5);
+}
+
+.caja-login {
+    background-color: #F2F2F2;
+    border-radius: 1rem;
+    width: 40%;
+    margin: 0 auto;
+    box-shadow: 0 .2rem .8rem rgba($color-black, .56);
+    padding: 3rem;
+}
