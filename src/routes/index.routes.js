@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import Proyect from '../models/proyectModel'
+import Citas from '../models/CitasModel'
 import Todo from '../models/todoModel'
 import moment from 'moment'
 import {notificarPeticiónCita} from '../controllers/index.controller'
@@ -25,16 +26,29 @@ router.post('/home', async (req, res) => {
 })
 
 //main page, brings projects for the sidebar
-router.get('/', isAuthenticated, async(req,res)=>{
+
+// variables, funciones, cualquier extracto de memeoria que se utilize en un programa y lo definamos nosotrs, tiene que tener camel case
+// edadDeStiven. -> variable
+// calcularEdadStiven -> funcion
+// comentarios -> algo importante 
+// fuera de tiempo de entregar -> no se 
+router.get('/', isAuthenticated, async (req,res)=>{
     const {_id, user, rol} = req.user
-    const proyects = await Proyect.find({id_user : _id})
+
+    // const proyects = await Proyect.find({id_user : _id})
+
+    const citas = await Citas.find({})
+
+    const citasSinRevisar = citas.filter(cita => cita.estado === "SIN_REVISAR")
+
+    console.log(citasSinRevisar)
 
     if(rol === "ADMIN_ROLE") return res.redirect('/admin')
 
 
     res.render('index', {
         'class': 'index',
-        proyects,
+        citasSinRevisar,
         _id,
         user
     })

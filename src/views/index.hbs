@@ -1,10 +1,23 @@
 {{>header}}
 {{>barra}}
 <div class="contenedor">
-    {{#if idProyect}}
+    {{#if citasSinRevisar}}
     <main class="contenido-principal">
-        <h1 class="headerTuanis mb-4 mt-4">{{nombre_proyect}}</h1>
-        <form action="/{{idProyect}}/new-todo/" method="POST" class="agregar-tarea" autocomplete="off"
+        <div class="listaCitas">
+            <h1 class="headerTuanis mb-4 mt-4">Citas sin revisar</h1>
+            <div class="list-group mb-4">
+                {{#each citasSinRevisar}}
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{nombre}} {{apellido}}</h5>
+                        <small>Hace cuanto crearon la solicitud</small>
+                    </div>
+                    <p class="mb-1">Fecha Deseada</p>
+                    <small>{{numeroTelefonico}} - {{email}}</small>
+                </a> {{/each}}
+            </div>
+        </div>
+        {{!-- <form action="/{{idProyect}}/new-todo/" method="POST" class="agregar-tarea" autocomplete="off"
             style="border-radius: 15px">
             <div class="form-group">
                 <label for="todo">Tarea:</label>
@@ -33,38 +46,35 @@
                 <input type="hidden" name="id_proyecto" id="id_proyecto" value="{{idProyect}}">
                 <input type="submit" id="nueva-tarea" class="btn btn-dark" value="Agregar">
             </div>
-        </form>
+        </form> --}}
         {{#if todos}}
-        {{!-- TODO crear barra de filtrado --}}
-            <div class="listado-pendientes">
-                <ul class="row p-2 d-flex justify-content-around align-items-center">
-                    {{#each todos}}
-                        {{>todo}}
-                    {{/each}}
-                </ul>
-            </div>
+        <div class="listado-pendientes">
+            <ul class="row p-2 d-flex justify-content-around align-items-center">
+                {{#each todos}}
+                {{>todo}}
+                {{/each}}
+            </ul>
+        </div>
         {{else}}
-            <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
-                <h1 class="display-4">Hola, {{user}}!</h1>
-                <p class="lead">Para tu dicha, no tienes ninguna tarea registrada hasta el momento, pero si eso tuviera que
-                    cambiar arriba tienes el cuadro donde puedes registrarla.</p>
-                <hr class="my-4">
-                <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que tengas
-                    pendiente, suerte!</p>
-            </div>
+        {{!-- <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
+            <h1 class="display-4">Hola, {{user}}!</h1>
+            <p class="lead">Para tu dicha, no tienes ninguna tarea registrada hasta el momento, pero si eso tuviera que
+                cambiar arriba tienes el cuadro donde puedes registrarla.</p>
+            <hr class="my-4">
+            <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que tengas
+                pendiente, suerte!</p>
+        </div> --}}
         {{/if}}
         {{else}}
-            <main class="contenido-principal">
-                <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
-                    <h1 class="display-4">Hola, {{user}}!</h1>
-                    <p class="lead">Escoge o crea un proyecto a tu derecha, solo presiona el boton de Nuevo Proyecto, ponle
-                        nombre a tu proyecto y empieza a trabajar, suerte!</p>
-                    <hr class="my-4">
-                    <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que
-                        tengas pendiente, suerte!</p>
-                </div>
-                {{/if}}
-            </main>
+        <main class="contenido-principal">
+            <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
+                <h1 class="display-4">Hola, {{user}}!</h1>
+                <p class="lead mt-4">No hay citas pendientes, todas están agendadas o completadas.</p>
+                <hr class="my-4">
+                <p>Recuerda, aquí se mostrará una lista de las citas pendientes para revisar, buen día!</p>
+            </div>
+            {{/if}}
+        </main>
         {{>sidebar}}
 </div>
 <!--.contenedor-->

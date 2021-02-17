@@ -32,7 +32,20 @@ const Cita = new Schema({
         type:String,
         default:false,
         required: [true, 'El apellido es requerido']
-    }
+    },
+    fechaDeseada:{
+        type: Date,
+        //TODO create datepicker input in /home
+        default: Date.now(), 
+        // required: [true, 'El apellido es requerido']
+    },
+    fechaCreada: {
+        type: Date, 
+        default: Date.now() 
+    },
+
+    // "start": "nodemon src/index --exec babel-node",
+
 })
 
 

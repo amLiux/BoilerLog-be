@@ -55,9 +55,11 @@ a{
 
 .contenedor-formulario {
     display: flex;
+    width: 30%;
+    margin: auto;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    height: 95vh;
 }
 
 /** Barra **/
@@ -200,6 +202,13 @@ body.index {
     text-align: center;
     color: white;
     font-size: 1.2rem;
+}
+
+.listaCitas{
+    display:block; 
+    margin: 0 auto;
+    max-width: 800px;
+    width: 90%;
 }
 
 

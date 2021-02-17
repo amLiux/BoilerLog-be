@@ -38,7 +38,7 @@ passport.use('authLoggeo', new LocalStrategy({
 }, async (req, username, user_password, done)=>{
     const user = await User.findOne({user: username});
     if(!user)
-        return done(null, false, req.flash('bMessage', `No se encontro el usuario ${username}`));
+        return done(null, false, req.flash('bMessage', `No se encontró el usuario ${username}`));
 
     if(!user.compararPassword(user_password))
         return done(null, false, req.flash('bMessage', `Contraseña incorrecta`));

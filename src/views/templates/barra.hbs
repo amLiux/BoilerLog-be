@@ -1,9 +1,15 @@
 <nav class="barra navbar">
-        <h1>{{user}}Task - Administración de Proyectos</h1>
+        <h1>Dental Task - Aplicación Admiministrativa - {{user}}</h1>
         <div>
                 {{#if isAdmin }}
                         <a class="btn btn-dark" href="/admin">
                                 <i class="fas fa-users-cog"></i>
+                        </a>
+                        <a class="btn btn-dark" href="/crear-cuenta">
+                                <i class="fas fa-user-plus"></i>                        
+                        </a>
+                        <a class="btn btn-dark" href="/reportes">
+                                <i class="fas fa-chart-line"></i>
                         </a>
 
                 {{else}}

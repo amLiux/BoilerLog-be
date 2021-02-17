@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    {{!-- Cabecera inicia --}}
     <header class="header">
         <ul class="header__navigation-bar">
             <li>
@@ -64,7 +65,10 @@
             {{!-- <a href="" class="btn btn-white btn-animated u-margin-top-medium">Descubre nuestros servicios</a> --}}
         </div>
     </header>
+    {{!-- Cabecera Termina --}}
+    {{!-- Seccion prinicipal inicia --}}
     <main>
+
         <section class="section-about">
             <div style="margin-top: -6rem;" class="u-center-text u-margin-bottom-big">
                 <h2 class="heading-secondary u-margin-top-medium">
@@ -168,12 +172,14 @@
                                 </div>
 
                                 <div class="form__group">
-                                    <input name="apellido" type="text" class="form__input" required placeholder="Apellido">
+                                    <input name="apellido" type="text" class="form__input" required
+                                        placeholder="Apellido">
                                     <label class="form__label" for="apellido">Apellido</label>
                                 </div>
                             </div>
                             <div class="form__group">
-                                <input name="email" type="email" class="form__input" required placeholder="Correo electrónico">
+                                <input name="email" type="email" class="form__input" required
+                                    placeholder="Correo electrónico">
                                 <label for="email" class="form__label">Correo electrónico</label>
                             </div>
                             <div class="form__group">
@@ -186,7 +192,33 @@
                 </div>
             </div>
         </section>
+
     </main>
+    {{!-- Seccion prinicipal termina --}}
+
+    <footer class="footer">
+        {{!-- <div class="footer__logo-box">
+            <img src="" alt="">
+        </div> --}}
+        <div class="row">
+            <div class="col-1-of-2">
+                <div class="footer__navigation">
+                    <ul class="footer__list">
+                        <li class="footer__item"><a href="#" class="footer__link">Nosotros</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Contáctanos</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Internados</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Servicios</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-1-o-2">
+                <p class="footer__copyright">
+                    Construido y soportado por <a href="">Jardín Binario</a> &copy;
+                </p>
+            </div>
+        </div>
+    </footer>
+
 </body>
 
 </html>

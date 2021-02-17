@@ -9,6 +9,8 @@ import flash from 'connect-flash'
 import {allowInsecurePrototypeAccess} from '@handlebars/allow-prototype-access'
 import Handlebars from 'handlebars'
 import sass from 'node-sass-middleware'
+import config from './config/config'
+
 
 
 import MainMap from './routes/mainMap.routes'
@@ -32,7 +34,7 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs')
 
 // TODO comment
-app.set('port', process.env.PORT || 3000)
+app.set('port', config.projectPort)
 
 /*Middlewares*/
 //sirve para extraer datos de metodos POST
