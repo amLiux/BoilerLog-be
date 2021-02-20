@@ -2,7 +2,13 @@
     background-color: $color-grey-light-1;
     padding: 25rem 0;
     margin-top: -24rem;
+
+    @include responsive(tab-port){
+        padding: 25rem 0;
+    }
 }
+
+// TODO revisar paddings 
 
 .section-features{
     background-image: linear-gradient(
@@ -12,16 +18,23 @@
     background-position: center;
     padding: 20rem 0;
     transform: skewY(7deg);
-
     margin-top: -11.1rem;
 
     & > * {
         transform: skewY(-7deg);
     }
+
+    @include responsive(tab-port){
+        padding: 15rem 3rem;
+    }
+
 }
 
 .section-agenda{
     padding: 15rem 0;
+    @include responsive(tab-port){
+        padding: 10rem 1.5rem;
+    }
 }
 
 .agenda{
@@ -34,12 +47,20 @@
 
     background-size: cover;
     border-radius: 1rem;
-    height: 50rem;
     box-shadow: 0 1rem 3.5rem rgba($color-black, 0.3);
+
+    @include responsive(tab-land){
+        background: none;
+    }
+
 
     &__form{
         width: 50%;
         padding: 6rem;
+
+        @include responsive(tab-land){
+            width: 100%;
+        }
     }
 
 }

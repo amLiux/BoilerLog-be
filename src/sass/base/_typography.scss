@@ -9,6 +9,11 @@
         font-size: 8rem;
         font-weight: 400;
         animation: fadeInAndMoveFromTop 1.3s ease-in-out;
+
+        @include responsive(phone){
+            font-size: 6rem;
+            margin-bottom: 3rem;
+        }
     }
     
     &-sub{
@@ -18,6 +23,10 @@
         font-style: italic;
         margin-top: -2rem;
         animation: fadeInAndMoveFromTop 1.3s ease-in-out;
+
+        @include responsive(phone){
+            font-size: 2.6rem;
+        }
     }
 }
 
@@ -28,15 +37,33 @@
     // font-style: italic;
     display: inline-block;
     color: $color-primary-dark;
+    @include responsive(tab-port){
+        font-size: 4rem;
+    }
+
+    @include responsive(phone){
+        font-size: 3rem;
+    }
+
 }
 
 .heading-tertiary{
     font-style: 2.4rem;
     font-weight: 700;
     text-transform: uppercase;
+    @include responsive(phone){
+        padding: 1rem;
+        text-align: center;
+    }
 }
 
 .paragraph{
     font-style: 2rem;
     &:not(:last-child){margin-bottom: 3rem;}
+
+    @include responsive(phone){
+        padding: 1rem;
+        text-align: center;
+        margin-top: -2.7rem;
+    }
 }
