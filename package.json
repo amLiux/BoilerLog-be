@@ -21,8 +21,7 @@
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
-    "eslint": "^5.13.0",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.0",
     "node-sass-middleware": "^0.11.0",
     "nodemon": "^2.0.7"
   }
