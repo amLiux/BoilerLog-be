@@ -14,7 +14,7 @@ const MainMap = require ('./routes/mainMap.routes')
 app.use(cors())
 
 // Settea el port basado en lo que tengamos en nuestro archivo .env
-app.set('port', process.env.PORT)
+app.set('port', process.env.PORT || 3000)
 
 //methodOverride permite que un form html pueda utilizar metodos put y delete ademas de post y get
 app.use(methodOverride('tipo'))
