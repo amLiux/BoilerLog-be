@@ -23,8 +23,6 @@ const isAuthenticated = (req, res, next) => {
 const erroresEnPeticion = (req, res = response, next) => {
     const errors = validationResult(req)
 
-    console.log(`llego hasta aca`)
-
     if(!errors.isEmpty()){
         return res.status(400).json({
             ok: false,
