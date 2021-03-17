@@ -1,5 +1,7 @@
 .btn{
 
+    font: inherit;
+
     @include responsive(phone){
         display: inline-block!important;
     }
@@ -37,7 +39,7 @@
     }
 
     &-blue{
-        margin-top: 0rem;
+        margin-top: 2rem;
         background-color: rgba($color-primary-dark, 0.8);
         color: #FFF;
         box-shadow: 0 0.5rem 0.8rem rgba($color-black, 0.1);

@@ -3,7 +3,7 @@
 <div class="contenedor">
     <main class="contenido-principal">
         <div class="contenedor-formulario">
-            <h1 class="headerTuanis mb-4">Dental Task <span>Crear Cuenta</span></h1>
+            <h1 class="headerTuanis mb-4">Crear Cuenta</h1>
             <form id="formulario" method="POST" action="/crear-cuenta" class="caja-login">
                 {{#if bMessage}}
                 <span style="font-size: 14px;"
@@ -15,15 +15,7 @@
                         <input id="usuario" name="username" type="text" class="form-control" placeholder="Usuario"
                             aria-label="Username" aria-describedby="basic-addon1">
                     </div>
-                    {{!-- <input type="text" id="usuario" name="username" class="form-control" placeholder="Usuario...">
-                    --}}
                 </div>
-                {{!-- <div class="form-group">
-                    <label for="user_password">Contraseña:</label>
-                    <input type="password" name="user_password" class="form-control" id="user_password"
-                        placeholder="Contraseña...">
-                    <span class="form-text"><i>Al menos de 8-20 caracteres.</i></span>
-                </div> --}}
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
                     <input name="user_password" class="form-control" id="user_password"
@@ -37,5 +29,4 @@
         </div>
     </main>
 </div>
-{{>reloj}}
 {{>footer}}

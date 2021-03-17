@@ -1,9 +1,6 @@
 import {Router} from 'express'
-// import Proyect from '../models/proyectModel'
-// import Todo from '../models/todoModel'
-// import moment from 'moment'
-import { checkRole } from '../middlewares/checkRole'
-import User from '../models/userModel'
+import { checkRole, isAuthenticated } from '../middlewares/middlewares'
+import User from '../models/UserModel'
 import passport from 'passport'
 
 
@@ -32,31 +29,23 @@ router.get('/admin', [isAuthenticated, checkRole], async(req,res)=>{
     })
 })
 
-router.get('/crear-cuenta', [isAuthenticated, checkRole], (req,res)=>{
-    const {_id, user, rol} = req.user
-    const isAdmin = rol === "ADMIN_ROLE" ?  true : false
+router.get('/crear-cuenta', (req,res)=>{
+    // const {_id, user, rol} = req.user
+    // const isAdmin = rol === "ADMIN_ROLE" ?  true : false
 
     res.render('crear-cuenta',{
         'class' : 'index',
-        user,
-        isAdmin,
+        // user,
+        // isAdmin,
     })
 })
 
-//TODO update a user ? deactivate account/change password
-//TODO nodemailert forgor password  ?
-
-router.post('/crear-cuenta', [isAuthenticated, checkRole], passport.authenticate('authCuentaNueva', {
-    successRedirect: '/login',
+router.post('/crear-cuenta', passport.authenticate('authCuentaNueva', {
     failureRedirect: '/crear-cuenta',
     passReqToCallback: true
-}))
+}));
 
-//passport middleware to check authentication
-function isAuthenticated (req, res, next){
-    req.isAuthenticated()
-        ? next()
-        : res.redirect('/login')
-}
+//TODO update a user ? deactivate account/change password
+//TODO nodemailert forgor password  ?
 
 export default router

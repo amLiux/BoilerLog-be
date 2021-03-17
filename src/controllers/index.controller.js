@@ -1,118 +1,18 @@
-//TODO 
-
-import User from '../models/userModel'
-import bcrypt from 'bcrypt'
 import nodemailer from 'nodemailer'
-import randomstring from 'randomstring'
 import config from '../config/config'
-import { template } from 'handlebars'
 import Cita from '../models/CitasModel'
+import moment from 'moment'
 
 
+/* notificarPeticiónCita() recibe los siguientes parámetros 
+    @nombre:String, 
+    @apellido:String, 
+    @email:String,
+    @telefono: String,  
 
-//actualizar contraseña si tiene contraseña vieja
-export const changePassword = (email, password, newPassword) => 
-	new Promise((resolve, reject) => {
-		//hace una busqueda al db buscando "email"
-		User.find({ email: email })
-            .then(users => {
-                let user = users[0];
-                const hashed_password = user.hashed_password;
-                if (bcrypt.compareSync(password, hashed_password)) {
-                    const salt = bcrypt.genSaltSync(10);
-                    const hash = bcrypt.hashSync(newPassword, salt);
-                    user.hashed_password = hash;
-                    return user.save();
-                } else {
-                    reject({ status: 401, message: 'Contraseña antigua inválida !' });
-                }
-            })
-		.then(user => resolve({ status: 200, message: 'Contraseña actualizada correctamente !' }))
-		.catch(err => reject({ status: 500, message: 'Error de servidor !' }));
-	});
-
-export const resetPasswordInit = email =>
-	new Promise((resolve, reject) => {
-		const random = randomstring.generate(8);
-		User.find({ email: email })
-            .then(users => {
-                if (users.length == 0) {
-                    reject({ status: 404, message: 'User Not Found !' });
-                } else {
-                    let user = users[0];
-                    const salt = bcrypt.genSaltSync(10);
-                    const hash = bcrypt.hashSync(random, salt);
-                    user.temp_password = hash;
-                    user.temp_password_time = new Date();
-                    return user.save();
-                }
-            })
-            .then(user => {
-                //const transporter = nodemailer.createTransport(`smtps://${config.email}:${config.password}@smtp.gmail.com`);
-                const transporter = nodemailer.createTransport({
-                    service: 'Gmail',
-                    auth: {
-                        user: `proyectoprograUTC@gmail.com`,
-                        pass: `proyectoprogra1!`
-                    }
-                });
-
-                const mailOptions = {
-                    from: `"Administrador Proyecto Programacion 3 UTC" <proyectoprograUTC@gmail.com>`,
-                    to: email,  
-                    subject: 'Solicitud para restablecer contraseña', 
-                    html: `
-                    Hola ${user.name},
-                        <br/><br/><br/>
-                        Su token para reiniciar la contraseña es <b>${random}</b>. 
-                    Sí estás viendo este correo desde un Android Device da click en este <a href="http://gymapp/${random}">link</a>. 
-                    El token es válido por dos minutos.
-                    Gracias,
-                    GymApp.`
-
-                };
-
-                return transporter.sendMail(mailOptions);
-            })
-            .then(info => {
-                resolve({ status: 200, message: 'Busca en tu correo las instrucciones' })
-            })
-            .catch(err => {
-                reject({ status: 500, message: 'Intentalo más tarde !' });
-            });
-        });
-
-export const resetPasswordFinish = (email, token, password) => 
-	new Promise((resolve, reject) => {
-		User.find({ email: email })
-            .then(users => {
-                let user = users[0];
-                const diff = new Date() - new Date(user.temp_password_time); 
-                const seconds = Math.floor(diff / 1000);
-                console.log(`Seconds : ${seconds}`);
-                if (seconds < 120) { return user; } else { reject({ status: 401, message: 'Time Out ! Try again' }); } }) .then(user => {
-                if (bcrypt.compareSync(token, user.temp_password)) {
-                    const salt = bcrypt.genSaltSync(10);
-                    const hash = bcrypt.hashSync(password, salt);
-                    user.hashed_password = hash;
-                    user.temp_password = undefined;
-                    user.temp_password_time = undefined;
-                    return user.save();
-                } else {
-                    reject({ status: 401, message: 'Token Inválido !' });
-                }
-            })
-
-            .then(user => resolve({ status: 200, message: 'Password nuevo!' }))
-            .catch(err => reject({ status: 500, message: 'Internal Server Error !' }));
-
-    });
-    
-export const notificarPeticiónCita = (email, nombre, apellido, teléfono, mensaje ) =>{
-
-    //TODO creamos una petición sin revisar? 
-    // solo notificamos?
-    //const transporter = nodemailer.createTransport(`smtps://${config.email}:${config.password}@smtp.gmail.com`);
+    Por medio del paquete nodemailer, enviamos un correo de notificacion al usuario utilizando una cuenta de Gmail definida en nuestra configuracion de ambiente (config) 
+*/
+export const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo ) =>{
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -139,7 +39,12 @@ export const notificarPeticiónCita = (email, nombre, apellido, teléfono, mensa
                 <p>Muchas gracias por contactar con Clínica Dental Doctores Maroto!</p>
                 <br/>
 
-                <p>Esta es una notificación generada por la solicitud de una cita en nuestro sitio web. Queremos recordarle que nuestro equipo responde sus peticiones en menos de 24 horas.</p>
+                <p>Esta es una notificación generada por la solicitud de una cita en nuestro sitio web.</p>
+                <br/>
+
+                <p>Por favor, escoja una hora para su cita el día ${dateCorreo} en nuestro website: 
+                    http://localhost:3001/public/schedule
+                </p>
                 <br/>
 
                 <p>Nos pondremos en contacto ya sea por el número ${teléfono} o por este correo electrónico. </p>
@@ -173,17 +78,19 @@ export const notificarPeticiónCita = (email, nombre, apellido, teléfono, mensa
     @apellido:String, 
     @email:String,
     @telefono: String,  
+    @fecha: Date
 
     crea un objeto Cita y lo guarda en nuestra base de datos
 
 */
-export const crearPeticionDeCitaYGuardar = async({nombre, apellido, email, teléfono}) =>{
+export const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fecha) =>{
     try{
         const citaNueva = new Cita({
             nombre,
             apellido,
             email,
-            numeroTelefonico: teléfono
+            numeroTelefonico: teléfono,
+            fechaDeseada: fecha
         })
 
         await citaNueva.save()
@@ -196,3 +103,38 @@ export const crearPeticionDeCitaYGuardar = async({nombre, apellido, email, telé
         console.error(err)
     }
 }
+
+/* obtenerCitasSinRevisar() recibe los siguientes parámetros 
+    @citas:Array<JSON>, 
+
+    Itera por @citas y devuelve un new Array solo con los objetos que tienen estado "SIN_REVISAR"
+
+*/
+// export const obtenerCitasSinRevisar = citas => citas.filter(cita => cita.estado === "SIN_REVISAR") 
+
+/* traducirFechas() recibe los siguientes parámetros 
+    @citas:Array<JSON>, 
+
+    Itera por @citas y cambia las propiedades fechaCreada y fechaDeseada por fechas humanamente legibles
+
+*/
+export const traducirFechas = citas => citas.forEach(cita => {
+    //TODO revisar como mutar objectos de javascript, no me gusta mucho esta solucion
+
+    cita.fechaCreada = moment(cita.fechaCreada).fromNow()
+    cita.fechaDeseada = moment.utc(cita.fechaDeseada).format('LL')
+
+    // const fechaCreada = cita.fechaCreada
+    // const fechaDeseada = cita.fechaDeseada
+
+    // delete cita.fechaDeseada
+    // delete cita.fechaCreada
+
+
+
+    // return {
+    //     newFechaCreada : moment(fechaCreada).fromNow(),
+    //     newFechaDeseada: moment.utc(fechaDeseada).format('LL'),
+    //     ...cita._doc
+    // }
+})

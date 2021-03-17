@@ -20,9 +20,7 @@ export default {
     tokenLife: process.env.TOKEN_LIFE,
     secret: process.env.API_SEED,
     googleAccount: process.env.GMAIL_ACCOUNT,
-    googlePwd: process.env.GMAIL_PWD,
-    googleClient: process.env.GOOGLE_CLIENT_ID,
-    googleSecret: process.env.GOOGLE_SECRET
+    googlePwd: process.env.GMAIL_PWD
 }
 
 //====================================

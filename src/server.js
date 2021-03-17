@@ -10,13 +10,16 @@ import {allowInsecurePrototypeAccess} from '@handlebars/allow-prototype-access'
 import Handlebars from 'handlebars'
 import sass from 'node-sass-middleware'
 import config from './config/config'
-
+import cors from 'cors'
 
 
 import MainMap from './routes/mainMap.routes'
 
 //Inicializaciones
 const app = express()
+
+
+app.use(cors())
 
 //Seteando el path de los views al servidor
 app.set('views', path.join(__dirname, 'views'))
@@ -67,7 +70,7 @@ app.use(passport.initialize())
 //abre sesiones
 app.use(passport.session())
 require('./auth/local-auth')
-require('./auth/google-auth')
+// require('./auth/google-auth')
 
 
 

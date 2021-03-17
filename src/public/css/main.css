@@ -239,6 +239,10 @@ body {
   display: flex;
 }
 
+.btn {
+  font: inherit;
+}
+
 @media (max-width: 37.5em) {
   .btn {
     display: inline-block !important;
@@ -275,7 +279,7 @@ body {
 }
 
 .btn-blue {
-  margin-top: 0rem;
+  margin-top: 2rem;
   background-color: rgba(55, 177, 222, 0.8);
   color: #FFF;
   box-shadow: 0 0.5rem 0.8rem rgba(0, 0, 0, 0.1);
@@ -740,6 +744,31 @@ body {
 
 .footer__copyright a:hover {
   color: #37B3DF;
+}
+
+.success__main-content {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: fadeInAndMoveFromBotton 1.7s ease-in-out;
+  animation-fill-mode: backwards;
+}
+
+.success__image {
+  color: #37B1DE;
+  font-size: 12rem;
+}
+
+.success__title {
+  font-size: 5rem;
+  font-weight: 100;
+  text-align: center;
+}
+
+.success__title-secondary {
+  font-size: 1.8rem;
 }
 
 .section-about {

@@ -1,87 +1,57 @@
 import {Router} from 'express'
-import Proyect from '../models/proyectModel'
 import Citas from '../models/CitasModel'
-import Todo from '../models/todoModel'
 import moment from 'moment'
-import {notificarPeticiónCita} from '../controllers/index.controller'
-import {crearPeticionDeCitaYGuardar} from '../controllers/index.controller'
+import {validarJWT} from '../middlewares/middlewares'
+import {notificarPeticiónCita, crearPeticionDeCitaYGuardar, obtenerCitasSinRevisar, traducirFechas} from '../controllers/index.controller'
 
+
+//TODO where to define this?
+moment.locale('es')
 
 const router = Router()
 
+
+//TODO move to home.routes.js
 router.get('/home',(req, res) => res.render('home'))
 
+router.get('/success',(req, res) => res.render('sucess'))
+
 router.post('/home', async (req, res) => {
-    const {nombre, apellido, email, teléfono} = req.body
+    const {nombre, apellido, email, teléfono, fecha} = req.body
 
-    // TODO ejecutar funcionalidad de notificar al cliente y al personal administrativo 
-    const envioCorreo = await notificarPeticiónCita(email, nombre, apellido, teléfono)
+    const date = moment(fecha, 'YYYY/MM/DD').toDate()
+    const dateCorreo = new Date(date).toLocaleDateString('es-us')
+    // TODO validacion de inputs
+    // TODO whatsapp implementation
 
-    //TODO guardar solicitud de cita en db para mostrarla en el front-end
-    const guardarCita = await crearPeticionDeCitaYGuardar(req.body)
+    const envioCorreo = await notificarPeticiónCita(email, nombre, apellido, teléfono, dateCorreo)
 
-    console.log(envioCorreo)
-    console.log(guardarCita)
+    const guardarCita = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
+
     res.render('home')
 })
 
-//main page, brings projects for the sidebar
+//Endpoint de citas, metodo HTTP GET, primero válida el JWT con el middleware validarJWT
+router.get('/citas', validarJWT, async (req,res)=>{
+    const {uid, name, rol} = req
 
-// variables, funciones, cualquier extracto de memeoria que se utilize en un programa y lo definamos nosotrs, tiene que tener camel case
-// edadDeStiven. -> variable
-// calcularEdadStiven -> funcion
-// comentarios -> algo importante 
-// fuera de tiempo de entregar -> no se 
-router.get('/', isAuthenticated, async (req,res)=>{
-    const {_id, user, rol} = req.user
+    const citas = await Citas.find({}).lean()
 
-    // const proyects = await Proyect.find({id_user : _id})
+    // const citasSinRevisar = obtenerCitasSinRevisar(citas)
 
-    const citas = await Citas.find({})
-
-    const citasSinRevisar = citas.filter(cita => cita.estado === "SIN_REVISAR")
-
-    console.log(citasSinRevisar)
-
-    if(rol === "ADMIN_ROLE") return res.redirect('/admin')
-
-
-    res.render('index', {
-        'class': 'index',
-        citasSinRevisar,
-        _id,
-        user
+    res.status(200).json({
+        ok: true,
+        citas
     })
+
+    // if(rol === "ADMIN_ROLE") return res.redirect('/admin')
+
+    // res.render('index', {
+    //     'class': 'index',
+    //     citasSinRevisar,
+    //     _id,
+    //     user
+    // })
 })
-
-//specific page for a project
-router.get('/:_id', isAuthenticated, async(req,res)=>{
-    let idProyect = req.params._id,
-        {_id, user} = req.user
-
-    const proyects = await Proyect.find({"id_user" : _id }),
-          todos = await Todo.find({id_proyect : `${idProyect}`, estado_tarea: false}).lean()
-          
-    const currentProyect = proyects.filter(a=> a._id == idProyect)[0],
-        {nombre_proyect} = currentProyect || ""
-
-    todos.map(item=> item.fecha_limite = moment(item.fecha_limite).format("DD/MMM/YYYY"))
-    res.render('index', {
-        'class': 'index',
-        proyects,
-        idProyect,
-        todos,
-        _id,
-        user,
-        nombre_proyect
-    })
-})
-
-//passport middleware to check authentication
-function isAuthenticated (req, res, next){
-    req.isAuthenticated()
-        ? next()
-        : res.redirect('/login')
-}
 
 export default router

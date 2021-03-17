@@ -4,67 +4,20 @@
     {{#if citasSinRevisar}}
     <main class="contenido-principal">
         <div class="listaCitas">
-            <h1 class="headerTuanis mb-4 mt-4">Citas sin revisar</h1>
+            <h1 class="headerTuanis mb-4 mt-4">Citas pendientes</h1>
             <div class="list-group mb-4">
                 {{#each citasSinRevisar}}
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{nombre}} {{apellido}}</h5>
-                        <small>Hace cuanto crearon la solicitud</small>
-                    </div>
-                    <p class="mb-1">Fecha Deseada</p>
-                    <small>{{numeroTelefonico}} - {{email}}</small>
-                </a> {{/each}}
-            </div>
-        </div>
-        {{!-- <form action="/{{idProyect}}/new-todo/" method="POST" class="agregar-tarea" autocomplete="off"
-            style="border-radius: 15px">
-            <div class="form-group">
-                <label for="todo">Tarea:</label>
-                <input type="text" id="nombre-tarea" name="todo" class="form-control" id="todo"
-                    placeholder="Nombre de la tarea.">
-            </div>
-            <div class="form-group">
-                <label for="date_todo">Fecha de entrega:</label>
-                <div class="input-group date">
-                    <input type="text" name="date_todo" placeholder="31/02/2021" id="date_todo" class="form-control">
-                    <span class="input-group-addon">
-                        <i class="glyphicon glyphicon-th"></i>
-                    </span>
-                </div>
-                <small id="emailHelp" class="form-text text-light">Esto nos servira para marcar el calendario y enviarte
-                    un correo 5 días antes de la fecha establecida!</small>
-            </div>
-            <div class="form-group">
-                <label for="todoDescription">Descripción:</label>
-                <div class="input-group">
-                    <textarea class="form-control" maxlength="100" name="todoDescription"
-                        placeholder="Trabajo de investigación, métodos de limpieza de la superficie marina."></textarea>
-                </div>
-            </div>
-            <div class=" mt-4 campo enviar">
-                <input type="hidden" name="id_proyecto" id="id_proyecto" value="{{idProyect}}">
-                <input type="submit" id="nueva-tarea" class="btn btn-dark" value="Agregar">
-            </div>
-        </form> --}}
-        {{#if todos}}
-        <div class="listado-pendientes">
-            <ul class="row p-2 d-flex justify-content-around align-items-center">
-                {{#each todos}}
-                {{>todo}}
+                    <a href="#" id={{_id}} class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{nombre}} {{apellido}}</h5>
+                            <small>{{fechaCreada}}</small>
+                        </div>
+                        <p class="mb-1">Fecha Deseada: {{fechaDeseada}}</p>
+                        <small>{{numeroTelefonico}} - {{email}}</small>
+                    </a> 
                 {{/each}}
-            </ul>
+            </div>
         </div>
-        {{else}}
-        {{!-- <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
-            <h1 class="display-4">Hola, {{user}}!</h1>
-            <p class="lead">Para tu dicha, no tienes ninguna tarea registrada hasta el momento, pero si eso tuviera que
-                cambiar arriba tienes el cuadro donde puedes registrarla.</p>
-            <hr class="my-4">
-            <p>Recuerda, esta aplicacion esta diseñada para ayudarte con el orden de toda tarea o proyecto que tengas
-                pendiente, suerte!</p>
-        </div> --}}
-        {{/if}}
         {{else}}
         <main class="contenido-principal">
             <div style="width:42rem; display:block; margin: 0 auto;" class="jumbotron mt-4 p-4">
@@ -73,9 +26,8 @@
                 <hr class="my-4">
                 <p>Recuerda, aquí se mostrará una lista de las citas pendientes para revisar, buen día!</p>
             </div>
-            {{/if}}
+        {{/if}}
         </main>
-        {{>sidebar}}
 </div>
 <!--.contenedor-->
-{{>footer2}}
+{{>footer}}

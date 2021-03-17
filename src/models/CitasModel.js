@@ -10,7 +10,7 @@ import {estadosValidos} from '../constants/constants'
 const Cita = new Schema({
     estado:{
         type: String,
-        default: 'SIN_REVISAR',
+        default: 'PENDIENTE_CONFIRMACION',
         enum: estadosValidos
     },
     email:{
@@ -35,16 +35,13 @@ const Cita = new Schema({
     },
     fechaDeseada:{
         type: Date,
-        //TODO create datepicker input in /home
         default: Date.now(), 
-        // required: [true, 'El apellido es requerido']
+        required: [true, 'La fecha es requerida']
     },
     fechaCreada: {
         type: Date, 
         default: Date.now() 
     },
-
-    // "start": "nodemon src/index --exec babel-node",
 
 })
 

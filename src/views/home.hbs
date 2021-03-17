@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    {{!-- SEO  --}}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -174,6 +175,7 @@
             <div class="row">
                 <div class="agenda">
                     <div class="agenda__form">
+                        {{!-- TODO important bug found, validate dots within name and last name inputs --}}
                         <form id="form" method="POST" action="/home" class="form" autocomplete="off">
                             <div style="margin-top: -6rem;" class="u-margin-bottom-small">
                                 <h2 class="heading-secondary u-margin-top-medium">
@@ -200,6 +202,9 @@
                             <div class="form__group">
                                 <input name="teléfono" type="tel" class="form__input" required placeholder="8888-8888">
                                 <label for="teléfono" class="form__label">Número telefónico</label>
+                            </div>
+                            <div class="form__group">
+                                <input name="fecha" placeholder="Fecha" class="form__input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                             </div>
                             <button type="submit" class="btn btn-blue">Enviar</button>
                         </form>
