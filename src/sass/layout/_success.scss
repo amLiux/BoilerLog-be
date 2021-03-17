@@ -1,0 +1,26 @@
+.success{
+    &__main-content{
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        animation: fadeInAndMoveFromBotton 1.7s ease-in-out; 
+        animation-fill-mode: backwards;
+    }
+
+    &__image{
+        color: $color-primary-dark;
+        font-size: 12rem;
+    }
+
+    &__title{
+        font-size: 5rem;
+        font-weight: 100;
+        text-align: center;
+        &-secondary{
+            font-size: 1.8rem;
+        }
+
+    }
+}

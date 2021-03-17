@@ -1,12 +1,12 @@
-import {Router} from 'express'
-import Citas from '../models/CitasModel'
-import moment from 'moment'
-import {validarJWT} from '../middlewares/middlewares'
-import {notificarPeticiónCita, crearPeticionDeCitaYGuardar, obtenerCitasSinRevisar, traducirFechas} from '../controllers/index.controller'
+const {Router} = require ('express')
+const Citas = require ('../models/CitasModel')
+// import moment from 'moment'
+const {validarJWT} =  require ('../middlewares/middlewares')
+const {notificarPeticiónCita, crearPeticionDeCitaYGuardar} = require ('../controllers/index.controller')
 
 
 //TODO where to define this?
-moment.locale('es')
+// moment.locale('es')
 
 const router = Router()
 
@@ -27,8 +27,6 @@ router.post('/home', async (req, res) => {
     const envioCorreo = await notificarPeticiónCita(email, nombre, apellido, teléfono, dateCorreo)
 
     const guardarCita = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
-
-    res.render('home')
 })
 
 //Endpoint de citas, metodo HTTP GET, primero válida el JWT con el middleware validarJWT
@@ -54,4 +52,4 @@ router.get('/citas', validarJWT, async (req,res)=>{
     // })
 })
 
-export default router
+module.exports = router

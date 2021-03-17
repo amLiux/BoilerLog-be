@@ -1,9 +1,10 @@
+const mongoose = require('mongoose')
 
 //recibe el objeto model y la clase Schema de la libreria mongoose
-import {model, Schema} from 'mongoose'
+const Schema = mongoose.Schema
 
 //recibe los estados validos de nuestro archivo de constantes
-import {estadosValidos} from '../constants/constants'
+const estadosValidos = require ('../constants/constants')
 
 
 //nuestro modelo o clase del objeto cita para guardar en base de datos
@@ -53,4 +54,4 @@ Cita.methods.cambiarEstado = (estado) => {
 }
 
 //exportando el modelo para que sea visible en otros lugares donde necesitemos instanciarlo
-export default model('citas', Cita)
+module.exports = mongoose.model('citas', Cita)

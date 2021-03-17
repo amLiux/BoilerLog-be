@@ -1,9 +1,8 @@
-import mongoose from 'mongoose'
-import config from '../config/config'
+const mongoose = require ('mongoose');
 
 (async ()=> {
     const db = await mongoose.connect(
-        config.mongodbUrl, 
+        process.env.MONGODB_URI, 
         {
             useNewUrlParser: true,
             useUnifiedTopology:true,

@@ -1,7 +1,6 @@
-import nodemailer from 'nodemailer'
-import config from '../config/config'
-import Cita from '../models/CitasModel'
-import moment from 'moment'
+const nodemailer =  require ('nodemailer')
+const Cita = require('../models/CitasModel')
+require('dotenv').config()
 
 
 /* notificarPeticiónCita() recibe los siguientes parámetros 
@@ -12,13 +11,13 @@ import moment from 'moment'
 
     Por medio del paquete nodemailer, enviamos un correo de notificacion al usuario utilizando una cuenta de Gmail definida en nuestra configuracion de ambiente (config) 
 */
-export const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo ) =>{
+const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo ) =>{
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: config.googleAccount,
-            pass: config.googlePwd
+            user: process.env.GMAIL_ACCOUNT,
+            pass: process.env.GMAIL_PWD
         }
     });
 
@@ -83,7 +82,7 @@ export const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateC
     crea un objeto Cita y lo guarda en nuestra base de datos
 
 */
-export const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fecha) =>{
+const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fecha) =>{
     try{
         const citaNueva = new Cita({
             nombre,
@@ -118,23 +117,28 @@ export const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléf
     Itera por @citas y cambia las propiedades fechaCreada y fechaDeseada por fechas humanamente legibles
 
 */
-export const traducirFechas = citas => citas.forEach(cita => {
-    //TODO revisar como mutar objectos de javascript, no me gusta mucho esta solucion
+// export const traducirFechas = citas => citas.forEach(cita => {
+//     //TODO revisar como mutar objectos de javascript, no me gusta mucho esta solucion
 
-    cita.fechaCreada = moment(cita.fechaCreada).fromNow()
-    cita.fechaDeseada = moment.utc(cita.fechaDeseada).format('LL')
+//     cita.fechaCreada = moment(cita.fechaCreada).fromNow()
+//     cita.fechaDeseada = moment.utc(cita.fechaDeseada).format('LL')
 
-    // const fechaCreada = cita.fechaCreada
-    // const fechaDeseada = cita.fechaDeseada
+//     // const fechaCreada = cita.fechaCreada
+//     // const fechaDeseada = cita.fechaDeseada
 
-    // delete cita.fechaDeseada
-    // delete cita.fechaCreada
+//     // delete cita.fechaDeseada
+//     // delete cita.fechaCreada
 
 
 
-    // return {
-    //     newFechaCreada : moment(fechaCreada).fromNow(),
-    //     newFechaDeseada: moment.utc(fechaDeseada).format('LL'),
-    //     ...cita._doc
-    // }
-})
+//     // return {
+//     //     newFechaCreada : moment(fechaCreada).fromNow(),
+//     //     newFechaDeseada: moment.utc(fechaDeseada).format('LL'),
+//     //     ...cita._doc
+//     // }
+// })
+
+module.exports = {
+    notificarPeticiónCita,
+    crearPeticionDeCitaYGuardar
+}

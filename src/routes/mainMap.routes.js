@@ -1,22 +1,18 @@
-import {Router} from 'express'
+const express = require('express')
 
-import indexRoutes from './index.routes'
-import userRoutes from './users.routes'
-import adminRoutes from './admin.routes'
-import calendarRoutes from './calendar.routes'
-import authRoutes from './auth.routes'
+const indexRoutes = require ('./index.routes')
+const adminRoutes = require ('./admin.routes')
+const authRoutes = require ('./auth.routes')
+const citasRoutes = require ('./citas.routes')
 
-import bodyParser from 'body-parser'
+const router = express.Router()
 
-const router = Router()
+router.use(express.json())
+router.use(express.urlencoded({ extended: false }))
 
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({ extended: false }))
-
-router.use(calendarRoutes)
 router.use(authRoutes)
 router.use(adminRoutes)
-router.use(userRoutes)
 router.use(indexRoutes)
+router.use(citasRoutes)
 
-export default router
+module.exports = router

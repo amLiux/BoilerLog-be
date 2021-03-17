@@ -4,36 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index --exec babel-node"
+    "start": "nodemon src/index"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@handlebars/allow-prototype-access": "^1.0.3",
     "bcrypt": "^5.0.0",
-    "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
-    "express-session": "^1.15.6",
     "express-validator": "^6.10.0",
-    "handlebars": "^4.7.6",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
-    "moment": "^2.24.0",
     "mongoose": "^5.11.10",
     "nodemailer": "^6.4.17",
-    "passport": "^0.4.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0",
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/node": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
     "eslint": "^5.13.0",
     "morgan": "^1.9.1",
     "node-sass-middleware": "^0.11.0",
