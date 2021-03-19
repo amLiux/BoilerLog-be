@@ -17,7 +17,7 @@ app.use(cors())
 app.set('port', process.env.PORT || 3000)
 
 //methodOverride permite que un form html pueda utilizar metodos put y delete ademas de post y get
-app.use(methodOverride('tipo'))
+app.use(methodOverride())
 
 //revisa y printea en consola los diferentes peticiones que ejecuta el server
 app.use(morgan('dev'))

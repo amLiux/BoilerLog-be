@@ -45,13 +45,9 @@ const loginUsuario = async (req, res = response) => {
     
     const {user, pwd} = req.body
 
-    console.log(user, pwd)
-
     try{
         
         const usuario = await User.findOne({user})
-
-        console.log(usuario)
 
         if(!usuario)
             return res.status(404).json({
@@ -76,7 +72,6 @@ const loginUsuario = async (req, res = response) => {
         })
 
     }catch(err){
-        console.log(err)
         return res.status(500).json({
             ok: false,
             msg: 'Error interno de servidor!'
