@@ -1,5 +1,5 @@
 const { response } = require ('express')
-const User = require('../models/UserModel')
+const User = require('../models/UsuarioModel')
 const generarJWT = require('../helpers/jwt')
 
 const crearUsuario = async(req, res = response ) => {
@@ -52,7 +52,7 @@ const loginUsuario = async (req, res = response) => {
         if(!usuario)
             return res.status(404).json({
                 ok: false,
-                msg: `No se encontró el usuario ${name}`
+                msg: `No se encontró el usuario ${user}`
             })
 
         if(!usuario.compararPassword(pwd))
@@ -67,11 +67,13 @@ const loginUsuario = async (req, res = response) => {
         res.status(200).json({
             ok: true,
             uid: usuario._id,
-            name: usuario.user,
-            token
+            user,
+            token,
+            rol: usuario.rol
         })
 
     }catch(err){
+        console.log(err)
         return res.status(500).json({
             ok: false,
             msg: 'Error interno de servidor!'
@@ -83,11 +85,13 @@ const revalidarToken = async(req, res = response ) => {
     const {uid, name, rol} = req
 
     const token = await generarJWT(uid, name, rol) 
+
     res.status(200).json({
         ok: true,
         uid,
         name,
-        token
+        rol,
+        token,
     })
 }
 

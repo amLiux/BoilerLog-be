@@ -10,6 +10,8 @@ router.post(
     [
         check('name', 'El nombre es obligatorio').not().isEmpty(),
         check('email', 'El email es obligatorio').isEmail(),
+        check('lastName', 'El nombre es obligatorio').not().isEmpty(),
+        check('user', 'El usuario es obligatorio').not().isEmpty(),
         check('pwd').not().isEmpty().withMessage('La contraseña es requerida')
         .isLength({min: 6})
         .withMessage('La contraseña debe de tener al menos 6 caractéres') ,

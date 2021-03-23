@@ -7,25 +7,26 @@ const rolesValidos = {
     message: '{VALUE} no es un rol valido'
 }
 
-const User = new Schema({
+const Usuario = new Schema({
     user:{
         type: String,
         index: {unique: true},
-        required: [true, 'El usuario es necesario']
+        required: [true, 'El usuario es necesario'],
     },
     nombre:{
         type: String,
-        index: {unique: true},
-        required: [true, 'El nombre es necesario']
+        required: [true, 'El nombre es necesario'],
+        maxlength: 15
     },
     apellido:{
         type: String,
-        index: {unique: true},
-        required: [true, 'El apellido es necesario']
+        required: [true, 'El apellido es necesario'],
+        maxlength: 15
     },
     pass:{
         type: String,
-        required: [true, 'El password es necesario']
+        required: [true, 'El password es necesario'],
+        maxlength: 15
     },
     email:{
         type: String,
@@ -42,17 +43,12 @@ const User = new Schema({
     },
 })
 
-User.methods.encriptarPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+Usuario.methods.encriptarPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 
-User.methods.toJSON = function(){
-    let user = this;
-    let userObject = user.toObject();
-    delete userObject.pass;
-    return userObject;
-}
-
-User.methods.compararPassword = function(password){
+Usuario.methods.compararPassword = function(password){
     return bcrypt.compareSync(password, this.pass)
 } 
 
-module.exports = mongoose.model('usuarios', User)
+// Usuario.index();
+
+module.exports = mongoose.model('usuarios', Usuario)

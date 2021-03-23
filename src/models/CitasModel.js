@@ -22,17 +22,20 @@ const Cita = new Schema({
     numeroTelefonico:{
         type: String,
         default:false,
-        required:[true, 'El numero telefonico es requerido']
+        required:[true, 'El numero telefonico es requerido'],
+        maxlength: 9
     },
     nombre:{
         type:String,
         default:false,
-        required: [true, 'El nombre es requerido']
+        required: [true, 'El nombre es requerido'],
+        maxlength: 15
     },
     apellido:{
         type:String,
         default:false,
-        required: [true, 'El apellido es requerido']
+        required: [true, 'El apellido es requerido'],
+        maxlength: 15
     },
     fechaDeseada:{
         type: Date,
@@ -43,15 +46,11 @@ const Cita = new Schema({
         type: Date, 
         default: Date.now() 
     },
-
 })
 
 
-//métodos de Cita
-Cita.methods.cambiarEstado = (estado) => {
-    //TODO change estado de cita
-    // Cita.find
-}
+//User.index({ 'kbTitle': 'text', 'solutionDescription': 'text', 'platform': 'text', 'mobileOs': 'text', 'sdkVersion': 'text'});
+
 
 //exportando el modelo para que sea visible en otros lugares donde necesitemos instanciarlo
 module.exports = mongoose.model('citas', Cita)
