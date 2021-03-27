@@ -1,7 +1,32 @@
+const { response } = require ('express')
 const nodemailer =  require ('nodemailer')
+const moment = require('moment')
 const Cita = require('../models/CitasModel')
 require('dotenv').config()
 
+
+const crearCitaPublica = async(req, res = response ) => {
+    const {nombre, apellido, email, teléfono, fecha} = req.body
+
+    const date = moment(fecha, 'YYYY/MM/DD').toDate()
+    const dateCorreo = new Date(date).toLocaleDateString('es-us')
+    // TODO validacion de inputs
+    // TODO whatsapp implementation
+
+    try{
+        const {_id} = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
+
+        if(_id){
+            const envioCorreo = await notificarPeticiónCita(email, nombre, apellido, teléfono, dateCorreo, _id)
+            envioCorreo && res.redirect('/success.html')
+        }
+
+    }catch(err){
+        
+    }
+
+
+}
 
 /* notificarPeticiónCita() recibe los siguientes parámetros 
     @nombre:String, 
@@ -11,7 +36,7 @@ require('dotenv').config()
 
     Por medio del paquete nodemailer, enviamos un correo de notificacion al usuario utilizando una cuenta de Gmail definida en nuestra configuracion de ambiente (config) 
 */
-const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo ) =>{
+const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo, _id ) =>{
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -42,7 +67,7 @@ const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo )
                 <br/>
 
                 <p>Por favor, escoja una hora para su cita el día ${dateCorreo} en nuestro website: 
-                    http://localhost:3001/public/schedule
+                    http://localhost:3001/public/schedule/${_id}
                 </p>
                 <br/>
 
@@ -93,52 +118,16 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
         })
 
         await citaNueva.save()
-        .then((data) => {
-            console.log(data)
-            return true
-        })
-        .catch(err => console.log(err))
+
+        if (citaNueva){
+            return citaNueva
+        }
+
     }catch(err){
-        console.error(err)
+        return err
     }
 }
 
-/* obtenerCitasSinRevisar() recibe los siguientes parámetros 
-    @citas:Array<JSON>, 
-
-    Itera por @citas y devuelve un new Array solo con los objetos que tienen estado "SIN_REVISAR"
-
-*/
-// export const obtenerCitasSinRevisar = citas => citas.filter(cita => cita.estado === "SIN_REVISAR") 
-
-/* traducirFechas() recibe los siguientes parámetros 
-    @citas:Array<JSON>, 
-
-    Itera por @citas y cambia las propiedades fechaCreada y fechaDeseada por fechas humanamente legibles
-
-*/
-// export const traducirFechas = citas => citas.forEach(cita => {
-//     //TODO revisar como mutar objectos de javascript, no me gusta mucho esta solucion
-
-//     cita.fechaCreada = moment(cita.fechaCreada).fromNow()
-//     cita.fechaDeseada = moment.utc(cita.fechaDeseada).format('LL')
-
-//     // const fechaCreada = cita.fechaCreada
-//     // const fechaDeseada = cita.fechaDeseada
-
-//     // delete cita.fechaDeseada
-//     // delete cita.fechaCreada
-
-
-
-//     // return {
-//     //     newFechaCreada : moment(fechaCreada).fromNow(),
-//     //     newFechaDeseada: moment.utc(fechaDeseada).format('LL'),
-//     //     ...cita._doc
-//     // }
-// })
-
 module.exports = {
-    notificarPeticiónCita,
-    crearPeticionDeCitaYGuardar
+    crearCitaPublica
 }

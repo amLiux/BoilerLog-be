@@ -16,6 +16,7 @@
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
+    "moment": "^2.29.1",
     "mongoose": "^5.11.10",
     "nodemailer": "^6.4.17",
     "randomstring": "^1.1.5"

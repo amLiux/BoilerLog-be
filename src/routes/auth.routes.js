@@ -1,6 +1,6 @@
 const express = require ('express')
 const { check } = require ('express-validator')
-const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth.controllers')
+const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth.controller')
 const { erroresEnPeticion, validarJWT } = require ('../middlewares/middlewares')
 
 const router = express.Router()

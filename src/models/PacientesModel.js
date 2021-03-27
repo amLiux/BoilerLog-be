@@ -15,7 +15,8 @@ const Pacientes = new Schema({
     cedula:{
         type: String,
         required: [true, 'La cédula es necesaria'],
-        maxlength: 15
+        maxlength: 15,
+        unique:true
     },
     numeroTelefonico:{
         type: String,
@@ -25,10 +26,11 @@ const Pacientes = new Schema({
     email:{
         type: String,
         required: [true, 'El número telefónico es necesario'],
-        maxlength: 15
+        maxlength: 30,
+        unique:true
     }
 })
 
-Pacientes.index({ 'nombre': 'text', 'apellido': 'text', 'cedula': 'text', 'numeroTelefonico': 'text', 'email': 'text'});
+Pacientes.index({ 'nombre': 'text', 'apellido': 'text', 'cedula': 'text', 'numeroTelefonico': 'text', 'email': 'text'})
 
 module.exports = mongoose.model('pacientes', Pacientes)
