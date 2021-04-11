@@ -56,10 +56,31 @@ const actualizarPaciente = async(req, res = response ) => {
     }
 }
 
+const cargarArchivo = async(req, res=response) => {
+    console.log(req.files)
+}
+
+const busquedaPacientes = async(req, res=response) => {
+    const txtSearch = req.params.search;
+    
+    console.log(txtSearch)
+
+    if (txtSearch !== undefined && txtSearch.trim() !== ''){
+        const finds = await Paciente.find( { $text: { $search: "\""+txtSearch+"\""} } );
+
+        res.status(200).json({ok: true, msg: 'Se encontró esta información' + ' \u2193', pacientes: finds});
+    }
+    else{
+        const finds = await Paciente.find({});
+        res.status(200).json({ok:true, msg: 'Necesitas buscar algo válido', pacientes: finds});
+    }
+}
 
 
 module.exports = {
     crearPaciente,
     obtenerPacientes,
-    actualizarPaciente
+    actualizarPaciente,
+    cargarArchivo,
+    busquedaPacientes
 }

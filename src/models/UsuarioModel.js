@@ -26,7 +26,6 @@ const Usuario = new Schema({
     pass:{
         type: String,
         required: [true, 'El password es necesario'],
-        maxlength: 15
     },
     email:{
         type: String,

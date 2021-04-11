@@ -46,11 +46,15 @@ const Cita = new Schema({
         type: Date, 
         default: Date.now() 
     },
+    idPaciente: {
+        type: String, 
+        required: false
+    },
+    nota: {
+        Type: String,
+        required: false
+    }
 })
-
-
-//User.index({ 'kbTitle': 'text', 'solutionDescription': 'text', 'platform': 'text', 'mobileOs': 'text', 'sdkVersion': 'text'});
-
 
 //exportando el modelo para que sea visible en otros lugares donde necesitemos instanciarlo
 module.exports = mongoose.model('citas', Cita)

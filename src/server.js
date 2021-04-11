@@ -35,6 +35,8 @@ app.use(sass({
 }))
 
 //Directorio de archivos css, js
-app.use('/', express.static(path.join(__dirname, './public')))
+app.use('/', express.static(path.join(__dirname, './public'), {
+    extensions: ['html']
+}))
 
 module.exports = app

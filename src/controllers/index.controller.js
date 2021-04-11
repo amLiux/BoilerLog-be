@@ -2,6 +2,8 @@ const { response } = require ('express')
 const nodemailer =  require ('nodemailer')
 const moment = require('moment')
 const Cita = require('../models/CitasModel')
+const Paciente = require('../models/PacientesModel')
+
 require('dotenv').config()
 
 
@@ -9,20 +11,23 @@ const crearCitaPublica = async(req, res = response ) => {
     const {nombre, apellido, email, teléfono, fecha} = req.body
 
     const date = moment(fecha, 'YYYY/MM/DD').toDate()
-    const dateCorreo = new Date(date).toLocaleDateString('es-us')
+
+    const dateCorreo = new Date(fecha).toLocaleDateString('es-us')
     // TODO validacion de inputs
     // TODO whatsapp implementation
+
+    console.log(new Date(fecha))
 
     try{
         const {_id} = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
 
         if(_id){
-            const envioCorreo = await notificarPeticiónCita(email, nombre, apellido, teléfono, dateCorreo, _id)
+            const envioCorreo = await notificarPeticiónCitaPendiente(email, nombre, apellido, teléfono, dateCorreo, _id)
             envioCorreo && res.redirect('/success.html')
         }
 
     }catch(err){
-        
+        console.log(err)
     }
 
 
@@ -36,7 +41,7 @@ const crearCitaPublica = async(req, res = response ) => {
 
     Por medio del paquete nodemailer, enviamos un correo de notificacion al usuario utilizando una cuenta de Gmail definida en nuestra configuracion de ambiente (config) 
 */
-const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo, _id ) =>{
+const notificarPeticiónCitaPendiente = (email, nombre, apellido, teléfono, dateCorreo, _id ) =>{
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -107,15 +112,45 @@ const notificarPeticiónCita = (email, nombre, apellido, teléfono, dateCorreo, 
     crea un objeto Cita y lo guarda en nuestra base de datos
 
 */
-const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fecha) =>{
+const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fecha, idPaciente='') =>{
+
     try{
-        const citaNueva = new Cita({
-            nombre,
-            apellido,
-            email,
-            numeroTelefonico: teléfono,
-            fechaDeseada: fecha
-        })
+
+        const [{_id: idExistente, nombre: nameExistente, apellido: apellidoExistente, email: emailExistente, numeroTelefonico: numeroExistente}] = await Paciente.find({email})
+
+        
+        console.log(idExistente)
+
+
+        const machoteCita = 
+                idPaciente.length > 1 
+                    ? {
+                        nombre,
+                        apellido,
+                        estado: 'AGENDADA',
+                        email,
+                        numeroTelefonico: teléfono,
+                        fechaDeseada: fecha,
+                        idPaciente
+                    }
+                    : idExistente ? {
+                            nombre: nameExistente,
+                            apellido: apellidoExistente,
+                            email: emailExistente,
+                            numeroTelefonico: numeroExistente,
+                            fechaDeseada: fecha,
+                            idPaciente: idExistente
+
+                        }
+                        : {
+                            nombre,
+                            apellido,
+                            email,
+                            numeroTelefonico: teléfono,
+                            fechaDeseada: fecha,
+                        }
+
+        const citaNueva = new Cita(machoteCita)
 
         await citaNueva.save()
 
@@ -129,5 +164,6 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
 }
 
 module.exports = {
-    crearCitaPublica
+    crearCitaPublica,
+    crearPeticionDeCitaYGuardar
 }
