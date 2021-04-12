@@ -4,4 +4,7 @@ const router = Router()
 
 router.post('/home', crearCitaPublica)
 
+router.get('/', (req, res) => res.redirect('/home'))
+
+
 module.exports = router
