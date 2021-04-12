@@ -72,7 +72,7 @@ const notificarPeticiónCitaPendiente = (email, nombre, apellido, teléfono, dat
                 <br/>
 
                 <p>Por favor, escoja una hora para su cita el día ${dateCorreo} en nuestro website: 
-                    http://localhost:3001/public/schedule/${_id}
+                    https://boiler-log.herokuapp.com/public/schedule/${_id}
                 </p>
                 <br/>
 
