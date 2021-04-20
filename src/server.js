@@ -50,9 +50,5 @@ app.use('/', express.static(path.join(__dirname, './public'), {
     extensions: ['html']
 }))
 
-if(process.env.NODE_ENV === 'production'){
-    app.use('/', express.static(express.static('client/boilerlog/build')))
-}
-
 module.exports = app
 
