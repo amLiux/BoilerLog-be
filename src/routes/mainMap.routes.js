@@ -4,6 +4,8 @@ const indexRoutes = require ('./index.routes')
 const authRoutes = require ('./auth.routes')
 const citasRoutes = require ('./citas.routes')
 const pacientesRoutes = require ('./pacientes.routes')
+const filesRoutes = require ('./files.routes')
+
 const router = express.Router()
 
 router.use(express.json())
@@ -13,5 +15,6 @@ router.use(authRoutes)
 router.use(indexRoutes)
 router.use(citasRoutes)
 router.use(pacientesRoutes)
+router.use(filesRoutes)
 
 module.exports = router

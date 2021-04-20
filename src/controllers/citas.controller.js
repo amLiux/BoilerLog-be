@@ -9,13 +9,17 @@ const obtenerCitas = async(req, res = response ) => {
 }
 
 const cancelarCita = async(req, res = response ) => {
+    
     const id = req.params._id
+    const citaToUpdate = await Citas.findOne({'_id': id})
 
     const update = {
-        estado: 'CANCELADA'
+        estado: 'CANCELADA',
+        fechaDeseada: new Date(citaToUpdate.fechaDeseada.setHours(0))
     }
 
     try{
+
         const cita = await Citas.findOneAndUpdate({'_id': id}, update, {
             new: true
         })
@@ -52,7 +56,11 @@ const crearCita = async(req, res = response ) => {
         }
 
     }catch(err){
-        console.log(err)
+        res.status(500).json({
+            ok: false,
+            err,
+            msg: 'Error interno de servidor!'
+        })
     }
 
 }
@@ -61,20 +69,24 @@ const crearCita = async(req, res = response ) => {
 const actualizarCita = async(req, res = response ) => {
     const update = req.body
 
-    try{
-        const cita = await Citas.findOneAndUpdate({'_id': update._id}, update)
 
-        if(cita){
+
+    try{
+        const newCita = await Citas.findOneAndUpdate({'_id': update._id}, update, {new: true}).lean()
+
+        if(newCita){
             res.status(200).json({
                 ok: true,
                 msg: 'El valor se ha actualizado',
-                id: cita._id
+                newCita: {...newCita}
             })
         }
 
     }catch(err){
-        //TODO send error
-        console.log(err)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno de servidor!'
+        })
     }
 }
 
@@ -104,8 +116,6 @@ const getOpcionesCita = async (req, res = response)=>{
 const getOpcionesByPaciente = async (req, res = response)=>{
     const id = req.params._id
     const citas = await Citas.find({'idPaciente': id}).lean()
-    
-    console.log(citas)
 
     res.status(200).json({ok: true, citas: [...citas]})
 }
@@ -132,9 +142,6 @@ const checkHorariosDisponibles = (citas, todos=false) => {
     let horariosTomados = []
     citas.map(cita => horariosTomados.push(cita.fechaDeseada.getHours()))
     const citasAgendadas = horariosTomados.filter(horario => horario !== 0)
-
-    console.log(citasAgendadas)
-
     if(citasAgendadas.length === 0)
         return [...generadorDeRangos(7, 17).sort(() => Math.random() - Math.random()).slice(0, todosHorarios)]  
     else 

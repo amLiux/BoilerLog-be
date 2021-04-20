@@ -1,0 +1,46 @@
+let time = `${@math.random()}`
+return let timeArr = @strings.split(time, "")
+return let numberArr = @map(timeArr, (v) => @strToInt(v) ? @strToInt(v) : 0 )
+return let checkingNumbersAreLessThan9 = @map(numberArr, 
+    (v)=> 
+        (v) == 9 ? v-1 : v
+)
+return let uniqueValArray = @distinct(checkingNumbersAreLessThan9)
+return let lenght = @len(uniqueValArray)
+return let shortArray = lenght > 3 ? @splice(uniqueValArray, 0, lenght -3, []) : uniqueValArray
+return let sortedArr = @sort(shortArray)
+return sortedArr 
+
+
+^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$
+
+let availableSubnets = @namedContainers.namedStringList("cidrIpList")
+return @len(@filter(@map(availableSubnets, (v) => @strings.refind("10.94.134.3/1", v) != null && 1), (v) => v != false)) > 0
+
+let array = @namedContainers.namedStringList(CrossSessionArrayId) 
+return array[0] == XSMId ? array : array[0] = XSMId
+
+let jsonTest = {
+    "cars":[
+        {"brand": "volvo", "price": 200},
+        {"brand": "subaru", "price": 300},
+        {"brand": "mercedus", "price": 400},
+        {"brand": "subaru", "price": 500}
+    ]
+}
+return 
+let newJson = @jsonPath("$.cars[?(@.price>300)]", jsonTest)
+return newJson
+
+let json = @strings.fromjson(@webrequests.testIDP().body) 
+return let parsedJson = @jsonPath("$[?(@.bindId==false)]", json) return parsedJson
+
+letr time = `${@math.random()}`, 
+    timeArr = @strings.split(time, ""), 
+    numberArr = @map(timeArr, ( v ) =>  v == "." ? 0 : @strToInt(v) ),
+    checkingNumbersAreLessThan9 = @map(numberArr, (v)=> (v) == 9 ? v-1 : v),
+    uniqueValArray = @distinct(checkingNumbersAreLessThan9),
+    lenght = @len(uniqueValArray),
+    shortArray = lenght > 3 ? @splice(uniqueValArray, 0, lenght -3, []) : uniqueValArray,
+    sortedArr = @sort(shortArray)
+    return sortedArr

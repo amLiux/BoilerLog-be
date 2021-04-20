@@ -25,8 +25,10 @@ const crearPaciente = async(req, res = response ) => {
 
 
     }catch(err){
-        //todo handle other type of error not just duplicated
-        console.log(err)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno de servidor!'
+        })
     }
 
 }
@@ -51,8 +53,10 @@ const actualizarPaciente = async(req, res = response ) => {
         }
 
     }catch(err){
-        //TODO send error
-        console.log(err)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno de servidor!'
+        })
     }
 }
 
@@ -63,8 +67,6 @@ const cargarArchivo = async(req, res=response) => {
 const busquedaPacientes = async(req, res=response) => {
     const txtSearch = req.params.search;
     
-    console.log(txtSearch)
-
     if (txtSearch !== undefined && txtSearch.trim() !== ''){
         const finds = await Paciente.find( { $text: { $search: "\""+txtSearch+"\""} } );
 

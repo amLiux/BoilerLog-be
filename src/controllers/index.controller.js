@@ -16,8 +16,6 @@ const crearCitaPublica = async(req, res = response ) => {
     // TODO validacion de inputs
     // TODO whatsapp implementation
 
-    console.log(new Date(fecha))
-
     try{
         const {_id} = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
 
@@ -27,7 +25,10 @@ const crearCitaPublica = async(req, res = response ) => {
         }
 
     }catch(err){
-        console.log(err)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno de servidor!'
+        })
     }
 
 
@@ -118,10 +119,6 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
 
         const [{_id: idExistente, nombre: nameExistente, apellido: apellidoExistente, email: emailExistente, numeroTelefonico: numeroExistente}] = await Paciente.find({email})
 
-        
-        console.log(idExistente)
-
-
         const machoteCita = 
                 idPaciente.length > 1 
                     ? {
@@ -137,6 +134,7 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
                             nombre: nameExistente,
                             apellido: apellidoExistente,
                             email: emailExistente,
+                            estado: 'PENDIENTE_CONFIRMACION',
                             numeroTelefonico: numeroExistente,
                             fechaDeseada: fecha,
                             idPaciente: idExistente

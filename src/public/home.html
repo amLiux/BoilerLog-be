@@ -13,6 +13,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
     <title>Drs.Maroto | Home</title>
+
 </head>
 
 <body>
@@ -207,7 +208,7 @@
                                 <label for="teléfono" class="form__label">Número telefónico</label>
                             </div>
                             <div class="form__group">
-                                <input name="fecha" placeholder="Fecha" class="form__input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                                <input id="fecha" name="fecha" placeholder="Fecha" class="form__input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                             </div>
                             <button type="submit" class="btn btn-blue">Enviar</button>
                         </form>
@@ -243,5 +244,9 @@
     </footer>
 
 </body>
-
+    <script>
+        const dateInput = document.getElementById("fecha")
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+    </script>
 </html>

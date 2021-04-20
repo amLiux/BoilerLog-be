@@ -35,8 +35,11 @@ const crearUsuario = async(req, res = response ) => {
                 ok: false,
                 msg: 'Este usuario ya existe en nuestra base de datos!'
             })
-        //todo handle other type of error not just duplicated
-        console.log(err)
+
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno de servidor!'
+        })
     }
 
 }
@@ -73,7 +76,6 @@ const loginUsuario = async (req, res = response) => {
         })
 
     }catch(err){
-        console.log(err)
         return res.status(500).json({
             ok: false,
             msg: 'Error interno de servidor!'

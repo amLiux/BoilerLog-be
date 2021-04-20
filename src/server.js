@@ -4,7 +4,11 @@ const path = require('path')
 const methodOverride = require ('method-override')
 const sass = require ('node-sass-middleware')
 const cors = require ('cors')
+const fileUpload = require('express-fileupload')
+
 require('dotenv').config()
+require('./cronjobs/citas.cron')
+
 
 //Inicializaciones
 const app = express()
@@ -21,6 +25,13 @@ app.use(methodOverride())
 
 //revisa y printea en consola los diferentes peticiones que ejecuta el server
 app.use(morgan('dev'))
+
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    abortOnLimit: true,
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}));
 
 /*Fin Middlewares*/ 
 
@@ -39,4 +50,9 @@ app.use('/', express.static(path.join(__dirname, './public'), {
     extensions: ['html']
 }))
 
+if(process.env.NODE_ENV === 'production'){
+    app.use('/', express.static(express.static('client/boilerlog/build')))
+}
+
 module.exports = app
+
