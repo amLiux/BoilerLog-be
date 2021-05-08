@@ -1,6 +1,6 @@
 const {Router} = require ('express')
 const {validarJWT} =  require ('../middlewares/middlewares')
-const {obtenerArchivos, subirArchivo, borrarArchivo} = require ('../controllers/files.controller')
+const {obtenerArchivos, subirArchivo, borrarArchivo, descargarArchivo} = require ('../controllers/files.controller')
 
 const router = Router()
 
@@ -11,7 +11,12 @@ router.get('/files/:_id', validarJWT, obtenerArchivos)
 router.post('/files/:_id', validarJWT, subirArchivo)
 
 //Endpoint de citas, metodo HTTP DELETE, primero válida el JWT con el middleware validar JWT
-router.delete('/files/:_id', validarJWT, borrarArchivo)
+router.get('/files/:_id&:fileName', validarJWT, descargarArchivo)
+
+//Endpoint de citas, metodo HTTP DELETE, primero válida el JWT con el middleware validar JWT
+router.delete('/files/:_id&:fileName', validarJWT, borrarArchivo)
+
+
 
 
 module.exports = router

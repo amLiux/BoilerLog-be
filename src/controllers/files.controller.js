@@ -49,13 +49,41 @@ const subirArchivo = async (req, res = response) => {
 
 }
 
-const borrarArchivo = () => {
+const borrarArchivo = async (req, res = response) => {
+    const {_id, fileName} = req.params
+
+    const pathToDelete = path.join(__dirname, `../uploads/${_id}/`, fileName)
+
+    if(fs.existsSync(pathToDelete)){
+        fs.unlinkSync(pathToDelete, {force: true})
+        await Archivo.findOneAndDelete({idPaciente: _id, nombreArchivo: fileName})
+        
+        return res.status(201).json({
+            ok: true,
+            msg: `El archivo ${fileName} se elimino`
+        })
+    }
+   
+    return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
+
+}
+
+const descargarArchivo = async (req, res = response) => {
+
+    const {_id, fileName} = req.params
+
+    const pathToDownload = path.join(__dirname, `../uploads/${_id}/`, fileName)
+
+    if (fs.existsSync(pathToDownload)) return res.download(pathToDownload)
     
+    return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
+
 }
 
 
 module.exports = {
     obtenerArchivos,
     subirArchivo,
-    borrarArchivo
+    borrarArchivo,
+    descargarArchivo
 }

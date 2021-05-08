@@ -28,7 +28,8 @@ const Pacientes = new Schema({
         required: [true, 'El número telefónico es necesario'],
         maxlength: 30,
         unique:true
-    }
+    },
+    
 })
 
 Pacientes.index({ 'nombre': 'text', 'apellido': 'text', 'cedula': 'text', 'numeroTelefonico': 'text', 'email': 'text'})
