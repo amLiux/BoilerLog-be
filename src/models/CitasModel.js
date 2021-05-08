@@ -11,7 +11,7 @@ const estadosValidos = require ('../constants/constants')
 const Cita = new Schema({
     estado:{
         type: String,
-        default: 'PENDIENTE_CONFIRMACION',
+        default: 'PENDIENTE',
         enum: estadosValidos
     },
     email:{

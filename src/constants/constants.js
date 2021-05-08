@@ -1,5 +1,5 @@
 const estadosValidos = {
-    values: ['PENDIENTE_CONFIRMACION', 'AGENDADA', 'CANCELADA', 'COMPLETADA'],
+    values: ['PENDIENTE', 'AGENDADA', 'CANCELADA', 'COMPLETADA'],
     message: '{VALUE} no es un rol valido'
 }
 

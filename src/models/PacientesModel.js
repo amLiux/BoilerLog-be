@@ -26,10 +26,13 @@ const Pacientes = new Schema({
     email:{
         type: String,
         required: [true, 'El número telefónico es necesario'],
-        maxlength: 30,
+        maxlength: 40,
         unique:true
     },
-    
+    fechaCreado: {
+        type: Date, 
+        default: Date.now() 
+    },
 })
 
 Pacientes.index({ 'nombre': 'text', 'apellido': 'text', 'cedula': 'text', 'numeroTelefonico': 'text', 'email': 'text'})

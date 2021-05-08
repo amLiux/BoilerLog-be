@@ -1,9 +1,11 @@
 const { response } = require ('express');
 const Citas = require('../models/CitasModel')
+const Pacientes = require('../models/PacientesModel')
 
 
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
+const estados = ['Completada', 'Agendada', 'Cancelada', 'Pendiente']
 
 const dateRange = (startDate, endDate)  => {
     const start = startDate.split('-');
@@ -25,9 +27,7 @@ const dateRange = (startDate, endDate)  => {
 }
 
 
-const generarReportes = async (req, res = response) => {
-    const {desde, hasta} = req.body
-
+const generateReportCitasTotales = async (desde, hasta, res) => {
     const monthsToQuery = dateRange(desde, hasta)
     const parsedMonths =  monthsToQuery.map( date => new Date(date) )
     const lastMonth = parsedMonths[parsedMonths.length - 1]
@@ -54,11 +54,98 @@ const generarReportes = async (req, res = response) => {
             : responseArray.push({mes: meses[nextDay.getMonth()], citas: 0})
 
     })
-   
- 
-    res.status(201).json({
-        data: responseArray
+
+    return res.status(201).json({
+        data : responseArray
     })
+}
+
+const generateReportPacientesNuevos = async (desde, hasta, res) => {
+    const monthsToQuery = dateRange(desde, hasta)
+    const parsedMonths =  monthsToQuery.map( date => new Date(date) )
+    const lastMonth = parsedMonths[parsedMonths.length - 1]
+
+    let responseArray = []
+
+
+    const pacientesCounts = 
+        await Pacientes.aggregate([
+            {$match : {fechaCreado: { $gte: parsedMonths[0], $lt: new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 2, 0)}}},
+            {$group: {_id: {month: { "$month": "$fechaCreado" } }, count: { $sum: 1 }}}
+        ])
+          
+    parsedMonths.forEach(dayBefore => {
+        const day = new Date(dayBefore)
+
+        const nextDay = new Date(day)
+        nextDay.setDate(day.getDate() + 1)
+        const found = pacientesCounts.find(({_id: {month}}) => month === nextDay.getMonth() + 1 )
+
+        found 
+            ? responseArray.push({mes: meses[nextDay.getMonth()], pacientes: found.count})
+            : responseArray.push({mes: meses[nextDay.getMonth()], pacientes: 0})
+
+    })
+
+    return res.status(201).json({
+        data : responseArray
+    })
+}
+
+const generateDetalleCitasMensual = async (mes, res) => {
+
+    const firstDayOfMonthToQuery =  new Date(mes)
+    const lastDayOfMonthToQuery = new Date(firstDayOfMonthToQuery.getFullYear(), firstDayOfMonthToQuery.getMonth() + 1, 0)
+
+    console.log(firstDayOfMonthToQuery)
+    console.log(lastDayOfMonthToQuery)
+
+    let responseArray = []
+
+
+    const citasCounts = 
+        await Citas.aggregate([
+            {$match : {fechaDeseada: { $gte: firstDayOfMonthToQuery, $lt: lastDayOfMonthToQuery}}},
+            {
+                $group: {
+                    _id: "$estado",
+                    count: { $sum: 1 }
+                }
+            }
+        ])
+
+
+    estados.forEach(estado => {
+        const found = citasCounts.find(({_id}) => _id === estado.toUpperCase())
+
+        found 
+            ? responseArray.push({estado: estado, conteo: found.count})
+            : responseArray.push({estado: estado, conteo: 0})
+
+    })
+    
+
+    console.log(responseArray)
+    
+    return res.status(201).json({
+        data : responseArray
+    })
+}
+
+const generarReportes =  async (req, res = response) => {
+
+    const {desde, hasta, mes} = req.body
+
+    const reporte = req.params.reporte
+
+    reporte === 'Cantidad de citas'
+        ? await generateReportCitasTotales(desde, hasta, res)
+        : reporte === 'Pacientes nuevos' 
+            ? await generateReportPacientesNuevos(desde, hasta, res)
+            : reporte === 'Detalle de citas mensual'
+                ? await generateDetalleCitasMensual(mes, res)
+                : res.status(404).json({ok: false, msg: 'El reporte no se encontro'})
+   
 }
 
 
