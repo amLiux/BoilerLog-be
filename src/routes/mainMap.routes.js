@@ -6,6 +6,7 @@ const citasRoutes = require ('./citas.routes')
 const pacientesRoutes = require ('./pacientes.routes')
 const filesRoutes = require ('./files.routes')
 const reportesRoutes = require ('./reportes.routes')
+const usersRoutes = require ('./users.routes')
 
 const router = express.Router()
 
@@ -18,6 +19,7 @@ router.use(citasRoutes)
 router.use(pacientesRoutes)
 router.use(filesRoutes)
 router.use(reportesRoutes)
+router.use(usersRoutes)
 
 
 module.exports = router

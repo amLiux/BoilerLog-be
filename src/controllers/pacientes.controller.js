@@ -60,9 +60,6 @@ const actualizarPaciente = async(req, res = response ) => {
     }
 }
 
-const cargarArchivo = async(req, res=response) => {
-    console.log(req.files)
-}
 
 const busquedaPacientes = async(req, res=response) => {
     const txtSearch = req.params.search;
@@ -83,6 +80,5 @@ module.exports = {
     crearPaciente,
     obtenerPacientes,
     actualizarPaciente,
-    cargarArchivo,
     busquedaPacientes
 }

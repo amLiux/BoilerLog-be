@@ -97,9 +97,6 @@ const generateDetalleCitasMensual = async (mes, res) => {
     const firstDayOfMonthToQuery =  new Date(mes)
     const lastDayOfMonthToQuery = new Date(firstDayOfMonthToQuery.getFullYear(), firstDayOfMonthToQuery.getMonth() + 1, 0)
 
-    console.log(firstDayOfMonthToQuery)
-    console.log(lastDayOfMonthToQuery)
-
     let responseArray = []
 
 
@@ -123,9 +120,6 @@ const generateDetalleCitasMensual = async (mes, res) => {
             : responseArray.push({estado: estado, conteo: 0})
 
     })
-    
-
-    console.log(responseArray)
     
     return res.status(201).json({
         data : responseArray

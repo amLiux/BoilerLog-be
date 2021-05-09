@@ -19,13 +19,9 @@ const crearUsuario = async(req, res = response ) => {
 
         await nuevoUsuario.save()
 
-        const token = await generarJWT(nuevoUsuario.id, nuevoUsuario.user, nuevoUsuario.rol) 
-
         res.status(201).json({
             ok: true,
-            uid: nuevoUsuario.id,
-            name: nuevoUsuario.user,
-            token
+            newUser: nuevoUsuario
         })
 
 
