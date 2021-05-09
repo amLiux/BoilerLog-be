@@ -16,11 +16,13 @@ const updateUserDetails = async (req, res=response) => {
 
     const userToUpdate = await Usuarios.find({_id: id}).lean()
 
-    userToUpdate.length > 0 
-        ? 
-            await Usuarios.findByIdAndUpdate(id, {estado: !userToUpdate[0].estado})
-        :
-            res.status(500).json({ok: false, msg: 'No se encontro el usuario, intenta mas tarde!'})
+    if(!userToUpdate.length > 0)
+        return res.status(500).json({ok: false, msg: 'No se encontro el usuario, intenta mas tarde!'})
+
+    const newUser = await Usuarios.findByIdAndUpdate(id, {estado: !userToUpdate[0].estado}, {new: true})
+
+    res.status(200).json({ok: true, msg: 'El usuario se actualizo!', newUser})
+        
 }
 
 module.exports = {

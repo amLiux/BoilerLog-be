@@ -4,7 +4,9 @@ const generarJWT = require('../helpers/jwt')
 
 const crearUsuario = async(req, res = response ) => {
     
-    const {user, name, lastName, email, pwd} = req.body
+    const {user, name, lastName, email, pwd, admin} = req.body
+
+    const rol = admin ? 'ADMIN_ROLE' : 'USER_ROLE'
 
     try{
 
@@ -12,7 +14,8 @@ const crearUsuario = async(req, res = response ) => {
             user,
             nombre: name,
             email,
-            apellido: lastName
+            apellido: lastName,
+            rol
         })
 
         nuevoUsuario.pass = nuevoUsuario.encriptarPassword(pwd)
@@ -21,6 +24,7 @@ const crearUsuario = async(req, res = response ) => {
 
         res.status(201).json({
             ok: true,
+            msg: 'El usuario fue creado correctamente',
             newUser: nuevoUsuario
         })
 
@@ -47,6 +51,14 @@ const loginUsuario = async (req, res = response) => {
     try{
         
         const usuario = await User.findOne({user})
+
+
+        if(!usuario.estado){
+            return res.status(403).json({
+                ok: false,
+                msg: `Usuario desactivado, consulte con su administrador!`
+            })
+        }
 
         if(!usuario)
             return res.status(404).json({
