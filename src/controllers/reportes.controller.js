@@ -73,6 +73,8 @@ const generateReportPacientesNuevos = async (desde, hasta, res) => {
             {$match : {fechaCreado: { $gte: parsedMonths[0], $lt: new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 2, 0)}}},
             {$group: {_id: {month: { "$month": "$fechaCreado" } }, count: { $sum: 1 }}}
         ])
+
+    console.log(pacientesCounts)
           
     parsedMonths.forEach(dayBefore => {
         const day = new Date(dayBefore)

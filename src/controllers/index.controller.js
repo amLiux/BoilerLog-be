@@ -129,24 +129,25 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
                         fechaDeseada: fecha,
                         idPaciente
                     }
-                    : Object.keys(existingUser) > 0 ? {
-                            nombre: existingUser.nameExistente,
-                            apellido: existingUser.apellidoExistente,
-                            email: existingUser.emailExistente,
-                            estado: 'PENDIENTE_CONFIRMACION',
-                            numeroTelefonico: existingUser.numeroExistente,
-                            fechaDeseada: existingUser.fecha,
-                            idPaciente: existingUser.idExistente
+                    : existingUser.length > 0 && Object.keys(existingUser[0]).length > 0 ? {
+                            nombre: existingUser[0].nombre,
+                            apellido: existingUser[0].apellido,
+                            email: existingUser[0].email,
+                            estado: 'PENDIENTE',
+                            numeroTelefonico: existingUser[0].numeroTelefonico,
+                            fechaDeseada: fecha,
+                            idPaciente: existingUser[0]._id
 
                         }
                         : {
                             nombre,
                             apellido,
                             email,
-                            numeroTelefonico: teléfono,
+                            numeroTelefonico: '12345678',
                             fechaDeseada: fecha,
                         }
 
+        console.log(machoteCita)
         const citaNueva = new Cita(machoteCita)
 
         await citaNueva.save()
@@ -156,7 +157,7 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
         }
 
     }catch(err){
-        return err
+        console.log(err)
     }
 }
 

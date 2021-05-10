@@ -1,5 +1,6 @@
 const { response } = require ('express')
 const Paciente = require('../models/PacientesModel')
+const Citas = require('../models/CitasModel')
 
 const crearPaciente = async(req, res = response ) => {
     
@@ -17,6 +18,9 @@ const crearPaciente = async(req, res = response ) => {
 
         const createdUser = await nuevoPaciente.save()
 
+
+        await Citas.updateMany({email}, {"idPaciente": createdUser.idPaciente})
+        
         res.status(201).json({
             ok: true,
             msg: 'El paciente ha sido creado correctamente!',
