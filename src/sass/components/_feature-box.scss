@@ -3,6 +3,10 @@
     border-radius: 3px;
     box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
     font-size: 1.5rem;
+    min-height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     padding: 2.5rem;
     text-align: center;
     transition: all .4s ease-in-out;

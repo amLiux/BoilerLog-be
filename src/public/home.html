@@ -29,31 +29,36 @@
                 clinicadrsmaroto@hotmail.com
             </li>
             <li>
-                <i class="fas fa-toolbox"></i>
-                Nuestros servicios
+                <a href="#section-about">
+                    <i class="fas fa-bookmark"></i>
+                    Nuestra historia
+                </a>
             </li>
             <li>
-                <i class="fas fa-inbox"></i>
-                Contáctenos
+                <a href="#form">
+                    <i class="fas fa-inbox"></i>
+                    Contáctenos
+                </a>
+
             </li>
             <li>
                 <ul class="header__navigation-bar__social-bar">
-                    <a href="https://facebook.com/">
+                    <!-- <a href="https://facebook.com/">
                         <i class="header__navigation-bar__social-bar-icon fab fa-facebook-f"></i>
                     </a>
 
                     <a href="https://instagram.com">
                         <i class="header__navigation-bar__social-bar-icon fab fa-instagram"></i>
-                    </a>
+                    </a> -->
 
                     <a
                         href="https://www.google.com/maps/place/Clinica+Dental+Drs.+Maroto/@10.0703336,-84.3118074,15.25z/data=!4m5!3m4!1s0x0:0x5e270652276fac4d!8m2!3d10.072021!4d-84.3110154">
                         <i class="header__navigation-bar__social-bar-icon fas fa-map-marked-alt"></i>
                     </a>
-
+<!-- 
                     <a href="">
                         <i class="header__navigation-bar__social-bar-icon fab fa-whatsapp"></i>
-                    </a>
+                    </a> -->
                 </ul>
             </li>
         </ul>
@@ -72,7 +77,7 @@
     <!-- Seccion prinicipal inicia -->
     <main>
 
-        <section class="section-about">
+        <section id="section-about" class="section-about">
             <div style="margin-top: -6rem;" class="u-center-text u-margin-bottom-big">
                 <h2 class="heading-secondary u-margin-top-medium">
                     Comprometidos con tú salud bucal
@@ -105,18 +110,18 @@
                         <img
                             sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
                             alt="Implant" 
-                            src="/img/pic1.jpg" 
+                            src="/img/pic1.jpeg" 
                             class="composition__photo composition__photo--p1">
 
                         <img
                             sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-                            src="/img/pic2.jpg" 
+                            src="/img/pic2.jpeg" 
                             alt="Dental Procedure"
                             class="composition__photo composition__photo--p2">
 
                         <img 
                             sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-                            src="/img/pic3.jpg" 
+                            src="/img/pic3.png" 
                             alt="" 
                             class="composition__photo composition__photo--p3">
                     </div>
@@ -128,7 +133,6 @@
         <section class="section-features">
             <div class="row">
                 <div class="col-1-of-4 feature-box">
-                    <i class="feature-box__icon fas fa-grimace"></i>
                     <h3 class="hedaing-tertiary u-margin-bottom-small">
                         Dr. Oscar Maroto Barquero
                     </h3>
@@ -140,7 +144,6 @@
                     </p>
                 </div>
                 <div class="col-1-of-4 feature-box">
-                    <i class="feature-box__icon fas fa-mobile-alt"></i>
                     <h3 class="hedaing-tertiary u-margin-bottom-small">
                         Dra. Yalile Maroto Villalobos
                     </h3>
@@ -151,7 +154,6 @@
                     </p>
                 </div>
                 <div class="col-1-of-4 feature-box">
-                    <i class="feature-box__icon fas fa-tooth"></i>
                     <h3 class="hedaing-tertiary u-margin-bottom-small">
                         Dr. William Chow Marin
                     </h3>
@@ -162,9 +164,8 @@
                     </p>
                 </div>
                 <div class="col-1-of-4 feature-box">
-                    <i class="feature-box__icon fas fa-teeth-open"></i>
                     <h3 class="hedaing-tertiary u-margin-bottom-small">
-                        Dr. José Manuel Prada.
+                        Dr. José Manuel Prada
                     </h3>
                     <p class="feature-box__text">
                         Graduado en 1986 en la
@@ -180,7 +181,7 @@
                 <div class="agenda">
                     <div class="agenda__form">
                         <!-- TODO important bug found, validate dots within name and last name inputs -->
-                        <form id="form" method="POST" action="/home" class="form" autocomplete="off">
+                        <form lang="es" id="form" method="POST" action="/home" class="form" autocomplete="off">
                             <div style="margin-top: -6rem;" class="u-margin-bottom-small">
                                 <h2 class="heading-secondary u-margin-top-medium">
                                     Agendá ya
@@ -188,12 +189,12 @@
                             </div>
                             <div class="u-display-flex">
                                 <div class="form__group">
-                                    <input name="nombre" type="text" class="form__input" required placeholder="Nombre">
+                                    <input name="nombre"  pattern="[a-zA-Z]+" minlength="4" maxlength="10" type="text" class="form__input" required placeholder="Nombre">
                                     <label class="form__label" for="nombre">Nombre</label>
                                 </div>
 
                                 <div class="form__group">
-                                    <input name="apellido" type="text" class="form__input" required
+                                    <input name="apellido" pattern="[a-zA-Z]+" type="text" class="form__input" required
                                         placeholder="Apellido">
                                     <label class="form__label" for="apellido">Apellido</label>
                                 </div>
@@ -204,7 +205,7 @@
                                 <label for="email" class="form__label">Correo electrónico</label>
                             </div>
                             <div class="form__group">
-                                <input name="teléfono" type="tel" class="form__input" required placeholder="8888-8888">
+                                <input name="teléfono" pattern="\d{8}" type="tel" class="form__input" required placeholder="88888888">
                                 <label for="teléfono" class="form__label">Número telefónico</label>
                             </div>
                             <div class="form__group">
@@ -225,7 +226,7 @@
             <img src="" alt="">
         </div> -->
         <div class="row">
-            <div class="col-1-of-2">
+            <!-- <div class="col-1-of-2">
                 <div class="footer__navigation">
                     <ul class="footer__list">
                         <li class="footer__item"><a href="#" class="footer__link">Nosotros</a></li>
@@ -234,11 +235,17 @@
                         <li class="footer__item"><a href="#" class="footer__link">Servicios</a></li>
                     </ul>
                 </div>
-            </div>
-            <div class="col-1-o-2">
+            </div> -->
+            <div>
                 <p class="footer__copyright">
-                    Construido y soportado por <a href="">Jardín Binario</a> &copy;
+                    Construido y soportado por Jardín Binario&copy;
                 </p>
+                <p class="footer__copyright--small">
+                   jardinbinario@protonmail.com
+                </p>
+                <p class="footer__copyright--small">
+                    Todos los derechos reservados 2021 &reg;
+                 </p>
             </div>
         </div>
     </footer>
@@ -248,5 +255,6 @@
         const dateInput = document.getElementById("fecha")
         const today = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', today);
+
     </script>
 </html>

@@ -13,8 +13,7 @@ const crearCitaPublica = async(req, res = response ) => {
     const date = moment(fecha, 'YYYY/MM/DD').toDate()
 
     const dateCorreo = new Date(fecha).toLocaleDateString('es-us')
-    // TODO validacion de inputs
-    // TODO whatsapp implementation
+
 
     try{
         const {_id} = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
@@ -117,7 +116,7 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
 
     try{
 
-        const [{_id: idExistente, nombre: nameExistente, apellido: apellidoExistente, email: emailExistente, numeroTelefonico: numeroExistente}] = await Paciente.find({email})
+        const existingUser = await Paciente.find({email}) 
 
         const machoteCita = 
                 idPaciente.length > 1 
@@ -130,14 +129,14 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
                         fechaDeseada: fecha,
                         idPaciente
                     }
-                    : idExistente ? {
-                            nombre: nameExistente,
-                            apellido: apellidoExistente,
-                            email: emailExistente,
+                    : Object.keys(existingUser) > 0 ? {
+                            nombre: existingUser.nameExistente,
+                            apellido: existingUser.apellidoExistente,
+                            email: existingUser.emailExistente,
                             estado: 'PENDIENTE_CONFIRMACION',
-                            numeroTelefonico: numeroExistente,
-                            fechaDeseada: fecha,
-                            idPaciente: idExistente
+                            numeroTelefonico: existingUser.numeroExistente,
+                            fechaDeseada: existingUser.fecha,
+                            idPaciente: existingUser.idExistente
 
                         }
                         : {
