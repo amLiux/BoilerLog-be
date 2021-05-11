@@ -28,8 +28,14 @@ const getFile = (id, fileName) =>
         Key: `${id}/${fileName}`
     }).createReadStream()
 
+const deleteFile = (id, fileName) => 
+    s3service.deleteObject({
+        Bucket: process.env.AWS_BUCKET,
+        Key: `${id}/${fileName}`
+    }).promise()
 
 module.exports = {
     uploadFile,
-    getFile
+    getFile,
+    deleteFile
 }

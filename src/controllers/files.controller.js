@@ -1,7 +1,5 @@
 const { response } = require ('express')
-const path = require('path')
-const fs = require('fs')
-const {uploadFile, getFile} = require('../helpers/s3')
+const {uploadFile, getFile, deleteFile} = require('../helpers/s3')
 
 const Archivo = require('../models/ArchivosModel')
 
@@ -23,8 +21,6 @@ const subirArchivo = async (req, res = response) => {
 
     const {file} = req.files
 
-    const uploadPathWoFile = path.join( __dirname, `../uploads/${id}/`)
-    const uploadPathWiFile = path.join( __dirname, `../uploads/${id}/`, file.name)
 
     const archivo = new Archivo({
         idPaciente: id,
@@ -34,43 +30,37 @@ const subirArchivo = async (req, res = response) => {
 
     try{
         await archivo.save({new:true})
-    }catch(err){
-        return res.status(500).json({ok:false, msg: err})
-    }
+        await uploadFile(file.tempFilePath, file.name, id, file.mimeType)
 
-
-    if (!fs.existsSync(uploadPathWoFile)) {
-        fs.mkdirSync(uploadPathWoFile)
-    }
-
-    file.mv(uploadPathWiFile, err => {
-        if(err) return res.status(500).json({ok: false, msg: err})
-        uploadFile(uploadPathWiFile, file.name, id, file.mimeType)
         res.status(201).json({
             ok:true, 
             msg: 'El archivo se subió correctamente',
             archivo
         })
-    })
+    }catch(err){
+        return res.status(500).json({ok:false, msg: err})
+    }
 
 }
 
 const borrarArchivo = async (req, res = response) => {
     const {_id, fileName} = req.params
 
-    const pathToDelete = path.join(__dirname, `../uploads/${_id}/`, fileName)
+    try {
+        const archivo = await Archivo.findOneAndDelete({idPaciente: _id, nombreArchivo: fileName})
+        const result = await deleteFile(_id, fileName)
 
-    if(fs.existsSync(pathToDelete)){
-        fs.unlinkSync(pathToDelete, {force: true})
-        await Archivo.findOneAndDelete({idPaciente: _id, nombreArchivo: fileName})
-        
-        return res.status(201).json({
-            ok: true,
-            msg: `El archivo ${fileName} se elimino`
+        console.log(result)
+        res.status(201).json({
+            ok:true, 
+            msg: 'El archivo se eliminó correctamente',
+            archivo
         })
+    } catch (error) {
+        return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
+
     }
-   
-    return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
+
 
 }
 

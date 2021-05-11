@@ -33,7 +33,7 @@ export const PacientesScreen = () => {
         <>
             {toastAbierto && !modalAbierto && <Toast context="screen" success={checkMsg(mensajeToast.error)} error={mensajeToast.error} />}
             <div style={{width: '100%', display: 'flex'}}>
-                <div className="secondary-container">
+                <div style={{justifyContent:'space-around'}} className="secondary-container">
                     <div className="main-container__search-group">
                         <form action="">
                             <InputGroup name="busqueda" search={true}/>
