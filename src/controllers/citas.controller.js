@@ -128,8 +128,9 @@ const getOpcionesCitaByDate = async (req, res = response)=>{
     diaSiguiente.setDate(queryDate.getDate()+1)
     const citasMismoDia = await Citas.find({fechaDeseada: { $gte: queryDate, $lt: diaSiguiente }})
 
+    console.log(citasMismoDia)
     const horariosDisponibles = checkHorariosDisponibles(citasMismoDia, true)
-
+    console.log(horariosDisponibles)
     res.status(200).json({
         ok:true, 
         horariosDisponibles,

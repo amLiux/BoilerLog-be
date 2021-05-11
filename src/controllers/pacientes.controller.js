@@ -18,8 +18,14 @@ const crearPaciente = async(req, res = response ) => {
 
         const createdUser = await nuevoPaciente.save()
 
+        await Citas.updateMany({email}, {
+            "idPaciente": createdUser.idPaciente,
+            "email": email,
+            "numeroTelefonico": numeroTelefonico,
+            "nombre": nombre,
+            "apellido": apellido
 
-        await Citas.updateMany({email}, {"idPaciente": createdUser.idPaciente})
+        })
         
         res.status(201).json({
             ok: true,

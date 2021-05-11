@@ -143,11 +143,10 @@ const crearPeticionDeCitaYGuardar = async(nombre, apellido, email, teléfono, fe
                             nombre,
                             apellido,
                             email,
-                            numeroTelefonico: '12345678',
+                            numeroTelefonico: teléfono,
                             fechaDeseada: fecha,
                         }
 
-        console.log(machoteCita)
         const citaNueva = new Cita(machoteCita)
 
         await citaNueva.save()

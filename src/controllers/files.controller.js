@@ -72,6 +72,8 @@ const descargarArchivo = async (req, res = response) => {
 
     const {_id, fileName} = req.params
 
+    console.log(_id)
+
     const pathToDownload = path.join(__dirname, `../uploads/${_id}/`, fileName)
 
     if (fs.existsSync(pathToDownload)) return res.download(pathToDownload)
