@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index",
-    "heroku-postbuild" : "NPM_CONFIG_PRODUCTION=false npm rebuild nose-sass --prefix src/client && npm install --prefix src/client && npm run build --prefix src/client"
+    "heroku-postbuild" : "NPM_CONFIG_PRODUCTION=false npm rebuild node-sass --prefix src/client && npm install --unsafe-perm -f node-sass --prefix src/client && npm run build --prefix src/client"
   },
   "author": "",
   "license": "ISC",
