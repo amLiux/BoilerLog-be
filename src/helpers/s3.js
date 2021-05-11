@@ -2,8 +2,6 @@ const S3 = require ('aws-sdk/clients/s3')
 require('dotenv').config()
 const fs = require('fs')
 
-
-
 const s3service = new S3({
     region: process.env.AWS_REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY,
