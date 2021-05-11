@@ -50,7 +50,7 @@ app.use('/', express.static(path.join(__dirname, './public'), {
     extensions: ['html']
 }))
 
-if(true){
+if(process.env.NODE_ENV === production){
     app.use(express.static(path.join(__dirname, './client/build')))
     app.get('/dentaltask', (req, res) => res.sendFile(path.join(__dirname, './client', 'build', 'index.html')))
 }
