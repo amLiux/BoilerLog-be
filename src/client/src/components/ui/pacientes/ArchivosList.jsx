@@ -46,8 +46,8 @@ export const ArchivosList = ({paciente :{_id}}) => {
                     <i onClick={handleSubmit} style={{fontSize: '1.2rem', fontWeight: '300'}} className="fas fa-check-square"></i>
                 </div>
             }
-            <div style={{minWidth: '36%'}} className="btn pointer mb-5 btn__primary">
-                <input onChange={e => onChange(e)} id="file" className="dashboard__input-file" name="file" type="file" />
+            <div style={{minWidth: '36%'}} className="btn pointer mb-5 btn__primary" enctype="multipart/form-data">
+                <input onChange={e => onChange(e)}  id="file" className="dashboard__input-file" name="file" type="file" />
                 <label className="dashboard__input-label" htmlFor="file">Añadir archivo</label>
             </div>
         </div>

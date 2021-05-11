@@ -1,7 +1,6 @@
 const {Router} = require ('express')
 const {validarJWT} =  require ('../middlewares/middlewares')
 const {obtenerArchivos, subirArchivo, borrarArchivo, descargarArchivo} = require ('../controllers/files.controller')
-
 const router = Router()
 
 //Endpoint de citas, metodo HTTP DELETE, primero válida el JWT con el middleware validar JWT

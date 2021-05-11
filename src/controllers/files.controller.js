@@ -1,6 +1,7 @@
 const { response } = require ('express')
 const path = require('path')
 const fs = require('fs')
+const {uploadFile, getFile} = require('../helpers/s3')
 
 const Archivo = require('../models/ArchivosModel')
 
@@ -21,6 +22,7 @@ const subirArchivo = async (req, res = response) => {
     }
 
     const {file} = req.files
+
     const uploadPathWoFile = path.join( __dirname, `../uploads/${id}/`)
     const uploadPathWiFile = path.join( __dirname, `../uploads/${id}/`, file.name)
 
@@ -29,6 +31,7 @@ const subirArchivo = async (req, res = response) => {
         nombreArchivo: file.name
     })
 
+
     try{
         await archivo.save({new:true})
     }catch(err){
@@ -36,10 +39,13 @@ const subirArchivo = async (req, res = response) => {
     }
 
 
-    if (!fs.existsSync(uploadPathWoFile)) fs.mkdirSync(uploadPathWoFile)
+    if (!fs.existsSync(uploadPathWoFile)) {
+        fs.mkdirSync(uploadPathWoFile)
+    }
 
     file.mv(uploadPathWiFile, err => {
         if(err) return res.status(500).json({ok: false, msg: err})
+        uploadFile(uploadPathWiFile, file.name, id, file.mimeType)
         res.status(201).json({
             ok:true, 
             msg: 'El archivo se subió correctamente',
@@ -72,11 +78,9 @@ const descargarArchivo = async (req, res = response) => {
 
     const {_id, fileName} = req.params
 
-    console.log(_id)
+    const file = await getFile(_id, fileName)
 
-    const pathToDownload = path.join(__dirname, `../uploads/${_id}/`, fileName)
-
-    if (fs.existsSync(pathToDownload)) return res.download(pathToDownload)
+    if (file) return file.pipe(res)
     
     return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
 
