@@ -52,7 +52,7 @@ app.use('/', express.static(path.join(__dirname, './public'), {
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static(path.join(__dirname, './client/build')))
-    app.get('/dentalTask\/.*', (req, res) => res.sendFile(path.join(__dirname, './client', 'build', 'index.html')))
+    app.get('/dentaltask*', (req, res) => res.sendFile(path.join(__dirname, './client', 'build', 'index.html')))
 }
 
 module.exports = app
