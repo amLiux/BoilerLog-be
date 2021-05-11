@@ -1,0 +1,17 @@
+.textarea{
+    width: 230px;
+    font: inherit;
+	height: 115px;
+    border-radius: 8px;
+	border: 1px solid darken($light-grey, 10);
+	padding: .4rem;
+    resize: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 300;
+    transition: all .4s ease-in-out;
+    &:disabled{
+        background-color: rgba(lighten($dark-grey, 40), .1);
+        color: lighten($dark-grey, 12);
+    }
+}

@@ -1,0 +1,19 @@
+.spinner{
+    border: 4px solid rgba(0,0,0, .1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: $primary;
+    display: block;
+    margin: 0 auto;
+    margin-top: 2rem;
+    animation: spin 3s ease-in infinite;
+
+
+    &-big{
+        width: 100px;
+        height: 100px;
+    }
+
+}
+

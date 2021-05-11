@@ -1,0 +1,86 @@
+.btn{
+
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 10px;
+
+    &:focus{
+        outline: none;
+    }
+
+
+
+    &__primary{
+        background-color: $primary;
+        border-radius: 2px;
+        transition: all ease-in-out 220ms;
+
+        &:hover{
+            background-color: darken($primary, 15);
+        }
+
+        &:disabled{
+            background-color: lighten($primary, 15);
+        }
+
+    }
+
+    &__warning{
+        background-color: lighten(red, 22);
+        border-radius: 2px;
+        transition: all ease-in-out 220ms;
+
+        &:hover{
+            background-color: lighten(red, 14);
+        }
+
+        &:disabled{
+            background-color: lighten($primary, 15);
+        }
+
+    }
+
+    &__block{
+        width: 100%;
+    }
+
+    &__group{
+        width: 40%;
+    }
+
+    &-white{
+        color: white;
+        font-size: 1rem;
+        border: 1px solid white;
+        border-radius: 2px;
+        transition: all ease-in-out 220ms;
+
+        &:hover{
+            color: $dark-grey;
+            background-color: darken(white, $amount: 15);
+        }
+
+    }
+
+    &-appbar{
+        color: white;
+        font-size: 1rem;
+        border: 0.5px solid rgba(white, 0.6);
+        border-radius: 2px;
+        transition: all ease-in-out 220ms;
+        &:not(:last-child){
+            margin-right: 0.6rem;
+        }
+
+        &:hover{
+            color: $primary;
+            background-color: darken(white, $amount: 15);
+        }
+
+    }
+
+
+}

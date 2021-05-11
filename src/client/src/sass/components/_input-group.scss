@@ -1,0 +1,69 @@
+.input-group{   
+    
+    font: inherit;
+    
+    &__main{
+        display: flex;
+        justify-content: center;
+    }
+
+    label{
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    input[type="text"]{
+
+        &.search{
+            width: 60%;
+        }
+
+
+        border: none;
+        border-bottom: 2px solid $light-grey;
+        font-size: 16px;
+        height: 19px; 
+        padding: 9px;
+        transition: all ease-in-out .8s;
+        outline: none;
+        color: rgba(black, 0.6);
+
+
+        &:not(:last-child){
+            margin-bottom: 1.4rem;
+        }
+
+        &:focus{
+            border-bottom: 2px solid $primary;
+
+        }
+
+        &:disabled{
+            background-color: rgba(black, 0.6);
+            color: white;
+            
+        }
+
+    }
+
+    button{
+        color: $dark-grey;
+        border: none;
+        border-bottom: 2px solid $light-grey;
+        font-size: 16px;
+        height: 39px; 
+        padding: 5px 10px;
+        transition: all ease-in-out .8s;
+
+        outline: none;
+
+        &:hover{
+            background-color: $primary;
+            color: white;
+        }
+
+
+    }
+
+
+}

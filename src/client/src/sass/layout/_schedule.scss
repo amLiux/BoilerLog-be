@@ -1,0 +1,30 @@
+.schedule{
+    margin: 0;
+
+    &__main{
+        align-items: center;
+        background-color: lighten($primary, 10);
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+    }
+
+    &__title{
+        color: darken($primary, 15);
+        font-size: 1.6rem;
+        
+        text-align: center;
+    }
+
+
+    &__box-container{
+        background-color: white;
+        box-shadow: -4px 4px 1px rgba(whitesmoke, 0.5);
+        border-radius: 19px;
+        padding: 20px;
+        width: 500px;
+        text-align: center;
+    }
+
+}

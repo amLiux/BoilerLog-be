@@ -1,0 +1,60 @@
+.notes{
+    &__main-content{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    &__appbar{
+        align-items: center;
+        background-color: $primary;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    &__content{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 20px;
+    }
+
+
+    &__input{
+
+
+        &-title{
+            color: $dark-grey;
+            font: inherit;
+            padding: 0.3rem;
+            border: none;
+            border-bottom: 1px solid rgba($dark-grey, 0.4);
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 30px;
+
+            &:focus{
+                outline: none;
+            }
+        }
+
+        &-textarea{
+            border: none;
+            color: $dark-grey;
+            font-size: 20px;
+            flex: 1 1 auto;
+            resize: none;
+            &:focus{
+                outline: none;
+            }
+        }
+
+    }
+
+    &__image img{
+        height: 250px;
+    }
+
+}

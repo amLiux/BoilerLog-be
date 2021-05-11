@@ -1,0 +1,95 @@
+.auth{
+
+
+    margin: 0;
+
+    &__main{
+        align-items: center;
+        background-color: lighten($primary, 10);
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+
+    }
+
+    &__title{
+        // color: darken($primary, 15);
+        color: $primary;
+        font-size: 1.4rem;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    &__subtitle{
+        margin-top: -14px;
+        color: darken($primary, 15);
+        font-size: 0.9rem;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    &__input{
+        color: $dark-grey;
+        border: none;
+        border-bottom: 2px solid $light-grey;
+        font-size: 16px;
+        height: 20px;
+        width: 94%; 
+        padding: 7px;
+        transition: all ease-in-out .8s;
+
+        &-help{
+            display: inline-block;
+            width: 94%;
+            color : lighten(red, 22);            
+            text-align: left;
+            font-size: .7rem;
+
+            animation: fadeInAndMoveFromBotton 0.8s ease-in;
+
+            &.edit{
+                width: 61%;
+                margin-top: -1rem;
+                margin-bottom: .3rem;
+            }
+
+        }
+
+        &-hasError{
+            border-bottom: 2px solid lighten(red, 22);
+        }
+
+        &:focus{
+            outline: none;
+
+            &:valid{
+                border-bottom: 2px solid $primary;
+            }
+
+            &:invalid{
+                border-bottom: 2px solid lighten(red, 15);
+            }
+        }
+    }
+
+    &__box-container{
+        background-color: white;
+        box-shadow: -4px 4px 1px rgba(whitesmoke, 0.5);
+        border-radius: 19px;
+        padding: 20px;
+        width: 360px;
+        text-align: center;
+        animation: fadeIn 0.8s ease-in-out;
+
+    }
+
+    &__errorPill{
+        color: white;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 8.5px;
+        border: 1px solid whitesmoke;
+        background-color: lighten(red, 15);
+    }
+}

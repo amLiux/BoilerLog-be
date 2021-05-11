@@ -1,0 +1,71 @@
+.card{
+    &-container{
+        width: 270px;
+        height: 90%;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid $light-grey;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+        animation: fadeIn .6s ease-in-out;
+    }
+
+    &-header{
+        display: flex;
+        justify-content: space-evenly;
+        padding: 1rem 0;
+        border-bottom: 1px solid $light-grey;
+        h5{
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        span{
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        &.cancelada h5{
+            color: lighten(red, 14);
+        }
+
+        &.agendada h5{
+            color: lighten(#23a057, 22);
+        }
+
+        &.pendiente h5{
+            color: rgba(darken($color-pending, 8), 0.7);
+        }
+
+
+        &.completada h5{
+            color: rgba(lighten($color-black, 70), 1);
+        }
+
+
+    }
+
+    &-content{
+        color: darken($light-grey, 30);           
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        word-wrap: break-word;
+        input[type="text"]{
+            width: 90%;
+        }
+
+    }
+
+
+
+
+    &-actions{
+        border-top: 1px solid $light-grey;
+        padding: 1rem 0;
+    }
+
+}

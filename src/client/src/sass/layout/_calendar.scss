@@ -1,0 +1,92 @@
+.calendar{ 
+
+    &__header{
+        display: flex;
+        font-weight: 600;
+        margin: 0 auto;
+        font-size: 1.4rem;
+        justify-content: space-between;
+        padding: 1rem 0;
+        align-items: center;
+        width: 40%;
+        margin-top: 10px;
+    }
+
+    &__weekdays{
+        display: flex;
+        margin: 0 auto;
+        justify-content: space-between;
+        width: 78%;
+        
+        div{
+            font-weight: 600;
+            text-align: center;
+            flex: 0 0 10%;
+        }
+
+    }
+    
+    &__content{
+        width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 7.4rem;
+    }
+
+    &__day{
+        width: 11.6%;
+        padding: 10px;
+        height: 90px;
+        border-radius: 19px;
+        cursor: pointer;
+        box-sizing: border-box;
+        box-shadow: -4px 0px 1px rgba(whitesmoke, 0.5);
+        background-color: lighten($light-grey, 10);
+        border: 1px solid $light-grey;
+        margin: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: .5s ease-in-out;
+        &:hover{
+            background-color: darken($light-grey, 5);
+            border: 1px solid darken($light-grey, 20);
+        }
+
+        &-active{
+            background-color: darken($light-grey, 5);
+            border: 1px solid darken($light-grey, 20);
+        }
+
+        &-group{
+            display: flex;
+            padding: 8px;
+            justify-content: space-around;
+        }
+
+        &-event{
+            width: 14px;
+            height: 14px;
+            background-color: rgba(green, 0.6);
+            border-radius: 50%;
+            
+            &.pending{
+                background-color: rgba(darken($color-pending, 8), 0.7);
+            }
+
+            &.canceled{
+                background-color: rgba(lighten(red, 22), 0.8);
+            }
+
+            &.complete{
+                background-color: rgba(lighten($color-black, 60), 0.8);
+            }
+
+        }
+
+
+
+    }
+
+
+}

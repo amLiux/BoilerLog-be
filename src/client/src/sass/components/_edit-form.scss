@@ -1,0 +1,118 @@
+.edit-form{
+
+
+
+    &__action-bar{
+        height: 60px;
+        background-color: rgba(black, 0.6);
+        width: 100%;
+        border-radius: 19px 0 0 0;
+        display: flex;
+        justify-content:flex-start;
+        padding-bottom: 0.5rem;
+
+        &.edit{
+            background-color: lighten($primary, 6);
+            color: white;
+            border-radius: 19px 0 0 0;
+        }
+
+        &-group{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 30%;
+            padding: 1rem;
+            margin-bottom: 0;
+
+            &:last-child{
+                margin-top: 0.7rem;
+            }
+
+        }
+
+        &-item{
+            i{
+                padding: 1rem;
+                font-size: 30px;
+                cursor: pointer;
+
+                &:hover{
+                    color: $primary;
+                }
+            }
+
+            span{
+                font-weight: 600;
+                font-size: 1.2rem;
+            }
+        }
+
+    }
+
+    &__box-container{
+        background-color: rgba($light-grey, 0.6);
+        border-radius: 19px;
+        box-shadow: -4px 4px 1px rgba($light-grey, 0.3);
+        animation: fadeIn 0.6s ease-in-out;
+        height: 630px;
+        display: flex;
+        flex-direction: column;
+        width: 730px;
+
+        &.edit{
+            width: 55%;
+            height: 100%;
+            box-shadow: none;
+            border-radius: 19px 0 0 19px;
+        }
+
+        // &.create{
+        //     height: 730px;
+        // }
+
+        h1{
+            font-size: 17px;
+            font-weight: 400;
+            margin: auto;
+        }
+
+        h2{
+            color: rgba(black, 0.6);
+            font-weight: 800;
+        }
+
+    }
+
+    &__form-container{
+        background-color: white;
+        color: black;
+        border-radius: 0 0 19px 19px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        padding-top: 1rem;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &.edit{
+            border-radius: 0 0 0 19px;
+        }
+
+        &-title{
+            color: rgba(black, 0.6);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: left;
+            width: 70%;
+
+            i{
+                font-size: 2rem;
+            }
+
+        }
+
+    }
+
+}

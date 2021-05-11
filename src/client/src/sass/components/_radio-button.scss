@@ -1,0 +1,105 @@
+.radio-button{
+
+    height: 75px;
+    max-width: 50%;
+    position: relative;
+    margin-right: 30px;
+    font: inherit;
+
+    input[type="radio"]{
+
+        &:disabled{
+            background-color: rgba($color-black, 0.3);
+        }
+
+        
+
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: rgba($color-white, 0.8);
+        border: 2px solid $light-grey;
+        border-radius: 10px;
+        box-shadow: -4px 4px 1px rgba($light-grey, 0.5);
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        outline: transparent;
+        transition: all .2s ease-in-out;
+
+        &:hover{
+            transform: scale(1.05);
+        }
+
+        &:before{
+            content: "";
+            position: absolute;
+            height: 22px;
+            width: 22px;
+            background-color: $color-white;
+            border: 1px solid $light-grey;
+            border-radius: 50%;
+            top: 10px;
+            right: 10px;
+        }
+
+        &:after{
+            content: "";
+            position: absolute;
+            height: 12px;
+            width: 12px;
+            background-color: transparent;
+            border-radius: 50%;
+            top: 16px;
+            right: 16px;
+            cursor: pointer;
+        }
+
+
+
+        &:checked{
+            border: 2px solid $primary;
+
+        }
+
+        &:checked:after{
+            background-color: $primary;
+        }
+
+
+
+    }
+
+    &__label{
+        position: absolute;
+        margin: 9px;
+        margin-left: 19px;
+        width: 60%;
+
+        &-heading{
+            font-size: 18px;
+            font-weight: 800;
+            text-align: left;
+            color: rgba($dark-grey, 0.7);
+
+            &.canceled{
+                color: $light-grey;
+            }
+
+        }
+
+        &-subheading{
+            text-align: left;
+
+            font-weight: 800;
+            font-size: 11px;
+            color: #7b7b93;
+
+            &.canceled{
+                color: lighten(red, 14);
+            }
+
+        }
+
+    }
+
+}

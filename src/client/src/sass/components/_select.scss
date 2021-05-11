@@ -1,0 +1,107 @@
+.select{
+
+    &__box{
+        display: flex;
+        flex-direction: column;
+        margin: 1rem 0;
+        position: relative;
+        
+        &__placeholder{
+            display: flex;
+            justify-content: space-between;
+
+            border-top: 2px solid rgba(black, 0.6);
+            border-right: 2px solid rgba(black, 0.6);
+            border-left: 2px solid rgba(black, 0.6);
+            border-bottom: 2px solid rgba(black, 0.6);
+
+            background: $color-white;
+            color: rgba(black, 0.6);
+            font-weight: 600;
+            border-radius: 19px;
+
+            &.active{
+                z-index: 1;
+                top: -4rem;
+                width: auto;
+            }
+            
+            i{
+                font-size: 1.6rem;
+
+                &:hover{
+                    color: $primary;
+                }
+            }
+
+
+        }
+
+        &-options{
+            background: $color-white;
+            color: rgba(black, 0.6);
+            font-weight: 600;
+            border-radius: 19px;
+            width: 100%;
+            overflow: hidden;
+            opacity: 0;
+            max-height: 0px;
+            transition: 0.6s ease-in-out;
+            &.active{
+                opacity: 1;
+                overflow-y: scroll;
+                max-height: 205px;
+                z-index: 1;
+
+                &::-webkit-scrollbar{
+                    width: .7rem;
+                    background: $light-grey;
+                    border-radius: 0 19px 19px 0;
+                }
+
+                &::-webkit-scrollbar-thumb{
+                    background: rgba(black, 0.6);;
+                    border-radius: 0 19px 19px 0;
+                }
+
+            }
+
+        }
+
+        &-option, &__placeholder{
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+
+            label{
+                cursor: pointer;
+            }
+        }
+
+        &-option{
+            margin: 0 auto;
+            &:hover{
+                background-color: $light-grey;
+                color: $color-white;
+            }
+
+            &:not(:last-child){
+                border-bottom: 2px solid rgba(black, 0.6);
+            }
+
+            &.active{
+                max-height: 330px;
+                opacity: 1;
+                overflow-y: scroll;
+            }
+
+        }
+
+
+
+        &-radio{
+            display: none;
+        }
+
+    }
+}
