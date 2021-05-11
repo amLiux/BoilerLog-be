@@ -29,7 +29,25 @@ export const CalendarScreen = () => {
     }
 
     return (
-        <div className="main-container">
+        <div style={{height: '86vh'}} className="main-container">
+            <div style={{textAlign:'center', width: '100%', display: 'flex', justifyContent: 'space-evenly', marginTop: '1rem', fontSize: '1rem'}}> 
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    Completada
+                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'hsla(0,0%,60%,.8)', borderRadius: '50%', marginLeft: '.5rem'}}></div>  
+                </div>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    Agendada
+                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'rgba(0,128,0,.6)', borderRadius: '50%', marginLeft: '.5rem'}}></div> 
+                </div>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    Pendiente
+                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'rgba(236,225,9,.7)', borderRadius: '50%', marginLeft: '.5rem'}}></div> 
+                </div>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    Cancelada
+                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'hsla(0,100%,72%,.8)', borderRadius: '50%', marginLeft: '.5rem'}}></div> 
+                </div>
+            </div>
             <CalendarHeader onNext={()=> setNav(nav + 1)} onBack={()=> setNav(nav - 1)} dateDisplay={dateDisplay} />
             <div className="calendar__weekdays">
                 <div>Domingo</div>

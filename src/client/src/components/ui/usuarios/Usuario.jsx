@@ -17,9 +17,9 @@ export const Usuario = ({usuario, email, nombre, rol, estado, id, handleEdit}) =
             <span className="col-1-of-5">{generateRolString(rol)}</span>
             <span style={{display: 'flex', justifyContent: 'space-around'}} className="col-1-of-5">
                 <i onClick={() => handleDisable()} className="fas fa-user-slash delete"></i>
-                {
+                {/* {
                     estado && <i className="fas fa-edit edit" onClick={handleEdit}></i>
-                }
+                } */}
             </span>
         </div>
     )

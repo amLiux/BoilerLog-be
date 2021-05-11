@@ -71,14 +71,14 @@ export const ConfigScreen = () => {
                             <span style={{fontSize: '11px', fontWeight:'400'}}>Cuando estes listo, presiona <kbd>Enter &#8617;</kbd></span>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <div className="mt-10 mb-5" style={{width: '100%', textAlign: 'center'}}>
                                 <a href="/mypadre" style={{textAlign: 'center', width: '100%'}}>Manual de usuario</a>
                             </div>
                             <div className="mb-10" style={{width: '100%', textAlign: 'center'}}>
                                 <a href="/mypadre" style={{textAlign: 'center', width: '100%'}}>Acerca del sistema</a>
                             </div>
-                        </div>
+                        </div> */}
                 </div>
             </div>
         </>

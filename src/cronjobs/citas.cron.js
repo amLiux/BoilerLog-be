@@ -1,6 +1,6 @@
 const Citas = require('../models/CitasModel')
 
-function updatingShitAutomatically(){
+async function updatingShitAutomatically(){
     await Citas.updateMany({
         fechaDeseada: {$lt: new Date().setHours(23, 59, 59, 0)},
         estado: {$nin: ['CANCELADA', 'COMPLETADA', 'PENDIENTE']} 
