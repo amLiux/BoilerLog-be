@@ -7,8 +7,6 @@ const cors = require ('cors')
 const fileUpload = require('express-fileupload')
 
 require('dotenv').config()
-require('./cronjobs/citas.cron')
-
 
 //Inicializaciones
 const app = express()
