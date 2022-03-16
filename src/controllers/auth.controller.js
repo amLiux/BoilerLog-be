@@ -1,108 +1,87 @@
-const { response } = require ('express')
-const User = require('../models/UsuarioModel')
-const generarJWT = require('../helpers/jwt')
+const { response } = require('express');
+const User = require('../models/UsuarioModel');
+const generarJWT = require('../helpers/jwt');
+const { construirRespuesta } = require('../helpers/construirRespuesta');
+const { respuestasValidas } = require('../constants/HTTP');
 
-const crearUsuario = async(req, res = response ) => {
-    
-    const {user, name, lastName, email, pwd, admin} = req.body
+// Gl3nd4D3s4rr0ll097!
+// 2jgu5tjrPKku3r2
+const crearUsuario = async (req, res = response) => {
+    let respuesta;
+    const { user, name, lastName, email, pwd, admin } = req.body;
 
-    const rol = admin ? 'ADMIN_ROLE' : 'USER_ROLE'
+    const rol = admin ? 'ADMIN_ROLE' : 'USER_ROLE';
 
-    try{
-
+    try {
         const nuevoUsuario = new User({
             user,
             nombre: name,
             email,
             apellido: lastName,
             rol
-        })
+        });
 
-        nuevoUsuario.pass = nuevoUsuario.encriptarPassword(pwd)
+        nuevoUsuario.pass = nuevoUsuario.encriptarPassword(pwd);
 
-        await nuevoUsuario.save()
+        await nuevoUsuario.save();
 
-        res.status(201).json({
-            ok: true,
-            msg: 'El usuario fue creado correctamente',
-            newUser: nuevoUsuario
-        })
+        respuesta = construirRespuesta(respuestasValidas.USUARIO_CREADO, res, nuevoUsuario);
+    } catch (err) {
+        const respuesta = err.code === 11000
+            ? construirRespuesta(respuestasValidas.USUARIO_DUPLICADO, res)
+            : construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
 
-
-    }catch(err){
-        err.code === 11000 &&         
-            res.status(409).json({
-                ok: false,
-                msg: 'Este usuario ya existe en nuestra base de datos!'
-            })
-
-        res.status(500).json({
-            ok: false,
-            msg: 'Error interno de servidor!'
-        })
+        return respuesta;
     }
-
+    return respuesta;
 }
 
 const loginUsuario = async (req, res = response) => {
-    
-    const {user, pwd} = req.body
+    let respuesta;
+    const { user, pwd } = req.body;
 
-    try{
-        
-        const usuario = await User.findOne({user})
+    try {
+        const usuario = await User.findOne({ user });
 
+        if (!usuario.estado) return construirRespuesta(respuestasValidas.USUARIO_DESACTIVADO, res);
+        if (!usuario) return construirRespuesta(respuestasValidas.USUARIO_DESCONOCIDO, res, {}, user);
+        if (!usuario.compararPassword(pwd)) construirRespuesta(respuestasValidas.NO_AUTORIZADO, res);
 
-        if(!usuario.estado){
-            return res.status(403).json({
-                ok: false,
-                msg: `Usuario desactivado, consulte con su administrador!`
-            })
-        }
+        const token = await generarJWT(usuario._id, usuario.user, usuario.rol);
 
-        if(!usuario)
-            return res.status(404).json({
-                ok: false,
-                msg: `No se encontró el usuario ${user}`
-            })
-
-        if(!usuario.compararPassword(pwd))
-            return res.status(403).json({
-                ok: false,
-                msg: `Contraseña incorrecta!`
-            })
-
-
-        const token = await generarJWT(usuario._id, usuario.user, usuario.rol) 
-
-        res.status(200).json({
-            ok: true,
+        const payload = {
             uid: usuario._id,
             user,
             token,
             rol: usuario.rol
-        })
+        };
 
-    }catch(err){
-        return res.status(500).json({
-            ok: false,
-            msg: 'Error interno de servidor!'
-        })
+        respuesta = construirRespuesta(respuestasValidas.LOGIN_CORRECTO, res, payload);
+
+
+    } catch (err) {
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        return respuesta;
     }
+
+    return respuesta;
 }
 
-const revalidarToken = async(req, res = response ) => {
-    const {uid, name, rol} = req
+const revalidarToken = async (req, res = response) => {
+    const { uid, name, rol } = req;
 
-    const token = await generarJWT(uid, name, rol) 
+    const token = await generarJWT(uid, name, rol);
 
-    res.status(200).json({
-        ok: true,
+    const payload = {
         uid,
         name,
         rol,
-        token,
-    })
+        token
+    };
+
+    const respuesta = construirRespuesta(respuestasValidas.TOKEN_VALIDADO, res, payload);
+
+    return respuesta;
 }
 
 module.exports = {

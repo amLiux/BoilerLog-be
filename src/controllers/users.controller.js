@@ -1,14 +1,19 @@
 const { response } = require ('express');
+const { respuestasValidas } = require('../constants/HTTP');
+const { construirRespuesta } = require('../helpers/construirRespuesta');
 const Usuarios = require('../models/UsuarioModel')
 
-const getAllUsers = async (req, res=response) => {
-    const allUsers = await Usuarios.find({}).lean()
+const obtenerTodosLosUsuarios = async (req, res=response) => {
+    let respuesta;
+    const todosLosUsuarios = await Usuarios.find({}).lean();
+    
+    if(!todosLosUsuarios.length > 0) {
+        respuesta = construirRespuesta(respuestasValidas.USUARIOS_DESCONOCIDOS, res);
+        return respuesta;
+    }
 
-    allUsers.length > 0 
-        ? 
-            res.status(200).json({ok: true, users: allUsers})
-        :
-            res.status(500).json({ok: false, msg: 'No se encontraron usuarios, intenta mas tarde!'})
+    respuesta = construirRespuesta(respuestasValidas.USUARIOS_ENCONTRADOS, res, todosLosUsuarios)
+    return respuesta;
 }
 
 const updateUserDetails = async (req, res=response) => {
@@ -45,6 +50,6 @@ const updateUserDetails = async (req, res=response) => {
 }
 
 module.exports = {
-    getAllUsers,
+    obtenerTodosLosUsuarios,
     updateUserDetails
 }

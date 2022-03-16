@@ -5,6 +5,8 @@ const { erroresEnPeticion, validarJWT } = require ('../middlewares/middlewares')
 
 const router = express.Router()
 
+// Endpoint de registro, metodo HTTP POST, primero válida que el body contenga todos los parametros dentro del array definido abajo y luego pasa a llamar al metodo crear usuario dentro del controlador
+
 router.post(
     '/new',
     [
@@ -18,6 +20,8 @@ router.post(
         erroresEnPeticion
     ], 
     crearUsuario)
+
+// Endpoint de autenticación, metodo HTTP POST, primero válida que el body contenga todos los parametros dentro del array definido abajo y luego pasa a llamar al metodo login usuario dentro del controlador
 
 router.post(
     '/login',

@@ -1,11 +1,11 @@
 const {Router} = require ('express')
-const { getAllUsers, updateUserDetails } = require('../controllers/users.controller')
+const { updateUserDetails, obtenerTodosLosUsuarios } = require('../controllers/users.controller')
 const {validarJWT} =  require ('../middlewares/middlewares')
 
 const router = Router()
 
 //Endpoint de reportes, metodo HTTP POST
-router.get('/users', validarJWT, getAllUsers)
+router.get('/users', validarJWT, obtenerTodosLosUsuarios)
 
 //Endpoint de reportes, metodo HTTP POST
 router.post('/users/:_id', validarJWT, updateUserDetails)

@@ -1,78 +1,74 @@
-const { response } = require ('express')
-const {uploadFile, getFile, deleteFile} = require('../helpers/s3')
+const { response } = require('express');
+const { respuestasValidas } = require('../constants/HTTP');
+const { construirRespuesta } = require('../helpers/construirRespuesta');
+const { uploadFile, getFile, deleteFile } = require('../helpers/s3');
 
-const Archivo = require('../models/ArchivosModel')
+const Archivo = require('../models/ArchivosModel');
 
 const obtenerArchivos = async (req, res = response) => {
-    const id = req.params._id
-    const archivos = await Archivo.find({'idPaciente': id}).lean()
+    const id = req.params._id;
+    const archivos = await Archivo.find({ 'idPaciente': id }).lean();
 
-    res.status(200).json({ok: true, archivos: [...archivos]})
+    return construirRespuesta(respuestasValidas.ARCHIVOS_ENCONTRADOS, res, {archivos: [...archivos]});
 }
 
 const subirArchivo = async (req, res = response) => {
+    let respuesta;
+    const idPaciente = req.params._id;
 
-    const id = req.params._id
-
-    if (!req.files || Object.keys(req.files). length === 0 || !req.files.file ){
-        res.status(400).json({ok: false, msg: 'No hay archivos para subir'})
-        return;
+    if (!req.files || Object.keys(req.files).length === 0 || !req.files.file) {
+        respuesta = construirRespuesta(respuestasValidas.PETICION_SIN_ARCHIVOS, res);
+        return respuesta;
     }
 
-    const {file} = req.files
-
+    const { file: { name: nombreArchivo, tempFilePath, mimeType } } = req.files;
 
     const archivo = new Archivo({
-        idPaciente: id,
-        nombreArchivo: file.name
-    })
+        idPaciente,
+        nombreArchivo
+    });
 
 
-    try{
-        await archivo.save({new:true})
-        await uploadFile(file.tempFilePath, file.name, id, file.mimeType)
+    try {
+        await archivo.save({ new: true });
+        await uploadFile(tempFilePath, nombreArchivo, idPaciente, mimeType);
 
-        res.status(201).json({
-            ok:true, 
-            msg: 'El archivo se subió correctamente',
-            archivo
-        })
-    }catch(err){
-        return res.status(500).json({ok:false, msg: err})
+        respuesta = construirRespuesta(respuestasValidas.ARCHIVO_SUBIDO, res, archivo);
+    } catch (err) {
+        return res.status(500).json({ ok: false, msg: err });
     }
+
+    return respuesta;
 
 }
 
 const borrarArchivo = async (req, res = response) => {
-    const {_id, fileName} = req.params
+    let respuesta;
+    const { _id, fileName } = req.params;
 
     try {
-        const archivo = await Archivo.findOneAndDelete({idPaciente: _id, nombreArchivo: fileName})
-        const result = await deleteFile(_id, fileName)
+        await Archivo.findOneAndDelete({ idPaciente: _id, nombreArchivo: fileName });
+        await deleteFile(_id, fileName);
 
-        console.log(result)
-        res.status(201).json({
-            ok:true, 
-            msg: 'El archivo se eliminó correctamente',
-            archivo
-        })
+        respuesta = construirRespuesta(respuestasValidas.ARCHIVO_ELIMINADO, res);
+
     } catch (error) {
-        return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
-
+        respuesta = construirRespuesta(respuestasValidas.ARCHIVO_DESCONOCIDO, res);
+        return respuesta;
     }
 
-
+    return respuesta;
 }
 
 const descargarArchivo = async (req, res = response) => {
+    console.log(req.params);
+    const { _id, fileName } = req.params;
 
-    const {_id, fileName} = req.params
+    const file = await getFile(_id, fileName);
 
-    const file = await getFile(_id, fileName)
+    if (file) return file.pipe(res);
 
-    if (file) return file.pipe(res)
-    
-    return res.status(500).json({ok: false, msg: 'El archivo no se encontro'})
+    return res.status(500).json({ ok: false, msg: 'El archivo no se encontro' });
 
 }
 

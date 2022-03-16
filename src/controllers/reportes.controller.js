@@ -50,8 +50,8 @@ const generateReportCitasTotales = async (desde, hasta, res) => {
         const found = citasCounts.find(({_id: {month}}) => month === nextDay.getMonth() + 1 )
 
         found 
-            ? responseArray.push({mes: meses[nextDay.getMonth()], citas: found.count})
-            : responseArray.push({mes: meses[nextDay.getMonth()], citas: 0})
+            ? responseArray.push({label: meses[nextDay.getMonth()], data: found.count})
+            : responseArray.push({label: meses[nextDay.getMonth()], data: 0})
 
     })
 
@@ -73,8 +73,6 @@ const generateReportPacientesNuevos = async (desde, hasta, res) => {
             {$match : {fechaCreado: { $gte: parsedMonths[0], $lt: new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 2, 0)}}},
             {$group: {_id: {month: { "$month": "$fechaCreado" } }, count: { $sum: 1 }}}
         ])
-
-    console.log(pacientesCounts)
           
     parsedMonths.forEach(dayBefore => {
         const day = new Date(dayBefore)
@@ -84,8 +82,8 @@ const generateReportPacientesNuevos = async (desde, hasta, res) => {
         const found = pacientesCounts.find(({_id: {month}}) => month === nextDay.getMonth() + 1 )
 
         found 
-            ? responseArray.push({mes: meses[nextDay.getMonth()], pacientes: found.count})
-            : responseArray.push({mes: meses[nextDay.getMonth()], pacientes: 0})
+            ? responseArray.push({label: meses[nextDay.getMonth()], data: found.count})
+            : responseArray.push({label: meses[nextDay.getMonth()], data: 0})
 
     })
 
@@ -118,8 +116,8 @@ const generateDetalleCitasMensual = async (mes, res) => {
         const found = citasCounts.find(({_id}) => _id === estado.toUpperCase())
 
         found 
-            ? responseArray.push({estado: estado, conteo: found.count})
-            : responseArray.push({estado: estado, conteo: 0})
+            ? responseArray.push({label: estado, data: found.count})
+            : responseArray.push({label: estado, data: 0})
 
     })
     
@@ -129,17 +127,17 @@ const generateDetalleCitasMensual = async (mes, res) => {
 }
 
 const generarReportes =  async (req, res = response) => {
+    const {payload} = req.body;
+    const {from, until, month} = payload;
 
-    const {desde, hasta, mes} = req.body
-
-    const reporte = req.params.reporte
+    const reporte = req.params.reporte;
 
     reporte === 'Cantidad de citas'
-        ? await generateReportCitasTotales(desde, hasta, res)
+        ? await generateReportCitasTotales(from, until, res)
         : reporte === 'Pacientes nuevos' 
-            ? await generateReportPacientesNuevos(desde, hasta, res)
+            ? await generateReportPacientesNuevos(from, until, res)
             : reporte === 'Detalle de citas mensual'
-                ? await generateDetalleCitasMensual(mes, res)
+                ? await generateDetalleCitasMensual(month, res)
                 : res.status(404).json({ok: false, msg: 'El reporte no se encontro'})
    
 }
