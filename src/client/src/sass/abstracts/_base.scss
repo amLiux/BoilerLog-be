@@ -5,11 +5,19 @@
 
 html, body{
     width: 100vw;
+    box-sizing: border-box;
+    font-size: 62.5%;
+
+    @media only screen and (max-width: $bp-large){
+        font-size: 50%;
+    }
 }
 
 main{
     width: 100%;
 }
+
+
 
 kbd {
     background-color: #eee;
@@ -83,6 +91,12 @@ kbd {
     height: 83vh;
     box-shadow: -4px 0px 1px rgba(whitesmoke, 0.5);
     color: $dark-grey;
+
+
+    @media only screen and(max-width: $bp-small){
+        width: 100%;
+        height: 75vh;
+    }
 
     &__search-group{
         display: flex;

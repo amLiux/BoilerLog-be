@@ -1,66 +1,77 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { capitalizeFistLetter } from '../../services/capitalizeFirstLetter';
 
-export const useCalendar = (citas, nav) => {
-    
-    const [dateDisplay, setDateDisplay] = useState('')
-    const [dias, setDias] = useState([])
+export const useCalendar = (appointments, nav) => {
 
-    useEffect(()=>{
+	const [dateDisplay, setDateDisplay] = useState('');
+	const [days, setDays] = useState([]);
 
-        const citasPorDia = (diaActual) => 
-        citas.filter( cita => new Date(cita.fechaDeseada).toDateString() === new Date(diaActual).toDateString() && cita )
+	useEffect(() => {
+		const appointmentsPerDay = (day) =>
+			appointments.filter(appointment => new Date(appointment.fechaDeseada).toDateString() === new Date(day).toDateString() && appointment);
 
-        const capitalizar = word => word.charAt(0).toUpperCase() + word.slice(1)
-        const semana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+		const week = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
-        const fecha = new Date()
-        nav !== 0 && fecha.setMonth(new Date().getMonth() + nav)
-        
-        const 
-            dia = fecha.getDate(),
-            mes = fecha.getMonth(),
-            anho = fecha.getFullYear()
-    
-        const primerDiaDelMes = new Date(anho, mes, 1)
-        const diasEnMes = new Date(anho, mes + 1, 0).getDate()
-        const dateString = primerDiaDelMes.toLocaleDateString('es-us', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric'
-        })
-    
+		const date = new Date();
+		nav !== 0 && date.setMonth(new Date().getMonth() + nav);
 
-        const nombreDelPrimerDia = capitalizar(dateString.split(', ')[0])
-        const diasComodinInicio = semana.indexOf(nombreDelPrimerDia)
+		const
+			dia = date.getDate(),
+			mes = date.getMonth(),
+			anho = date.getFullYear();
 
-        setDateDisplay(`${capitalizar(fecha.toLocaleDateString('es', {month:'long'}))}`)
+		const primerDiaDelMes = new Date(anho, mes, 1);
+		const diasEnMes = new Date(anho, mes + 1, 0).getDate();
+		const dateString = primerDiaDelMes.toLocaleDateString('es-us', {
+			weekday: 'long',
+			year: 'numeric',
+			month: 'numeric',
+			day: 'numeric'
+		});
 
-        const daysArr = []
 
-        for(let i = 1; i<=diasComodinInicio + diasEnMes; i++){
-            const diaActual = `${mes+1}/${i - diasComodinInicio}/${anho}`
-            if(i > diasComodinInicio){
-                daysArr.push({
-                    value: i - diasComodinInicio,
-                    citas: citasPorDia(diaActual),
-                    esHoy: diaActual.split('/')[1] === dia.toString() && nav === 0 ? true : false,
-                    date: diaActual
-                })
-            }else{
-                daysArr.push({
-                    value: 'padding',
-                    citas: null,
-                    esHoy: false,
-                    date: ''
-                })
-            }
-        }
+		const nombreDelPrimerDia = capitalizeFistLetter(dateString.split(', ')[0]);
+		const diasComodinInicio = week.indexOf(nombreDelPrimerDia);
 
-        setDias(daysArr)
+		setDateDisplay(`${capitalizeFistLetter(date.toLocaleDateString('es', { month: 'long' }))}`);
 
-    }, [citas, nav])
+		const daysArr = [];
 
-    return [ dias, dateDisplay ]
+		for (let i = 1; i <= diasComodinInicio + diasEnMes; i++) {
+			const diaActual = `${mes + 1}/${i - diasComodinInicio}/${anho}`;
+			if (i > diasComodinInicio) {
+				daysArr.push({
+					value: i - diasComodinInicio,
+					appointments: appointmentsPerDay(diaActual),
+					isToday: diaActual.split('/')[1] === dia.toString() && nav === 0 ? true : false,
+					date: diaActual
+				});
+			} else {
+				daysArr.push({
+					value: 'padding',
+					appointments: null,
+					isToday: false,
+					date: ''
+				});
+			}
+		}
 
-}
+
+		const paddingDaysToAppend = 7 - daysArr.length % 7;
+
+		for (let i = paddingDaysToAppend; i >= 1 && i !== 7; i--) {
+			daysArr.push({
+				value: 'padding',
+				appointments: null,
+				isToday: false,
+				date: ''
+			});
+		}
+
+		setDays(daysArr);
+
+	}, [appointments, nav]);
+
+	return [days, dateDisplay];
+
+};

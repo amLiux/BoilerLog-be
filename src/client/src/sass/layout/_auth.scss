@@ -1,22 +1,24 @@
 .auth{
 
-
-    margin: 0;
-
     &__main{
         align-items: center;
         background-color: lighten($primary, 10);
         display: flex;
         justify-content: center;
-        height: 100vh;
-        width: 100vw;
+        min-height: 100vh;
+
+
+        @media only screen and(max-width: $bp-largest){
+            align-items: center;
+        }
+
 
     }
 
+
     &__title{
-        // color: darken($primary, 15);
         color: $primary;
-        font-size: 1.4rem;
+        font-size: 3rem;
         font-weight: 500;
         text-align: center;
     }
@@ -33,10 +35,10 @@
         color: $dark-grey;
         border: none;
         border-bottom: 2px solid $light-grey;
-        font-size: 16px;
-        height: 20px;
+        font-size: 1.9rem;
+        height: 2.5rem;
         width: 94%; 
-        padding: 7px;
+        padding: 1rem;
         transition: all ease-in-out .8s;
 
         &-help{
@@ -44,7 +46,7 @@
             width: 94%;
             color : lighten(red, 22);            
             text-align: left;
-            font-size: .7rem;
+            font-size: 1.3rem;
 
             animation: fadeInAndMoveFromBotton 0.8s ease-in;
 
@@ -76,11 +78,17 @@
     &__box-container{
         background-color: white;
         box-shadow: -4px 4px 1px rgba(whitesmoke, 0.5);
-        border-radius: 19px;
-        padding: 20px;
-        width: 360px;
+        border-radius: 1.9rem;
+        padding: 2rem;
+        width: 36rem;
         text-align: center;
         animation: fadeIn 0.8s ease-in-out;
+
+
+        @media only screen and(max-width: $bp-largest){
+            max-width: 30rem;
+        }
+
 
     }
 

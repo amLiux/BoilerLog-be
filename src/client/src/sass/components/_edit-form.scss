@@ -1,7 +1,5 @@
 .edit-form{
 
-
-
     &__action-bar{
         height: 60px;
         background-color: rgba(black, 0.6);
@@ -11,42 +9,55 @@
         justify-content:flex-start;
         padding-bottom: 0.5rem;
 
-        &.edit{
-            background-color: lighten($primary, 6);
-            color: white;
-            border-radius: 19px 0 0 0;
-        }
-
         &-group{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 30%;
             padding: 1rem;
             margin-bottom: 0;
-
-            &:last-child{
-                margin-top: 0.7rem;
+            @media only screen and(max-width: $bp-small){
+                flex-direction: column;
             }
-
         }
 
-        &-item{
-            i{
-                padding: 1rem;
-                font-size: 30px;
+        &-item {
+            font-size: 2.5rem;
+
+            i {
+                font-size: 3rem;
+                margin-right: 2rem;
+                margin-left: 1rem;
+                margin-top: 1rem;
+            }
+
+            span {
+                font-size: 2rem;
+                font-weight: 800;
+                margin-left: 2rem;
+            }
+
+            &:hover i   {
+                color: $primary;
                 cursor: pointer;
-
-                &:hover{
-                    color: $primary;
-                }
             }
 
-            span{
-                font-weight: 600;
-                font-size: 1.2rem;
-            }
         }
+
+
+    }
+
+    &__action-bar.edit{
+        background-color: $primary;
+        font-size: 1rem;
+        color: white;
+    }
+
+    &__form{
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
     }
 
@@ -60,6 +71,10 @@
         flex-direction: column;
         width: 730px;
 
+        @media only screen and(max-width: $bp-small){
+            width: 100%;
+        }
+
         &.edit{
             width: 55%;
             height: 100%;
@@ -67,12 +82,8 @@
             border-radius: 19px 0 0 19px;
         }
 
-        // &.create{
-        //     height: 730px;
-        // }
-
         h1{
-            font-size: 17px;
+            font-size: 2rem;
             font-weight: 400;
             margin: auto;
         }
@@ -100,16 +111,62 @@
             border-radius: 0 0 0 19px;
         }
 
+        &-header{
+            width: 100%;
+            margin: 0 auto;
+
+            div{
+                margin: 0 auto;
+                display: flex; 
+                width: 70%; 
+                justify-content: space-between;
+                @media only screen and(max-width: $bp-largest){
+                    width: 85%;
+                }
+        
+            }
+
+            span{
+                display: block;
+                margin: 0 auto;
+                padding-left:'.6rem'; 
+                text-align: left; 
+                width: 70%; 
+                color: rgba(black, 0.9);
+                margin-bottom: -1rem; 
+                font-size: 1rem; 
+                font-weight: 600;
+
+                @media only screen and(max-width: $bp-largest){
+                    margin-bottom: 1rem;
+                }
+        
+            }
+        
+        }
+
         &-title{
             color: rgba(black, 0.6);
             font-weight: 700;
             margin-bottom: 1rem;
             text-align: left;
             width: 70%;
+            font-size: 1.6rem;
 
             i{
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
+
+
+            @media only screen and(max-width: $bp-small){
+                font-size: 1rem;
+                margin-bottom: 3rem;
+
+                i{
+                    font-size: 2rem;
+                }
+            }
+
 
         }
 

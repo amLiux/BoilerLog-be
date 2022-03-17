@@ -12,7 +12,10 @@
 
     &-suc{
         color: lighten(#23a057, 20);
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+        @media only screen and(max-width: $bp-small){
+            font-size: 1.5rem;
+        }
         font-weight: 100;
         border-bottom: 1px solid transparent;
         transition: all .7s ease-in-out;
@@ -23,12 +26,18 @@
         }
 
         i{
-            font-size: 1.4rem!important;
+            font-size: 1.5rem!important;
         }
     }
 
     &-err{
         color: lighten(red, 22);
+        font-size: 1.4rem;
+        @media only screen and(max-width: $bp-small){
+            font-size: 1rem;
+            text-align: center;
+        }
+    
         
         &:hover{
             color: lighten(red, 14);

@@ -1,39 +1,41 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { startLoadingCitasPaciente } from '../../../actions/pacientes'
-import { usePagination } from '../../hooks/usePagination'
-import { CitasCard } from './CitasCard'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { startLoadingPatientAppointments } from '../../../actions/patients';
+import { CardSliderProps } from '../../../constants/propTypes';
+import { usePagination } from '../../hooks/usePagination';
+import { AppointmentCard } from './AppointmentCard';
 
-export const CardSlider = ({paciente: {_id}}) => {
+export const CardSlider = ({ patientId }) => {
+	const dispatch = useDispatch();
+	const { patientAppointments } = useSelector(state => state.patients);
 
-    const dispatch = useDispatch()
-    const { citasPorPaciente } = useSelector(state => state.pacientes)
+	const [currentCita, currentPage, handleChangePage, maxPage] = usePagination(patientAppointments, 1);
 
-    const [currentCita, currentPage , handleChangePage, maxPage] =  usePagination(citasPorPaciente, 1)
-    
-    useEffect(()=>{
-        dispatch(startLoadingCitasPaciente(_id))
-    }, [_id, dispatch])
+	useEffect(() => {
+		dispatch(startLoadingPatientAppointments(patientId));
+	}, [patientId, dispatch]);
 
-    return (
-        <>
-            { citasPorPaciente.length <= 0 ?
-                <>
-                    <i className="fas fa-info-circle"><span> No hay citas para este paciente </span></i>
-                </>
-                : 
-                <>
-                    {
-                        citasPorPaciente.length !== 1 && currentPage !== 1 && <i onClick={()=> handleChangePage("back")} className="fas fa-arrow-left"></i>
-                    }
-                    
-                    <CitasCard cita={currentCita}/>
-                    
-                    {
-                        citasPorPaciente.length !== 1 && currentPage !== maxPage && <i onClick={()=> handleChangePage("next")}  className="fas fa-arrow-right"></i>
-                    }
-                </>
-            }
-        </>
-    )
-}
+	return (
+		<>
+			{patientAppointments.length <= 0 ?
+				<>
+					<i className="fas fa-info-circle"><span> No hay citas para este paciente </span></i>
+				</>
+				:
+				<>
+					{
+						patientAppointments.length !== 1 && currentPage !== 1 && <i onClick={() => handleChangePage('back')} className="fas fa-arrow-left"></i>
+					}
+
+					<AppointmentCard appointment={currentCita} />
+
+					{
+						patientAppointments.length !== 1 && currentPage !== maxPage && <i onClick={() => handleChangePage('next')} className="fas fa-arrow-right"></i>
+					}
+				</>
+			}
+		</>
+	);
+};
+
+CardSlider.propTypes = CardSliderProps;

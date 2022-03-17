@@ -1,71 +1,57 @@
-import React, {useState, useEffect} from 'react'
-import { useCalendar } from '../hooks/useCalendar'
-import { CalendarHeader } from '../ui/calendar/CalendarHeader'
-import { Dia } from '../ui/calendar/Dia'
-import { useDispatch, useSelector } from 'react-redux'
-import { setDiaActivo, setModalActivo } from '../../actions/ui'
-import { startLoadingCitas } from '../../actions/citas'
+import React, { useState, useEffect } from 'react';
+import { useCalendar } from '../hooks/useCalendar';
+import { CalendarHeader } from '../ui/calendar/CalendarHeader';
+import { Day } from '../ui/calendar/Day';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveDay, openModal } from '../../actions/ui';
+import { startLoadingAppointments } from '../../actions/appointments';
 
 export const CalendarScreen = () => {
 
-    const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
-    const [nav, setNav] = useState(0)
+	const [nav, setNav] = useState(0);
 
-    const {totalCitas} = useSelector(state => state.citas)
+	const { totalAppointments } = useSelector(state => state.appointments);
 
-    const [dias, dateDisplay] = useCalendar(totalCitas, nav)
+	const [dias, dateDisplay] = useCalendar(totalAppointments, nav);
 
-    useEffect(() => {
-        dispatch(startLoadingCitas())
-    }, [dispatch])
+	useEffect(() => dispatch(startLoadingAppointments()), [dispatch]);
 
+	const handleDiaClick = (day) => {
+		if (day.value !== 'padding') {
+			dispatch(openModal('CALENDARIO'));
+			dispatch(setActiveDay(day));
+		}
+	};
 
-    const handleDiaClick = (dia) => {
-        if(dia.value !== 'padding'){
-            dispatch(setModalActivo('CALENDARIO'))
-            dispatch(setDiaActivo(dia))
-        }
-    }
+	// TODO maybe create a localization file to add multilanguage support
+	const weekDays = [
+		{ fullDay: 'Domingo', letter: 'D' },
+		{ fullDay: 'Lunes', letter: 'L' },
+		{ fullDay: 'Martes', letter: 'K' },
+		{ fullDay: 'Miercoles', letter: 'M' },
+		{ fullDay: 'Jueves', letter: 'J' },
+		{ fullDay: 'Viernes', letter: 'V' },
+		{ fullDay: 'Sabado', letter: 'S' },
+	];
 
-    return (
-        <div style={{height: '86vh'}} className="main-container">
-            <div style={{textAlign:'center', width: '100%', display: 'flex', justifyContent: 'space-evenly', marginTop: '1rem', fontSize: '1rem'}}> 
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    Completada
-                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'hsla(0,0%,60%,.8)', borderRadius: '50%', marginLeft: '.5rem'}}></div>  
-                </div>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    Agendada
-                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'rgba(0,128,0,.6)', borderRadius: '50%', marginLeft: '.5rem'}}></div> 
-                </div>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    Pendiente
-                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'rgba(236,225,9,.7)', borderRadius: '50%', marginLeft: '.5rem'}}></div> 
-                </div>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    Cancelada
-                    <div style={{width:  '1rem', height: '1rem', backgroundColor: 'hsla(0,100%,72%,.8)', borderRadius: '50%', marginLeft: '.5rem'}}></div> 
-                </div>
-            </div>
-            <CalendarHeader onNext={()=> setNav(nav + 1)} onBack={()=> setNav(nav - 1)} dateDisplay={dateDisplay} />
-            <div className="calendar__weekdays">
-                <div>Domingo</div>
-                <div>Lunes</div>
-                <div>Martes</div>
-                <div>Miércoles</div>
-                <div>Jueves</div>
-                <div>Viernes</div>
-                <div>Sábado</div>
-            </div>
-            <div className="calendar__content">
-                {dias.map((dia, i) => 
-                    <Dia 
-                        key={i} 
-                        day={dia} 
-                        onClick={() => handleDiaClick(dia)}/>)
-                }
-            </div>
-        </div>
-    )
-}
+	return (
+		<div className="main-container">
+			<CalendarHeader onNext={() => setNav(nav + 1)} onBack={() => setNav(nav - 1)} dateDisplay={dateDisplay} />
+			<div className="calendar__weekdays">
+				{
+					weekDays.map(({ fullDay, letter }) =>
+						<div key={letter}>
+							<span className="fullday">{fullDay}</span>
+							<span className="firstLetter">{letter}</span>
+						</div>
+					)
+				}
+			</div>
+			<div className="calendar__content">
+				{ dias.map((dia, i) => <Day key={i} day={dia}onClick={() => handleDiaClick(dia)} />) }
+			</div>
+		</div>
+	);
+};

@@ -133,6 +133,7 @@ const respuestasValidas = {
         code: 200,
         ok: true,
     },
+    // npm rebuild node-sass --prefix src/client && npm install --unsafe-perm -f node-sass --prefix src/client &&
     CITAS_ENCONTRADAS: {
         code: 200,
         ok: true,

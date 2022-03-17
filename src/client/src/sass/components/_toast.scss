@@ -1,35 +1,45 @@
 .wrapper {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 2rem;
+    left: 2rem;
     animation: show_toast 1s ease forwards;
     font: inherit;
     z-index: 1000;
-    
+
+    @media only screen and(max-width: $bp-largest){
+        left: 0;
+    }
+
     .hide {
         animation: hide_toast 1s ease forwards;
     }
 
     .toast {
         background: #fff;
-        padding: 20px 15px 20px 20px;
-        border-radius: 19px;
+        padding: 2rem 1.5rem 2rem 2rem;
+        border-radius: 1.9rem;
         border: 2px solid $light-grey;
         border-left: 5px solid lighten(red, 22);
         box-shadow: 1px 7px 14px -5px rgba(0, 0, 0, 0.15);
-        width: 430px;
+        width: 43rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
 
+
+        @media only screen and(max-width: $bp-largest){
+            width: 30rem;
+        }
+
+
         .close-icon {
             color: #878787;
-            font-size: 23px;
+            font-size: 2.5rem;
             cursor: pointer;
-            height: 40px;
-            width: 40px;
+            height: 5rem;
+            width: 5rem;
             text-align: center;
-            line-height: 40px;
+            line-height: 5rem;
             border-radius: 50%;
             background: #f2f2f2;
             transition: all 0.3s ease;
@@ -53,13 +63,13 @@
             align-items: center;
 
             .icon {
-                font-size: 25px;
+                font-size: 2.8rem;
                 color: #fff;
-                height: 50px;
-                width: 50px;
+                height: 6.3rem;
+                width: 6.3rem;
                 box-shadow: -3px 2px 5px $light-grey;
                 text-align: center;
-                line-height: 50px;
+                line-height: 6rem;
                 border-radius: 50%;
                 background: lighten(red, 22);
             }
@@ -69,15 +79,27 @@
             }
 
             .details {
-                margin-left: 15px;
-
+                margin-left: 1rem;
+                
                 span {
-                    font-size: 19px;
+                    font-size: 2rem;
                     font-weight: 800;
                 }
 
                 p {
+                    font-size: 1.2rem;
                     color: #878787;
+                }
+
+                @media only screen and(max-width: $bp-largest){
+                    span{
+                        font-size: 1.9rem;
+                    }
+
+                    p{
+                        font-size: 1rem;
+                    }
+                    
                 }
 
             }

@@ -1,0 +1,10 @@
+export { AppointmentsScreen } from './AppointmentsScreen';
+export { CalendarScreen } from './CalendarScreen';
+export { ConfigScreen } from './ConfigScreen';
+export { HomeScreen } from './HomeScreen';
+export { LoginScreen } from './LoginScreen';
+export { PatientsScreen } from './PatientsScreen';
+export { RegisterScreen } from './RegisterScreen';
+export { ReportsScreen } from './ReportsScreen';
+export { ScheduleScreen } from './ScheduleScreen';
+export { UserManagementScreen } from './UserManagementScreen';

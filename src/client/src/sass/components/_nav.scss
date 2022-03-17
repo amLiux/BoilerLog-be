@@ -1,7 +1,10 @@
 .nav{
     margin: 0 auto;
-    font-size: 1.3rem;
     max-width: 70%;
+
+    @media only screen and(max-width: $bp-large){
+        max-width: 100%;
+    }
 
     &__links{
         display: flex;
@@ -14,6 +17,10 @@
         padding: 1.3rem 0;
         transition: 0.5s;
 
+        @media only screen and(max-width: $bp-large){
+            border-radius: 0;
+        }
+        
         &-active{
             padding: 6px 10px;
             background-color: $primary;
@@ -23,6 +30,7 @@
 
 
         li{
+            
             border: transparent;
             border-radius: 12px;
             transition: all .5s ease-in-out;
@@ -30,13 +38,29 @@
             &:hover{
                 transform: scale(1.1);
             }
+
+
+    
         }
 
         li a{
+            font-size: 2rem;
             transition: all 0.3s ease -s;
             color: $primary;
             text-decoration: none;
+
+            @media only screen and(max-width: $bp-small){
+                font-size: 2.6rem;
+
+                & .icon-text{
+                    @media only screen and(max-width: $bp-medium){
+                        display: none;
+                        font-size: 1rem;
+                    }
+                }
+            }
         }
+
 
     }
 }

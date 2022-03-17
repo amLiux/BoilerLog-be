@@ -1,23 +1,22 @@
 .main{
     background-color: lighten($primary, 10);
     min-height: 100vh;
+
     &__main-content{
         padding: 1.5rem;
         display: flex;
         justify-content: center;
         animation: fadeIn 0.6s ease-in-out;
+        &::-webkit-scrollbar{
+            width: .4rem;
+            background: rgba($primary, 0.6);
+            border-radius: 19px 0 0 19px;
+        }
 
-
-    &::-webkit-scrollbar{
-        width: .4rem;
-        background: rgba($primary, 0.6);
-        border-radius: 19px 0 0 19px;
-    }
-
-    &::-webkit-scrollbar-thumb{
-        background: rgba($primary, 0.8);;
-        border-radius: 19px 0 0 19px;
-    }
+        &::-webkit-scrollbar-thumb{
+            background: rgba($primary, 0.8);;
+            border-radius: 19px 0 0 19px;
+        }
 
     }
 

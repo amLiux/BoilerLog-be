@@ -1,4 +1,5 @@
 .modal{
+
     &-background{
         pointer-events: none;
         position: absolute;
@@ -16,7 +17,7 @@
     &-showing{
         animation: fadeIn .5s ease-in-out;
         opacity: 1;
-        pointer-events: auto; 
+        pointer-events: auto;
     }
 
     &-inner{
@@ -25,10 +26,14 @@
         box-shadow: 0 0 30px rgb(27, 27, 27);
         display: flex;
         margin: auto;
-        height: 82.9vh;
-        margin-top: 6.1rem;
-        max-width: calc(100% - 60px);
-        width: 1305px;
+        height: 83.1vh;
+        margin-top: 7.7rem;
+        width: 1320px;
+
+        @media only screen and(max-width: $bp-small){
+            height: 75vh;
+            width: 94%;
+        }
     }
 
     &-form{
@@ -40,6 +45,10 @@
         flex-direction: column;
         color: white;
 
+        @media only screen and(max-width: $bp-small){
+            width: 400px;
+        }
+
         &__banner{
             height: 100%;
             width: 100%;
@@ -47,20 +56,20 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-
+            font-size: 2rem;
             i:hover{
                 color: $primary;
             }
         }
 
         h1{
-            font-size: 1.1rem;
+            font-size: 2rem;
             margin-top: 3rem;
             font-weight: 500;
         }
 
         i{
-            font-size: 6.5rem;
+            font-size: 10rem;
             transition: .3s ease-in-out;
         }
 

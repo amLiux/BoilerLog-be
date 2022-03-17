@@ -25,15 +25,20 @@
     box-shadow: 0 0 30px rgb(27, 27, 27);
 
 
+    @media only screen and(max-width: $bp-small){
+        height: 75vh;
+    }
+
     &__navbar {
         display: flex;
         justify-content: space-around;
+        align-items: center;
         font-size: 1.3rem;
-        padding: .2rem;
-        cursor: pointer;
+        padding: .6rem 0rem;
         border-bottom: 2px solid rgba($light-grey, 0.6);
 
         h1{
+            cursor: pointer;
             transition: .3s ease-in-out;
  
             &:hover{
@@ -50,10 +55,14 @@
 
     &__title{
         font-weight: 400;
-        font-size: 1.5rem;
+        font-size: 2.5rem;
         margin-top: 0.3rem;
         padding-right: 1.4rem;
-        
+
+        @media only screen and(max-width: $bp-small){
+            font-size: 1.3rem;
+        }
+
         p{
             padding-left: 1rem;
         }
