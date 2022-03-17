@@ -2,7 +2,6 @@ const express = require ('express')
 const morgan = require('morgan')
 const path = require('path')
 const methodOverride = require ('method-override')
-const sass = require ('node-sass-middleware')
 const cors = require ('cors')
 const fileUpload = require('express-fileupload')
 
@@ -35,13 +34,6 @@ app.use(fileUpload({
 
 //Rutas 
 app.use(MainMap)
-
-app.use(sass({
-    src: `${__dirname}/sass/`,
-    dest: path.join(__dirname, 'public/'),
-    debug: true,
-    outputStyle: 'expanded',
-}))
 
 //Directorio de archivos css, js
 app.use('/', express.static(path.join(__dirname, './public'), {
