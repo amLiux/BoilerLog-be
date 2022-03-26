@@ -1,14 +1,25 @@
-const {Router} = require ('express')
-const { updateUserDetails, obtenerTodosLosUsuarios } = require('../controllers/users.controller')
-const {validarJWT} =  require ('../middlewares/middlewares')
+const {Router} = require ('express');
+const { validators } = require('../constants/express-validators');
+const { 
+    updateUserDetails,
+    obtenerTodosLosUsuarios
+} = require('../controllers/users.controller');
+const {validarJWT, checkRole} =  require ('../middlewares/middlewares');
 
-const router = Router()
+const usersRouter = Router();
+
+const {usersValidators} = validators;
 
 //Endpoint de reportes, metodo HTTP POST
-router.get('/users', validarJWT, obtenerTodosLosUsuarios)
+usersRouter.get('/users', validarJWT, obtenerTodosLosUsuarios);
 
 //Endpoint de reportes, metodo HTTP POST
-router.post('/users/:_id', validarJWT, updateUserDetails)
+usersRouter.post(
+    '/users/:_id',
+    validators,
+    usersValidators['/users/id--POST'],
+    checkRole,
+    updateUserDetails
+);
 
-
-module.exports = router
+module.exports = usersRouter;

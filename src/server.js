@@ -1,49 +1,62 @@
-const express = require ('express')
-const morgan = require('morgan')
-const path = require('path')
-const methodOverride = require ('method-override')
-const cors = require ('cors')
-const fileUpload = require('express-fileupload')
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
+const methodOverride = require('method-override');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const MainMap = require('./routes/mainMap.routes');
+const { dbConnection } = require('./database/database');
 
-require('dotenv').config()
+require('dotenv').config();
 
-//Inicializaciones
-const app = express()
+class BoilerLogServer {
+    constructor() {
+        this.app = express();
+        this.port =  process.env.PORT || 3000;
 
-const MainMap = require ('./routes/mainMap.routes')
+        this.middlewares();
+        this.routes();
+        this.database();
+        this.serve();
+    }
 
-app.use(cors())
+    middlewares() {
+        this.app.use(cors());
+        this.app.use(methodOverride());
+        this.app.use(morgan('dev'));
 
-// Settea el port basado en lo que tengamos en nuestro archivo .env
-app.set('port', process.env.PORT || 3000)
+        this.app.use(fileUpload({
+            limits: { fileSize: 50 * 1024 * 1024 },
+            abortOnLimit: true,
+            useTempFiles: true,
+            tempFileDir: '/tmp/'
+        }));
+    }
 
-//methodOverride permite que un form html pueda utilizar metodos put y delete ademas de post y get
-app.use(methodOverride())
+    routes() {
+        this.app.use(MainMap);
+    }
 
-//revisa y printea en consola los diferentes peticiones que ejecuta el server
-app.use(morgan('dev'))
+    listen() {
+        this.app.listen(this.port, ()=> console.log(`Escuchando peticiones en http://localhost:${this.port}`));
+    }
 
-app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
-    abortOnLimit: true,
-    useTempFiles : true,
-    tempFileDir : '/tmp/'
-}));
+    async database() {
+        await dbConnection();
+    }
 
-/*Fin Middlewares*/ 
+    serve() {
+        this.app.use(
+            '/', 
+            express.static(path.join(__dirname, './public'), 
+                {
+                    extensions: ['html']
+                }   
+            )
+        );
 
-//Rutas 
-app.use(MainMap)
-
-//Directorio de archivos css, js
-app.use('/', express.static(path.join(__dirname, './public'), {
-    extensions: ['html']
-}))
-
-if(true){
-    app.use(express.static(path.join(__dirname, './client/build')))
-    app.get('/dentaltask*', (req, res) => res.sendFile(path.join(__dirname, './client', 'build', 'index.html')))
+        this.app.use(express.static(path.join(__dirname, './client/build')));
+    }
 }
 
-module.exports = app
-
+module.exports = BoilerLogServer;

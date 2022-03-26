@@ -1,23 +1,28 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-//recibe el objeto model y la clase Schema de la libreria mongoose
-const Schema = mongoose.Schema
+/**
+ * Archivo 
+ * Nuestro modelo del objeto Archivo
+ * @param {idPaciente} string id del paciente
+ * @param {nombreArchivo} string nombre del archivo
+ * @param {fechaCreado} string fecha en que se subio el archivo
+ */
 
-//nuestro modelo o clase del objeto cita para guardar en base de datos
 const Archivo = new Schema({
-    idPaciente:{
+    idPaciente: {
         type: String,
         required: [true, 'El id del paciente es requerido']
     },
-    nombreArchivo:{
+    nombreArchivo: {
         type: String,
         required: [true, 'El nombre del archivo es requerido']
     },
     fechaCreado: {
-        type: Date, 
-        default: Date.now() 
+        type: Date,
+        default: Date.now()
     },
-})
+});
 
-//exportando el modelo para que sea visible en otros lugares donde necesitemos instanciarlo
-module.exports = mongoose.model('archivos', Archivo)
+//Exportando el modelo para que sea visible en otros lugares donde necesitemos instanciarlo
+module.exports = mongoose.model('archivos', Archivo);

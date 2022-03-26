@@ -8,7 +8,6 @@ const HTTPEnum = {
     BAD_REQUEST: 400,
 }
 
-
 const respuestasValidas = {
     USUARIO_CREADO: {
         code: HTTPEnum.CREATED,
@@ -133,7 +132,6 @@ const respuestasValidas = {
         code: 200,
         ok: true,
     },
-    // npm rebuild node-sass --prefix src/client && npm install --unsafe-perm -f node-sass --prefix src/client &&
     CITAS_ENCONTRADAS: {
         code: 200,
         ok: true,
@@ -141,9 +139,17 @@ const respuestasValidas = {
     CITAS_FECHA_ENCONTRADAS: {
         code: 200,
         ok: true
-    }
+    },
+    CITAS_PUBLICAS_ENCONTRADAS: {
+        code: 200,
+        ok: true
+    },
+    CITA_PUBLICA_AGENDADA: {
+        code: 201,
+        ok: true,
+        msg: 'La cita ha sido agendada, gracias!'
+    },
 }
-
 
 module.exports = {
     respuestasValidas,

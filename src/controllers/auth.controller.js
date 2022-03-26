@@ -4,8 +4,17 @@ const generarJWT = require('../helpers/jwt');
 const { construirRespuesta } = require('../helpers/construirRespuesta');
 const { respuestasValidas } = require('../constants/HTTP');
 
-// Gl3nd4D3s4rr0ll097!
-// 2jgu5tjrPKku3r2
+
+// TODO BL-13-JSDocsSpike, do we want to document our code like this?
+/**
+ * This method does...
+ *
+ * @method
+ * @name MessageQueueConnector#connectAndSubscribe
+ * @param {string} whatever Whatever this is.
+ * @returns {Object} Description of return value.
+ * @throws {SomeException} blah.
+ */
 const crearUsuario = async (req, res = response) => {
     let respuesta;
     const { user, name, lastName, email, pwd, admin } = req.body;

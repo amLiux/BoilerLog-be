@@ -6,11 +6,17 @@ const { uploadFile, getFile, deleteFile } = require('../helpers/s3');
 const Archivo = require('../models/ArchivosModel');
 
 const obtenerArchivos = async (req, res = response) => {
-    const id = req.params._id;
-    const archivos = await Archivo.find({ 'idPaciente': id }).lean();
-
-    return construirRespuesta(respuestasValidas.ARCHIVOS_ENCONTRADOS, res, {archivos: [...archivos]});
-}
+    try {
+        const id = req.params._id;
+        const archivos = await Archivo.find({ 'idPaciente': id }).lean();
+    
+        return construirRespuesta(respuestasValidas.ARCHIVOS_ENCONTRADOS, res, {archivos: [...archivos]});
+    } catch(err) {
+        console.error(err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+    }
+    
+};
 
 const subirArchivo = async (req, res = response) => {
     let respuesta;
@@ -35,12 +41,13 @@ const subirArchivo = async (req, res = response) => {
 
         respuesta = construirRespuesta(respuestasValidas.ARCHIVO_SUBIDO, res, archivo);
     } catch (err) {
-        return res.status(500).json({ ok: false, msg: err });
+        console.error(err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
     }
 
     return respuesta;
 
-}
+};
 
 const borrarArchivo = async (req, res = response) => {
     let respuesta;
@@ -61,16 +68,20 @@ const borrarArchivo = async (req, res = response) => {
 }
 
 const descargarArchivo = async (req, res = response) => {
-    console.log(req.params);
-    const { _id, fileName } = req.params;
+    try {
+        const { _id, fileName } = req.params;
 
-    const file = await getFile(_id, fileName);
-
-    if (file) return file.pipe(res);
-
-    return res.status(500).json({ ok: false, msg: 'El archivo no se encontro' });
-
-}
+        const file = await getFile(_id, fileName);
+    
+        if (!file) return construirRespuesta(respuestasValidas.ARCHIVO_DESCONOCIDO, res);
+        
+        return file.pipe(res);
+    
+    } catch(err) {
+        console.error(err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+    }
+};
 
 
 module.exports = {
@@ -78,4 +89,4 @@ module.exports = {
     subirArchivo,
     borrarArchivo,
     descargarArchivo
-}
+};

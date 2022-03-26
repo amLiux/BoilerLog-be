@@ -1,14 +1,20 @@
 const construirRespuesta = (tipoRespuesta, res, payload = {}, valorMensajeDinamico = '') => {
     let { code, ok, msg } = tipoRespuesta;
 
-    if (tipoRespuesta.requiereMensajeDinamico && valorMensajeDinamico.trim() !== '') {
-        msg = msg.replace('[CAMBIO]', valorMensajeDinamico);
-    }
-
     let body = {
         ok,
-        msg
     };
+
+    if(msg) {
+        if (tipoRespuesta.requiereMensajeDinamico && valorMensajeDinamico.trim() !== '') {
+            msg = msg.replace('[CAMBIO]', valorMensajeDinamico);
+        }
+        
+        body = {
+            ...body,
+            msg,
+        };
+    }
 
     const payloadVacio = Object.keys(payload).length === 0;
 
@@ -16,7 +22,6 @@ const construirRespuesta = (tipoRespuesta, res, payload = {}, valorMensajeDinami
         body = { ...body, payload };
     }
     
-    console.log(body);
     return res.status(code).json(body);
 }
 

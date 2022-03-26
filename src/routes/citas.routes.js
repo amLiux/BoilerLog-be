@@ -1,27 +1,53 @@
-const {Router} = require ('express');
-const {validarJWT} =  require ('../middlewares/middlewares');
-const { crearCita, obtenerCitas, actualizarCita, getOpcionesCita, actualizarHorario, getOpcionesCitaByDate, cancelarCita, obtenerCitasDePaciente } = require('../controllers/citas.controller');
+const { Router } = require('express');
+const { validarJWT } = require('../middlewares/middlewares');
+const {
+    crearCita,
+    obtenerCitas,
+    actualizarCita,
+    getOpcionesCita,
+    actualizarHorario,
+    getOpcionesCitaByDate,
+    cancelarCita,
+    obtenerCitasDePaciente
+} = require('../controllers/citas.controller');
+const { validators } = require('../constants/express-validators');
 
-const router = Router();
+const { citasValidators } = validators;
+const citasRouter = Router();
 
-//Endpoint de citas, metodo HTTP GET, primero válida el JWT con el middleware validarJWT y si es válido, responde con un estado 200 y un JSON con las citas
-router.get('/citas', validarJWT, obtenerCitas);
+// Endpoint para obtener todas las citas
+citasRouter.get('/citas', validarJWT, obtenerCitas);
 
-//Endpoint de citas, metodo HTTP GET, primero válida el JWT con el middleware validarJWT y si es válido, responde con un estado 200 y un JSON con las citas
-router.post('/citas', validarJWT, crearCita);
+// Endpoint para crear una cita
+citasRouter.post('/citas', citasValidators['/citas--POST'], validarJWT, crearCita);
 
-//Endpoint de citas, metodo HTTP PUT, primero válida el JWT con el middleware validar JWT
-router.put('/citas', validarJWT, actualizarCita);
+// Endpoint para actualizar una cita sin agendar
+citasRouter.put('/citas', citasValidators['/citas--PUT'], validarJWT, actualizarCita);
 
-//Endpoint de citas, metodo HTTP DELETE, primero válida el JWT con el middleware validar JWT
-router.delete('/citas/:_id', validarJWT, cancelarCita);
+// Endpoint para cancelar una cita
+citasRouter.delete('/citas/:_id', citasValidators['/citas--DELETE'], validarJWT, cancelarCita);
 
-router.get('/citas/:_id', getOpcionesCita);
+// Endpoint para obtener las opciones en una fecha especifica para una cita publica
+citasRouter.get('/citas/:_id', citasValidators['/citas/_id--GET'], getOpcionesCita);
 
-router.get('/citas/paciente/:_id', obtenerCitasDePaciente);
+// Endpoint para obtener las citas de un paciente especifico
+citasRouter.get(
+    '/citas/paciente/:_id',
+    citasValidators['/citas/pacientes--GET'],
+    validarJWT,
+    obtenerCitasDePaciente
+);
 
-router.get('/citas/date/:date', validarJWT, getOpcionesCitaByDate);
+// Endpoint para obtener las opciones de citas en una fecha especifica
+// TODO parece repetido a la logica en getOpcionesCita BL-12-citasEndpointFix
+citasRouter.get(
+    '/citas/date/:date',
+    citasValidators['/citas/date--GET'],
+    validarJWT,
+    getOpcionesCitaByDate
+);
 
-router.post('/citas/:_id', actualizarHorario);
+//Endpoint para actualizar el horario de una cita
+citasRouter.post('/citas/:_id', citasValidators['/citas/_id--PUT'], actualizarHorario);
 
-module.exports = router;
+module.exports = citasRouter;

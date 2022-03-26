@@ -1,5 +1,16 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+/**
+ * Paciente 
+ * Nuestro modelo del objeto Paciente
+ * @param {email} string email del paciente
+ * @param {numeroTelefonico} string max de 9 por la cantidad de numeros en los numeros telefonicos costarricences
+ * @param {nombre} string nombre del paciente
+ * @param {apellido} string apellido del paciente
+ * @param {fechaCreado} string fecha en que se creo el paciente
+ * @param {cedula} string cedula del paciente 
+ */
 
 const Pacientes = new Schema({
     nombre:{
@@ -33,8 +44,14 @@ const Pacientes = new Schema({
         type: Date, 
         default: Date.now() 
     },
-})
+});
 
-Pacientes.index({ 'nombre': 'text', 'apellido': 'text', 'cedula': 'text', 'numeroTelefonico': 'text', 'email': 'text'})
+Pacientes.index({ 
+    'nombre': 'text', 
+    'apellido': 'text', 
+    'cedula': 'text', 
+    'numeroTelefonico': 'text', 
+    'email': 'text'
+});
 
-module.exports = mongoose.model('pacientes', Pacientes)
+module.exports = mongoose.model('pacientes', Pacientes);

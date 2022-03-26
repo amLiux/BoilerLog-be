@@ -36,12 +36,12 @@ const crearPaciente = async (req, res = response) => {
     }
 
     return respuesta;
-}
+};
 
 const obtenerPacientes = async (_, res = response) => {
     const pacientes = await Paciente.find({}).lean();
     return construirRespuesta(respuestasValidas.PACIENTES_ENCONTRADOS, res, pacientes);
-}
+};
 
 const actualizarPaciente = async (req, res = response) => {
     const update = req.body;
@@ -56,7 +56,7 @@ const actualizarPaciente = async (req, res = response) => {
     } catch (err) {
         return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
     }
-}
+};
 
 const busquedaPacientes = async (req, res = response) => {
     const txtSearch = req.params.search;
@@ -70,7 +70,7 @@ const busquedaPacientes = async (req, res = response) => {
         const finds = await Paciente.find({});
         res.status(200).json({ ok: true, msg: 'Necesitas buscar algo válido', pacientes: finds });
     }
-}
+};
 
 
 module.exports = {
@@ -78,4 +78,4 @@ module.exports = {
     obtenerPacientes,
     actualizarPaciente,
     busquedaPacientes
-}
+};

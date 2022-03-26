@@ -1,12 +1,16 @@
-const {Router} = require ('express')
-const { generarReportes } = require('../controllers/reportes.controller')
-const {validarJWT} =  require ('../middlewares/middlewares')
-
-const router = Router()
+const { Router } = require('express');
+const { validators } = require('../constants/express-validators');
+const { generarReportes } = require('../controllers/reportes.controller');
+const { validarJWT } = require('../middlewares/middlewares');
+const { reportesValidators } = validators;
+const reportsRouter = Router();
 
 //Endpoint de reportes, metodo HTTP POST
-router.post('/reportes/:reporte', validarJWT, generarReportes)
+reportsRouter.post(
+    '/reportes/:reporte',
+    reportesValidators['/reportes/reporte--POST'],
+    validarJWT,
+    generarReportes
+);
 
-
-
-module.exports = router
+module.exports = reportsRouter;

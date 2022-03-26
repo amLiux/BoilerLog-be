@@ -1,11 +1,14 @@
-const {Router} = require ('express')
-const {crearCitaPublica} = require ('../controllers/index.controller')
-const router = Router()
+const { Router } = require('express');
+const { validators } = require('../constants/express-validators');
+const { crearCitaPublica } = require('../controllers/index.controller');
+const homeRouter = Router();
 
-router.post('/home', crearCitaPublica)
+const { homeValidators } = validators;
 
-router.get('/', (req, res) => res.redirect('/home'))
+homeRouter.post('/home', homeValidators['/home--POST'], crearCitaPublica);
 
-router.get('/auth/login/', (req, res) => res.redirect('/dentaltask'))
+homeRouter.get('/', (_, res) => res.redirect('/home'));
 
-module.exports = router
+homeRouter.get('/auth/login/', (_, res) => res.redirect('/dentaltask'));
+
+module.exports = homeRouter;

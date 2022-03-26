@@ -17,7 +17,7 @@ const uploadFile = (filePath, fileName, id, mimeType) => {
         ContentType: mimeType
     };
     return s3service.upload(uploadParams).promise();
-}
+};
 
 const getFile = (id, fileName) => 
     s3service.getObject({
@@ -29,10 +29,10 @@ const deleteFile = (id, fileName) =>
     s3service.deleteObject({
         Bucket: process.env.AWS_BUCKET,
         Key: `${id}/${fileName}`
-    }).promise()
+    }).promise();
 
 module.exports = {
     uploadFile,
     getFile,
     deleteFile
-}
+};

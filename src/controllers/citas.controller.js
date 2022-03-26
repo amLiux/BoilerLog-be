@@ -1,31 +1,40 @@
-const { response } = require('express')
-const Citas = require('../models/CitasModel')
-const { crearPeticionDeCitaYGuardar } = require('../controllers/index.controller')
-const { construirRespuesta } = require('../helpers/construirRespuesta')
-const { respuestasValidas } = require('../constants/HTTP')
+const { response } = require('express');
+const Citas = require('../models/CitasModel');
+const { crearPeticionDeCitaYGuardar } = require('../controllers/index.controller');
+const { construirRespuesta } = require('../helpers/construirRespuesta');
+const { respuestasValidas } = require('../constants/HTTP');
+const { checkHorariosDisponibles } = require('../helpers/citas');
 
 const obtenerCitas = async (_, res = response) => {
-    const citas = await Citas.find({}).lean();
-    return construirRespuesta(respuestasValidas.CITAS_ENCONTRADAS, res, { citas });
-}
+    let respuesta;
+    try {
+        const citas = await Citas.find({}).lean();
+        respuesta = construirRespuesta(respuestasValidas.CITAS_ENCONTRADAS, res, { citas });
+    } catch (err) {
+        console.error(err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+    }
+    return respuesta;
+};
 
 const cancelarCita = async (req, res = response) => {
     let respuesta;
 
-    const id = req.params._id;
-    const citaParaActualizar = await Citas.findOne({ '_id': id });
-
-    if (!citaParaActualizar) {
-        respuesta = construirRespuesta(respuestasValidas.CITA_DESCONOCIDA, res, {}, id);
-        return respuesta;
-    }
-
-    const update = {
-        estado: 'CANCELADA',
-        fechaDeseada: new Date(citaParaActualizar.fechaDeseada.setHours(0))
-    };
-
     try {
+        const id = req.params._id;
+
+        const citaParaActualizar = await Citas.findOne({ '_id': id });
+
+        if (!citaParaActualizar) {
+            respuesta = construirRespuesta(respuestasValidas.CITA_DESCONOCIDA, res, {}, id);
+            return respuesta;
+        }
+
+        const update = {
+            estado: 'CANCELADA',
+            fechaDeseada: new Date(citaParaActualizar.fechaDeseada.setHours(0))
+        };
+
         const citaActualizada = await Citas.findOneAndUpdate({ '_id': id }, update, {
             new: true
         });
@@ -37,15 +46,15 @@ const cancelarCita = async (req, res = response) => {
     }
 
     return respuesta;
-}
+};
 
 const crearCita = async (req, res = response) => {
-    const { nombre, apellido, email, numeroTelefonico, _id: id } = req.body.paciente
-    const { horario } = req.body
-
     let respuesta;
 
     try {
+        const { nombre, apellido, email, numeroTelefonico, _id: id } = req.body.paciente;
+        const { horario } = req.body;
+
         const newCita = await crearPeticionDeCitaYGuardar(nombre, apellido, email, numeroTelefonico, horario, id);
 
         if (newCita._id) {
@@ -54,16 +63,19 @@ const crearCita = async (req, res = response) => {
         }
 
     } catch (err) {
+        console.error(err);
         respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        return respuesta;
     }
 
     return respuesta;
-}
+};
 
 const actualizarCita = async (req, res = response) => {
-    const citaParaActualizar = req.body;
 
     try {
+        const citaParaActualizar = req.body;
+
         const nuevaCita = await Citas.findOneAndUpdate({ '_id': citaParaActualizar._id }, citaParaActualizar, { new: true }).lean();
 
         if (nuevaCita) {
@@ -74,37 +86,63 @@ const actualizarCita = async (req, res = response) => {
     } catch (err) {
         return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
     }
-}
+};
 
 const getOpcionesCita = async (req, res = response) => {
-    const id = req.params._id
-    const [cita] = await Citas.find({ '_id': id }).lean()
+    let respuesta;
+    try {
+        const id = req.params._id;
+        const [cita] = await Citas.find({ '_id': id }).lean();
 
+        if (cita.estado === 'AGENDADA') return res.redirect(301, 'http://localhost:3000/home.html');
 
-    if (cita.estado === 'AGENDADA')
-        return res.redirect(301, 'http://localhost:3000/home.html')
+        if (cita._id) {
+            const diaSiguiente = new Date(cita.fechaDeseada);
+            diaSiguiente.setDate(cita.fechaDeseada.getDate() + 1);
 
-    if (cita._id) {
-        const diaSiguiente = new Date(cita.fechaDeseada)
-        diaSiguiente.setDate(cita.fechaDeseada.getDate() + 1)
-        const citasMismoDia = await Citas.find({ fechaDeseada: { $gte: cita.fechaDeseada, $lt: diaSiguiente.toISOString() } })
-        const horariosDisponibles = checkHorariosDisponibles(citasMismoDia)
+            const citasMismoDia = await Citas.find({
+                fechaDeseada: {
+                    $gte: cita.fechaDeseada,
+                    $lt: diaSiguiente.toISOString()
+                }
+            });
 
-        res.status(200).json({
-            ok: true,
-            horariosDisponibles,
-            nombre: cita.nombre,
-            fecha: new Date(cita.fechaDeseada).toLocaleDateString()
-        })
+            const horariosDisponibles = checkHorariosDisponibles(citasMismoDia);
+
+            respuesta = construirRespuesta(
+                respuestasValidas.CITAS_PUBLICAS_ENCONTRADAS,
+                res,
+                {
+                    horariosDisponibles,
+                    nombre: cita.nombre,
+                    fecha: new Date(cita.fechaDeseada).toLocaleDateString()
+                }
+            );
+        }
     }
-}
+    catch (err) {
+        console.error(err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+    }
+
+    return respuesta;
+
+};
 
 const obtenerCitasDePaciente = async (req, res = response) => {
-    const id = req.params._id;
-    const citas = await Citas.find({ 'idPaciente': id }).lean();
-    return construirRespuesta(respuestasValidas.CITAS_PACIENTE_ENCONTRADAS, res, { citas: [...citas] });
-}
+    try {
+        const id = req.params._id;
+        const citas = await Citas.find({ 'idPaciente': id }).lean();
+        return construirRespuesta(respuestasValidas.CITAS_PACIENTE_ENCONTRADAS, res, { citas: [...citas] });
+    } catch (err) {
+        console.error(err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+    }
 
+};
+
+
+//TODO esto parece logica repetida de getOpcionesCita BL-12-citasEndpointFix
 const getOpcionesCitaByDate = async (req, res = response) => {
     let respuesta;
     try {
@@ -123,43 +161,32 @@ const getOpcionesCitaByDate = async (req, res = response) => {
 
     return respuesta;
 
-}
-
-const checkHorariosDisponibles = (citas, todos = false) => {
-    const todosHorarios = todos ? 11 : 3
-    let horariosTomados = []
-    citas.map(cita => horariosTomados.push(cita.fechaDeseada.getHours()))
-    const citasAgendadas = horariosTomados.filter(horario => horario !== 0)
-    if (citasAgendadas.length === 0)
-        return [...generadorDeRangos(7, 17).sort(() => Math.random() - Math.random()).slice(0, todosHorarios)]
-    else
-        return [...generadorDeRangos(7, 17)].filter(horario => !citasAgendadas.includes(horario)).sort(() => Math.random() - Math.random()).slice(0, todosHorarios)
-
-}
-
-const generadorDeRangos = (start, end, length = end - start + 1) =>
-    Array.from({ length }, (_, i) => start + i)
+};
 
 const actualizarHorario = async (req, res) => {
-    const id = req.params._id
-    const { horario } = req.body
+    let respuesta;
+    try {
+        const id = req.params._id
+        const { horario } = req.body
 
-    const [cita] = await Citas.find({ '_id': id }).lean()
+        const [cita] = await Citas.find({ '_id': id }).lean()
 
-    if (cita._id) {
-        const updatedFecha = {
-            fechaDeseada: new Date(cita.fechaDeseada.setHours(horario)),
-            estado: 'AGENDADA'
+        if (cita._id) {
+            const updatedFecha = {
+                fechaDeseada: new Date(cita.fechaDeseada.setHours(horario)),
+                estado: 'AGENDADA'
+            }
+
+            await Citas.findOneAndUpdate({ _id: id }, updatedFecha);
+
+            respuesta = construirRespuesta(respuestasValidas.CITA_PUBLICA_AGENDADA, res);
         }
-
-        await Citas.findOneAndUpdate({ _id: id }, updatedFecha);
-
-        res.status(200).json({
-            ok: true,
-            msg: 'La cita ha sido agendada, gracias!'
-        })
+    } catch(err) {
+        console.error(err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
     }
-}
+    return respuesta;
+};
 
 module.exports = {
     actualizarCita,

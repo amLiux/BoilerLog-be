@@ -1,8 +1,7 @@
-const app =  require('./server')
-require('./database/database')
-require('dotenv').config()
+const BoilerLogServer = require('./server');
+require('./database/database');
+require('dotenv').config();
 
-app.listen(
-    app.get('port'), 
-    ()=> console.log(`Listening on http://localhost:${process.env.PORT}`)
-)
+const server = new BoilerLogServer();
+
+server.listen();
