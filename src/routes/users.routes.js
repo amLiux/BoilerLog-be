@@ -19,7 +19,6 @@ usersRouter.post(
     validators,
     usersValidators['/users/id--POST'],
     checkRole,
-    updateUserDetails
-);
+    updateUserDetails);
 
 module.exports = usersRouter;
