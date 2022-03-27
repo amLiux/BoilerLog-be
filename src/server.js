@@ -6,6 +6,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const MainMap = require('./routes/mainMap.routes');
 const { dbConnection } = require('./database/database');
+const { etiquetarPeticion } = require('./middlewares/middlewares');
 
 require('dotenv').config();
 
@@ -31,6 +32,8 @@ class BoilerLogServer {
             useTempFiles: true,
             tempFileDir: '/tmp/'
         }));
+
+        this.app.use(etiquetarPeticion);
     }
 
     routes() {
