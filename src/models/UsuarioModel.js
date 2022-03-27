@@ -62,7 +62,7 @@ Usuario.methods.compararPassword = function (password){
     return bcrypt.compareSync(password, this.pass)
 }; 
 
-Pacientes.index({
+Usuario.index({
     'user': 'text',
     'email': 'text',
 });

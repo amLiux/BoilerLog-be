@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const { response } = require('express');
 const jwt = require('jsonwebtoken');
+const { v4 } = require('uuid');
 require('dotenv').config();
 
 const checkRole = (req, res = response, next) => {
@@ -35,6 +36,14 @@ const erroresEnPeticion = (req, res = response, next) => {
     next();
 }
 
+const etiquetarPeticion = (req, res = response, next) => {
+    const requestId = v4();
+    res.setHeader('X-Request-Id', requestId);
+    // const token = req.header('Authorization');
+    // const resolvedData = jwt.verify(token, process.env.API_SEED);
+    next();
+}
+
 const validarJWT = (req, res = response, next) => {
     const token = req.header('Authorization');
 
@@ -64,5 +73,6 @@ module.exports = {
     checkRole,
     isAuthenticated,
     erroresEnPeticion,
-    validarJWT
+    validarJWT,
+    etiquetarPeticion
 }

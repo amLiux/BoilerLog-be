@@ -3,6 +3,7 @@ const construirRespuesta = (tipoRespuesta, res, payload = {}, valorMensajeDinami
 
     let body = {
         ok,
+        requestId: res.getHeader('X-Request-Id'),
     };
 
     if(msg) {
@@ -21,7 +22,7 @@ const construirRespuesta = (tipoRespuesta, res, payload = {}, valorMensajeDinami
     if (!payloadVacio) {
         body = { ...body, payload };
     }
-    
+
     return res.status(code).json(body);
 }
 

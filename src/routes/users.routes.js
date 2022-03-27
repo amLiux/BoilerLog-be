@@ -16,9 +16,9 @@ usersRouter.get('/users', validarJWT, obtenerTodosLosUsuarios);
 //Endpoint de reportes, metodo HTTP POST
 usersRouter.post(
     '/users/:_id',
-    validators,
     usersValidators['/users/id--POST'],
     checkRole,
-    updateUserDetails);
+    updateUserDetails
+);
 
 module.exports = usersRouter;
