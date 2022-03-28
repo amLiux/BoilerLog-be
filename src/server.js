@@ -1,5 +1,4 @@
 const express = require('express');
-const morgan = require('morgan');
 const path = require('path');
 const methodOverride = require('method-override');
 const cors = require('cors');
@@ -7,6 +6,7 @@ const fileUpload = require('express-fileupload');
 const MainMap = require('./routes/mainMap.routes');
 const { dbConnection } = require('./database/database');
 const { etiquetarPeticion } = require('./middlewares/middlewares');
+const { httpLogger } = require('./helpers/logger');
 
 require('dotenv').config();
 
@@ -22,9 +22,11 @@ class BoilerLogServer {
     }
 
     middlewares() {
+        this.app.use(etiquetarPeticion);
+        this.app.use(httpLogger);
+
         this.app.use(cors());
         this.app.use(methodOverride());
-        this.app.use(morgan('dev'));
 
         this.app.use(fileUpload({
             limits: { fileSize: 50 * 1024 * 1024 },
@@ -32,8 +34,6 @@ class BoilerLogServer {
             useTempFiles: true,
             tempFileDir: '/tmp/'
         }));
-
-        this.app.use(etiquetarPeticion);
     }
 
     routes() {

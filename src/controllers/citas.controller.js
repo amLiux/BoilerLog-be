@@ -4,15 +4,17 @@ const { crearPeticionDeCitaYGuardar } = require('../controllers/index.controller
 const { construirRespuesta } = require('../helpers/construirRespuesta');
 const { respuestasValidas } = require('../constants/HTTP');
 const { checkHorariosDisponibles } = require('../helpers/citas');
+const { obtenerLoggableBody } = require('../helpers/logger');
 
-const obtenerCitas = async (_, res = response) => {
+const obtenerCitas = async (req, res = response) => {
     let respuesta;
+
     try {
         const citas = await Citas.find({}).lean();
         respuesta = construirRespuesta(respuestasValidas.CITAS_ENCONTRADAS, res, { citas });
     } catch (err) {
-        console.error(err);
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
     return respuesta;
 };
@@ -42,7 +44,8 @@ const cancelarCita = async (req, res = response) => {
         respuesta = construirRespuesta(respuestasValidas.CITA_CANCELADA, res, citaActualizada);
 
     } catch (err) {
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 
     return respuesta;
@@ -63,8 +66,8 @@ const crearCita = async (req, res = response) => {
         }
 
     } catch (err) {
-        console.error(err);
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
         return respuesta;
     }
 
@@ -84,12 +87,14 @@ const actualizarCita = async (req, res = response) => {
         }
 
     } catch (err) {
-        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 };
 
 const getOpcionesCita = async (req, res = response) => {
     let respuesta;
+
     try {
         const id = req.params._id;
         const [cita] = await Citas.find({ '_id': id }).lean();
@@ -121,8 +126,8 @@ const getOpcionesCita = async (req, res = response) => {
         }
     }
     catch (err) {
-        console.error(err);
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 
     return respuesta;
@@ -135,8 +140,8 @@ const obtenerCitasDePaciente = async (req, res = response) => {
         const citas = await Citas.find({ 'idPaciente': id }).lean();
         return construirRespuesta(respuestasValidas.CITAS_PACIENTE_ENCONTRADAS, res, { citas: [...citas] });
     } catch (err) {
-        console.error(err);
-        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 
 };
@@ -156,7 +161,8 @@ const getOpcionesCitaByDate = async (req, res = response) => {
         const horariosDisponibles = checkHorariosDisponibles(citasMismoDia, true);
         respuesta = construirRespuesta(respuestasValidas.CITAS_FECHA_ENCONTRADAS, res, { horariosDisponibles });
     } catch (err) {
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 
     return respuesta;
@@ -181,9 +187,9 @@ const actualizarHorario = async (req, res) => {
 
             respuesta = construirRespuesta(respuestasValidas.CITA_PUBLICA_AGENDADA, res);
         }
-    } catch(err) {
-        console.error(err);
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+    } catch (err) {
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
     return respuesta;
 };
