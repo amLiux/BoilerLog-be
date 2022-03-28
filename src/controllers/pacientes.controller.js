@@ -30,9 +30,11 @@ const crearPaciente = async (req, res = response) => {
         respuesta = construirRespuesta(respuestasValidas.PACIENTE_CREADO, res, createdUser, `${nombre} ${apellido}`);
 
     } catch (err) {
+        const loggablePayload = obtenerLoggableBody(req, err);
+
         respuesta = err.code === 11000
             ? construirRespuesta(respuestasValidas.PACIENTE_DUPLICADO, res, {}, cedula)
-            : construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+            : construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 
     return respuesta;
@@ -54,7 +56,8 @@ const actualizarPaciente = async (req, res = response) => {
         }
 
     } catch (err) {
-        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 };
 

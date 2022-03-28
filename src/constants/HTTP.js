@@ -17,7 +17,8 @@ const respuestasValidas = {
     ERROR_INTERNO: {
         code: HTTPEnum.INTERNAL_SERVER_ERROR,
         ok: false,
-        msg: 'Error interno de servidor!'
+        msg: 'Error interno de servidor!',
+        notify: true,
     },
     USUARIO_DUPLICADO: {
         code: HTTPEnum.CONFLICT,
@@ -27,18 +28,21 @@ const respuestasValidas = {
     USUARIO_DESACTIVADO: {
         code: HTTPEnum.UNAUTHORIZED,
         ok: false,
-        msg: 'Usuario desactivado, consulte con su administrador!'
+        msg: 'Usuario desactivado, consulte con su administrador!',
+        notify: true,
     },
     USUARIO_DESCONOCIDO: {
         code: HTTPEnum.NOT_FOUND,
         ok: false,
         msg: 'No se encontró el usuario [CAMBIO]',
-        requiereMensajeDinamico: true
+        requiereMensajeDinamico: true,
+        notify: true,
     },
     NO_AUTORIZADO: {
         code: HTTPEnum.UNAUTHORIZED,
         ok: false,
-        msg: 'Contraseña incorrecta!'
+        msg: 'Contraseña incorrecta!',
+        notify: true,
     },
     LOGIN_CORRECTO: {
         code: HTTPEnum.OK,

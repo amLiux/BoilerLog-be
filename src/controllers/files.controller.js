@@ -1,6 +1,7 @@
 const { response } = require('express');
 const { respuestasValidas } = require('../constants/HTTP');
 const { construirRespuesta } = require('../helpers/construirRespuesta');
+const { obtenerLoggableBody } = require('../helpers/logger');
 const { uploadFile, getFile, deleteFile } = require('../helpers/s3');
 
 const Archivo = require('../models/ArchivosModel');
@@ -12,8 +13,8 @@ const obtenerArchivos = async (req, res = response) => {
     
         return construirRespuesta(respuestasValidas.ARCHIVOS_ENCONTRADOS, res, {archivos: [...archivos]});
     } catch(err) {
-        console.error(err);
-        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
     
 };
@@ -41,8 +42,8 @@ const subirArchivo = async (req, res = response) => {
 
         respuesta = construirRespuesta(respuestasValidas.ARCHIVO_SUBIDO, res, archivo);
     } catch (err) {
-        console.error(err);
-        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 
     return respuesta;
@@ -59,8 +60,9 @@ const borrarArchivo = async (req, res = response) => {
 
         respuesta = construirRespuesta(respuestasValidas.ARCHIVO_ELIMINADO, res);
 
-    } catch (error) {
-        respuesta = construirRespuesta(respuestasValidas.ARCHIVO_DESCONOCIDO, res);
+    } catch (err) {
+        const loggablePayload = obtenerLoggableBody(req, err);
+        respuesta = construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
         return respuesta;
     }
 
@@ -78,8 +80,8 @@ const descargarArchivo = async (req, res = response) => {
         return file.pipe(res);
     
     } catch(err) {
-        console.error(err);
-        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res);
+        const loggablePayload = obtenerLoggableBody(req, err);
+        return construirRespuesta(respuestasValidas.ERROR_INTERNO, res, loggablePayload);
     }
 };
 
