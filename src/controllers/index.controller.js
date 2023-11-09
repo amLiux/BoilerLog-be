@@ -19,8 +19,9 @@ const crearCitaPublica = async (req, res = response) => {
         const { _id } = await crearPeticionDeCitaYGuardar(nombre, apellido, email, teléfono, date)
 
         if (_id) {
-            const envioCorreo = await notificarPeticiónCitaPendiente(email, nombre, apellido, teléfono, dateCorreo, _id)
-            envioCorreo && res.redirect('/success.html')
+            // const envioCorreo = await notificarPeticiónCitaPendiente(email, nombre, apellido, teléfono, dateCorreo, _id)
+            // envioCorreo && 
+            res.redirect('/success.html')
         }
 
     } catch (err) {

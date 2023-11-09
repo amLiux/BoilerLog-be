@@ -1,6 +1,5 @@
 const { createLogger, transports, format } = require('winston');
 const morgan = require('morgan');
-const SlackHook = require("winston-slack-webhook-transport");
 
 require('winston-mongodb');
 
@@ -32,9 +31,6 @@ const logger = (requestId) => createLogger({
             level: 'error',
             collection: 'logs'
         }),
-        new SlackHook({
-            webhookUrl: process.env.SLACK_HOOK_URL
-        })
     ],
     exitOnError: false,
 });
